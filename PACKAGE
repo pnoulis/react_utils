@@ -1,0 +1,10 @@
+PKG_NAME=react_utils
+PKG_SUMMARY=react_utils-summary
+PKG_DESCRIPTION=react_utils-description
+PKG_KEYWORDS=react_utils-keywords
+PKG_VERSION=0.0.1
+PKG_DISTNAME=react_utils-0.0.1
+PKG_REPO=https://github.com/pnoulis/react_utils
+PKG_HOMEPAGE=https://github.com/pnoulis/react_utils#readme
+PKG_BUGREPORT=https://github.com/pnoulis/react_utils/issues
+PKG_DOCS=https://github.com/pnoulis/react_utils#readme
