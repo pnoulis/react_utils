@@ -21,7 +21,6 @@
 
 # node
 node_modules
-package-lock.json
 
 # emacs
 # cached changes
