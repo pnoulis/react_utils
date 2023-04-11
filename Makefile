@@ -30,57 +30,57 @@ node-run:
 	"make node-exec missing params: -> params=./file make node-exec"; \
 	exit 1; \
 	fi
-	$(MAKE_ENV) --mode=dev --host=dev --target=dev
+	$(MAKE_ENV) --mode=dev --host=dev
 	@set -a; source ./.env && node "$${params}" | $(PRETTY_OUTPUT)
 
 .PHONY: scratch
 scratch:
-	$(MAKE_ENV) --mode=dev --host=dev --target=dev
+	$(MAKE_ENV) --mode=dev --host=dev
 	set -a; source ./.env && node ./tmp/scratch.js | $(PRETTY_OUTPUT)
 
 .PHONY: run
 run: dirs
-	$(MAKE_ENV) --mode=dev --host=dev --target=dev
+	$(MAKE_ENV) --mode=dev --host=dev
 	set -a; source ./.env && $(BUILD_SYS) serve
 
 .PHONY: run-staging
 run-staging: dirs
-	$(MAKE_ENV) --mode=staging --host=dev --target=dev
+	$(MAKE_ENV) --mode=staging --host=dev
 	set -a; source ./.env && $(BUILD_SYS) serve
 
 .PHONY: run-prod
 run-prod: dirs
-	$(MAKE_ENV) --mode=prod --host=dev --target=dev
+	$(MAKE_ENV) --mode=prod --host=dev
 	set -a; source ./.env && $(BUILD_SYS) serve
 
 .PHONY: build
 build:
-	$(MAKE_ENV) --mode=dev --host=dev --target=prod
+	$(MAKE_ENV) --mode=dev
 	set -a; source ./.env && $(BUILD_SYS) build
 
 .PHONY: build-staging
 build-staging:
-	$(MAKE_ENV) --mode=staging --host=dev --target=prod
+	$(MAKE_ENV) --mode=staging
 	set -a; source ./.env && $(BUILD_SYS) build
 
 .PHONY: build-prod
 build-prod:
-	$(MAKE_ENV) --mode=prod --host=dev --target=prod
+	$(MAKE_ENV) --mode=prod
 	set -a; source ./.env && $(BUILD_SYS) build
 
 .PHONY: test
 test:
-	$(MAKE_ENV) --mode=dev --host=dev --target=dev
+	$(MAKE_ENV) --mode=dev --host=dev
 	$(VITEST) run --reporter verbose
 
 .PHONY: test-staging
 test-staging:
-	$(MAKE_ENV) --mode=staging --host=dev --target=dev
+	$(MAKE_ENV) --mode=staging --host=dev
 	$(VITEST) run --reporter verbose
 
 .PHONY: test-prod
 test-prod:
-	$(MAKE_ENV) --mode=prod --host=dev --target=dev
+	$(MAKE_ENV) --mode=prod --host=dev
 	$(VITEST) run --reporter verbose
 
 .PHONY: lint
@@ -98,6 +98,10 @@ fmt:
 .PHONY: fmt-check
 fmt-check:
 	$(FORMATER) --check "$${params:-.}"
+
+.PHONY: env
+env:
+	$(MAKE_ENV) $(params)
 
 dirs:
 	$(MKDIRP) $(LOGDIR)
