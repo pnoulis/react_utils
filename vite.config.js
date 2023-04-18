@@ -13,17 +13,11 @@ if (/dev/.test(HOST)) {
   conf.plugins = [react(), svgr()];
 }
 
-if (!/dev/.test(MODE)) {
-  conf.build = {
-    outDir: "dist",
-  };
-}
-
 // https:vitejs.dev/config/
 export default defineConfig({
   ...conf,
   build: {
-    outDir: "build",
+    outDir: "dist",
     target: "esnext",
     sourcemap: true,
     emptyOutDir: true,
