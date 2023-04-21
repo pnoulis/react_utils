@@ -22,6 +22,9 @@
     },
     "./comboboxes": {
       "import": "./dist/comboboxes.js"
+    },
+    "./svgs": {
+      "import": "./dist/svgs.js"
     }
   },
   "type": "module",

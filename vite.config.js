@@ -26,6 +26,7 @@ export default defineConfig({
       entry: {
         index: "./src/index.js",
         comboboxes: "./src/components/comboboxes/index.js",
+        svgs: "./src/components/svgs/index.js",
       },
       name: "react_utils",
       formats: ["es"],
