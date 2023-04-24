@@ -1,2 +1,1 @@
-import * as React from "react";
-export { default } from "./ScratchFlashMessage.jsx";
+export { default } from "./ScratchDialog.jsx";
