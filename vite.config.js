@@ -11,6 +11,8 @@ const MODE = getEnvar("MODE", true, "production");
 
 if (/dev/.test(HOST)) {
   conf.plugins = [react(), svgr()];
+} else {
+  conf.plugins = [svgr()];
 }
 
 // https:vitejs.dev/config/
@@ -26,6 +28,7 @@ export default defineConfig({
       entry: {
         index: "./src/index.js",
         comboboxes: "./src/components/comboboxes/index.js",
+        flashMessages: "./src/components/flash_messages/index.js",
         svgs: "./src/components/svgs/index.js",
       },
       name: "react_utils",
