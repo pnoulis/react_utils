@@ -30,6 +30,7 @@ export default defineConfig({
         comboboxes: "./src/components/comboboxes/index.js",
         flashMessages: "./src/components/flash_messages/index.js",
         svgs: "./src/components/svgs/index.js",
+        dialogs: "./src/components/dialogs/index.js",
       },
       name: "react_utils",
       formats: ["es"],

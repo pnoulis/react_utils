@@ -28,6 +28,9 @@
     },
     "./flashMessages": {
       "import": "./dist/flashMessages.js"
+    },
+    "./dialogs": {
+      "import": "./dist/dialogs.js"
     }
   },
   "type": "module",
