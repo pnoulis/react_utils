@@ -31,6 +31,15 @@
     },
     "./dialogs": {
       "import": "./dist/dialogs.js"
+    },
+    "./buttons": {
+      "import": "./dist/buttons.js"
+    },
+    "./inputs": {
+      "import": "./dist/inputs.js"
+    },
+    "./tooltips": {
+      "import": "./dist/tooltips.js"
     }
   },
   "type": "module",
