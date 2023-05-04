@@ -67,6 +67,7 @@ function useDialog({
     e.stopPropagation();
     if (e.key === "Escape") {
       setIsOpen(false);
+      onClose(false);
     }
   }
 

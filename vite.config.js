@@ -34,6 +34,7 @@ export default defineConfig({
         buttons: "./src/components/buttons/index.js",
         inputs: "./src/components/inputs/index.js",
         tooltips: "./src/components/tooltips/index.js",
+        hooks: "./src/hooks/index.js",
       },
       name: "react_utils",
       formats: ["es"],

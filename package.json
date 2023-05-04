@@ -40,6 +40,9 @@
     },
     "./tooltips": {
       "import": "./dist/tooltips.js"
+    },
+    "./hooks": {
+      "import": "./dist/hooks.js"
     }
   },
   "type": "module",
@@ -67,6 +70,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
+    "react-spinners": "^0.13.8",
     "styled-components": "^5.3.9",
     "vite": "^4.2.1",
     "vite-plugin-svgr": "^2.4.0",

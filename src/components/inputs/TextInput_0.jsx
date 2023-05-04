@@ -138,7 +138,9 @@ function TextInput_0({
 }) {
   const { fields, errors, submitting, setForm } = useFormContext();
   return (
-    <StyledTextInput className={`${className} ${errors[name] && "error"}`}>
+    <StyledTextInput
+      className={`${className || ""} ${errors[name] && "error"}`}
+    >
       <input
         className="input"
         type={type || "text"}
