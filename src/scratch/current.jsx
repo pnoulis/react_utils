@@ -1,1 +1,1 @@
-export { default } from "./ScratchAsyncCombobox.jsx";
+export { default } from "./ScratchCombobox.jsx";

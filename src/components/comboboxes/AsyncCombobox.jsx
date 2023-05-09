@@ -80,9 +80,9 @@ function useAsyncCombobox({
       virtual: true,
       loop: true,
     }),
-    useDismiss(data.context),
-    useClick(data.context, { keyboardHandlers: false }),
     useFocus(data.context, { keyboardOnly: true }),
+    setControlledOpen ?? useDismiss(data.context),
+    setControlledOpen ?? useClick(data.context, { keyboardHandlers: false }),
   ]);
 
   const onInputValueChange = (e) => {

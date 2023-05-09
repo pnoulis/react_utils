@@ -1,6 +1,6 @@
-import { AsyncCombobox } from "/src/components/comboboxes/index.js";
 import * as React from "react";
 import styled, { css } from "styled-components";
+import { BoundEditableListCombobox } from "/src/components/comboboxes/index.js";
 
 const mockData = [
   {
@@ -37,12 +37,6 @@ const mockData = [
   },
 ];
 
-function getMockData() {
-  return new Promise((resolve, reject) => {
-    resolve(mockData);
-  });
-}
-
 const indicators = css`
   ${({ selected, active }) => {
     if (selected) {
@@ -70,13 +64,11 @@ const indicators = css`
   }
 `;
 
-const Combobox = AsyncCombobox.Provider;
-
-const StyleTrigger = styled(AsyncCombobox.Trigger)`
-  background-color: white;
+const Combobox = BoundEditableListCombobox.Provider;
+const StyleTrigger = styled(BoundEditableListCombobox.Trigger)`
+  background-color: green;
   border-radius: var(--br-lg);
   height: 50px;
-
   width: 100%;
   height: 55px;
   padding: 0 15px;
@@ -96,8 +88,7 @@ const StyleTrigger = styled(AsyncCombobox.Trigger)`
     cursor: pointer;
   }
 `;
-
-const StyleListbox = styled(AsyncCombobox.Listbox)`
+const StyleListbox = styled(BoundEditableListCombobox.Listbox)`
   margin-top: 10px;
   width: 700px;
   margin-left: 138px;
@@ -112,8 +103,7 @@ const StyleListbox = styled(AsyncCombobox.Listbox)`
   flex-flow: column nowrap;
   gap: 15px;
 `;
-
-const StyleOption = styled(AsyncCombobox.Option)`
+const StyleOption = styled(BoundEditableListCombobox.Option)`
   border: 4px solid transparent;
   padding: 10px 10px;
   border-radius: var(--br-md);
@@ -140,35 +130,13 @@ cursor: pointer;
   }}
 `;
 
-export default function ScratchAsyncCombobox() {
-  const [isOpen, setIsOpen] = React.useState(true);
-
+export default function ScratchCombobox() {
   return (
     <div>
-      <h3>Scratch async Combobox</h3>
+      <h1>Scratch BoundEditableistCombobox</h1>
       <div>
-        <Combobox
-          name="players"
-          labelledBy="search-player-combobox"
-          options={getMockData}
-          /* open={isOpen} */
-          /* onOpenChange={setIsOpen} */
-          parseOptions={(options) => {
-            const labels = options.map((opt) => opt.username);
-            return {
-              labels,
-              options,
-            };
-          }}
-          onSelect={(player) => alert(player)}
-        >
-          <StyleTrigger
-            /* onClick={(e) => { */
-            /*   e.preventDefault(); */
-            /*   setIsOpen((prev) => !prev); */
-            /* }} */
-            placeholder="username or email"
-          />
+        <Combobox name="boundEditableListCombobox" options={mockData}>
+          <StyleTrigger placeHolder="select player" />
           <StyleListbox renderOption={(props) => <StyleOption {...props} />} />
         </Combobox>
       </div>
