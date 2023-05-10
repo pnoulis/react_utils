@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled, { css } from "styled-components";
-import { BoundEditableListCombobox } from "/src/components/comboboxes/index.js";
+import { OptionsEditableListCombobox } from "/src/components/comboboxes/index.js";
 
 const mockData = [
   {
@@ -64,8 +64,8 @@ const indicators = css`
   }
 `;
 
-const Combobox = BoundEditableListCombobox.Provider;
-const StyleTrigger = styled(BoundEditableListCombobox.Trigger)`
+const Combobox = OptionsEditableListCombobox.Provider;
+const StyleTrigger = styled(OptionsEditableListCombobox.Trigger)`
   background-color: green;
   border-radius: var(--br-lg);
   height: 50px;
@@ -88,10 +88,9 @@ const StyleTrigger = styled(BoundEditableListCombobox.Trigger)`
     cursor: pointer;
   }
 `;
-const StyleListbox = styled(BoundEditableListCombobox.Listbox)`
+const StyleListbox = styled(OptionsEditableListCombobox.Listbox)`
   margin-top: 10px;
   width: 700px;
-  margin-left: 138px;
   border-top-left-radius: var(--br-lg);
   border-top-right-radius: var(--br-lg);
   background-color: var(--grey-light);
@@ -103,7 +102,7 @@ const StyleListbox = styled(BoundEditableListCombobox.Listbox)`
   flex-flow: column nowrap;
   gap: 15px;
 `;
-const StyleOption = styled(BoundEditableListCombobox.Option)`
+const StyleOption = styled(OptionsEditableListCombobox.Option)`
   border: 4px solid transparent;
   padding: 10px 10px;
   border-radius: var(--br-md);
@@ -133,10 +132,15 @@ cursor: pointer;
 export default function ScratchCombobox() {
   return (
     <div>
-      <h1>Scratch BoundEditableistCombobox</h1>
+      <h1>Scratch OptionsEditableistCombobox</h1>
       <div>
-        <Combobox name="boundEditableListCombobox" options={mockData}>
-          <StyleTrigger placeHolder="select player" />
+        <Combobox
+          name="boundEditableListCombobox"
+          options={mockData}
+          getLabels={(options) => options.map((option) => option.username)}
+          onSelect={(option) => console.log(option)}
+        >
+          <StyleTrigger placeholder="select player" />
           <StyleListbox renderOption={(props) => <StyleOption {...props} />} />
         </Combobox>
       </div>

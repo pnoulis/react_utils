@@ -1,5 +1,5 @@
 /*
-  ------------------ Async Combobox by List Autocomplete --------------
+  ------------------ Bound Editable Combobox by List Autocomplete --------------
 
   https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-autocomplete-list/
 
@@ -16,23 +16,23 @@ import {
   useListNavigation,
   useDismiss,
   useInteractions,
-  useClick,
   useFocus,
+  useClick,
   autoUpdate,
 } from "@floating-ui/react";
 import { ComboboxCtx, useComboboxCtx } from "./Context.jsx";
 import Fuse from "fuse.js";
 
 const Provider = ({ children, ...usrConf }) => {
-  const ctx = useAsyncCombobox(usrConf);
+  const ctx = useCombobox(usrConf);
   return <ComboboxCtx.Provider value={ctx}>{children}</ComboboxCtx.Provider>;
 };
 
-function useAsyncCombobox({
+function useCombobox({
   name,
   labelledBy = "",
-  options: getOptions,
-  parseOptions,
+  options: initialOptions,
+  getLabels = () => {},
   onSelect = () => {},
   initialOpen = false,
   open: controlledOpen,
@@ -43,16 +43,30 @@ function useAsyncCombobox({
   const [inputValue, setInputValue] = React.useState("");
   const isOpen = controlledOpen ?? uncontrolledOpen;
   const setIsOpen = setControlledOpen ?? setUncontrolledOpen;
-  const [options, setOptions] = React.useState(() => new Map());
-  const labelsRef = React.useRef([]);
+  const optionsRef = React.useRef(null);
+  const labelsRef = React.useRef(null);
   const listRef = React.useRef([]);
+
+  // Options and Labels initialization
+  if (optionsRef.current == null) {
+    labelsRef.current = getLabels(initialOptions) || [];
+
+    if (labelsRef.current.length !== initialOptions.length) {
+      throw new Error("Label and Options array length mismatch");
+    }
+
+    optionsRef.current = new Map();
+    labelsRef.current.forEach((label, i) =>
+      optionsRef.current.set(label, initialOptions[i])
+    );
+  }
 
   const fuse = React.useMemo(
     () =>
-      new Fuse(Array.from(options.keys()), {
-        thershold: 0.1,
+      new Fuse(Array.from(optionsRef.current.keys()), {
+        threshold: 0.1,
       }),
-    [options]
+    [initialOptions]
   );
 
   const filter = (term) => fuse.search(term).map((match) => match.item);
@@ -62,13 +76,13 @@ function useAsyncCombobox({
     onOpenChange: setIsOpen,
     whileElementsMounted: autoUpdate,
     middleware: [
+      flip(),
+      shift(),
       size({
         apply({ rects, elements }) {
           elements.floating.style.minWidth = `${rects.reference.width}px`;
         },
       }),
-      flip(),
-      shift(),
     ],
   });
 
@@ -95,26 +109,15 @@ function useAsyncCombobox({
     }
 
     setInputValue(value);
-    setActiveIndex(0);
 
     if (!value) {
-      labelsRef.current = Array.from(options.keys());
+      labelsRef.current = Array.from(optionsRef.current.keys());
     } else {
       labelsRef.current = filter(value);
+    }
 
-      if (labelsRef.current.length < 1) {
-        getOptions(value)
-          .then((res) => {
-            if (!isOpen) return;
-            const { labels, options } = parseOptions(res);
-            const data = new Map();
-            labels.forEach((l, i) => data.set(l, options[i]));
-            setOptions(data);
-            setActiveIndex(0);
-            labelsRef.current = Array.from(data.keys());
-          })
-          .catch((err) => console.log(err));
-      }
+    if (labelsRef.current.length >= 1) {
+      setActiveIndex(0);
     }
   };
 
@@ -130,22 +133,13 @@ function useAsyncCombobox({
       onInputValueChange,
       activeIndex,
       setActiveIndex,
-      data: options,
-      options: labelsRef.current,
+      optionsRef,
+      labelsRef,
       listRef,
       ...data,
       ...interactions,
     }),
-    [
-      isOpen,
-      setIsOpen,
-      inputValue,
-      setInputValue,
-      interactions,
-      data,
-      options,
-      setOptions,
-    ]
+    [isOpen, setIsOpen, inputValue, setInputValue, interactions, data]
   );
 }
 
@@ -172,12 +166,19 @@ function Trigger({ placeholder, className, ...props }) {
         onKeyDown: (e) => {
           switch (e.code) {
             case "Enter":
-              if (ctx.activeIndex != null && ctx.options[ctx.activeIndex]) {
-                ctx.onInputValueChange(ctx.options[ctx.activeIndex]);
+              if (
+                ctx.activeIndex != null &&
+                ctx.labelsRef.current[ctx.activeIndex]
+              ) {
+                const label = ctx.labelsRef.current[ctx.activeIndex];
+                ctx.onInputValueChange(label);
                 ctx.setActiveIndex(null);
-                ctx.onSelect(ctx.data.get(ctx.options[ctx.activeIndex]));
+                ctx.setIsOpen(false);
+                ctx.onSelect(ctx.optionsRef.current.get(label));
               } else {
                 ctx.setActiveIndex(null);
+                ctx.setIsOpen(false);
+                ctx.refs.domReference.current?.blur();
               }
               break;
             case "Escape":
@@ -191,12 +192,16 @@ function Trigger({ placeholder, className, ...props }) {
               if (!ctx.isOpen) {
                 return;
               }
-              if (ctx.activeIndex != null && ctx.options[ctx.activeIndex]) {
-                ctx.onInputValueChange(ctx.options[ctx.activeIndex]);
+              if (
+                ctx.activeIndex != null &&
+                ctx.labelsRef.current[ctx.activeIndex]
+              ) {
+                const label = ctx.labelsRef.current[ctx.activeIndex];
+                ctx.onInputValueChange(label);
                 ctx.setActiveIndex(null);
                 ctx.setIsOpen(false);
                 ctx.refs.domReference.current?.blur();
-                ctx.onSelect(ctx.data.get(ctx.options[ctx.activeIndex]));
+                ctx.onSelect(ctx.optionsRef.current.get(label));
               } else {
                 ctx.setActiveIndex(null);
                 ctx.setIsOpen(false);
@@ -216,7 +221,7 @@ function Listbox({ renderOption, className, ...props }) {
   const ctx = useComboboxCtx();
   return (
     <>
-      {ctx.isOpen && ctx.options.length >= 1 && (
+      {ctx.isOpen && (
         <ul
           id={`${ctx.name}-listbox`}
           ref={ctx.refs.setFloating}
@@ -230,24 +235,25 @@ function Listbox({ renderOption, className, ...props }) {
           }}
           {...ctx.getFloatingProps(props)}
         >
-          {ctx.options.map((opt, i) =>
+          {ctx.labelsRef.current.map((label, i) =>
             renderOption({
               id: `${ctx.name}-opt-${i}`,
-              key: opt,
-              label: opt,
-              option: ctx.data.get(opt),
+              key: label,
+              label,
+              option: ctx.optionsRef.current.get(label),
               i,
               ctx,
               ref: (node) => (ctx.listRef.current[i] = node),
-              selected: opt === ctx.inputValue,
+              selected: label === ctx.inputValue,
               active: ctx.activeIndex === i,
               role: "option",
               tabIndex: -1,
               onClick: (e) => {
                 e.preventDefault();
-                ctx.onInputValueChange(opt);
+                ctx.onInputValueChange(label);
+                ctx.setIsOpen(false);
                 ctx.refs.domReference.current?.focus();
-                ctx.onSelect(ctx.data.get(ctx.options[ctx.activeIndex]));
+                ctx.onSelect(ctx.optionsRef.current.get(label));
               },
             })
           )}
@@ -274,7 +280,7 @@ const Option = React.forwardRef(
   }
 );
 
-export const AsyncCombobox = {
+export const OptionsEditableListCombobox = {
   Provider,
   Trigger,
   Listbox,
