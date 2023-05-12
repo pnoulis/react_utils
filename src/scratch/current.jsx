@@ -1,1 +1,1 @@
-export { default } from "./ScratchTableCombobox.jsx";
+export { default } from "./ScratchAlertDialog.jsx";
