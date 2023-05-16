@@ -9,6 +9,7 @@ function SimpleInput({
   label,
   optional,
   placeholder,
+  onChange = () => {},
   ...props
 }) {
   const { fields, errors, submitting, setForm } = useFormContext();
@@ -21,9 +22,12 @@ function SimpleInput({
         type={type || "text"}
         autoComplete="off"
         placeholder={placeholder || " "}
-        onChange={(e) =>
-          !submitting && setForm("setInput", name, e.target.value)
-        }
+        onChange={(e) => {
+          if (!submitting) {
+            setForm("setInput", name, e.target.value);
+            onChange(e.target.value);
+          }
+        }}
         value={fields[name]}
       />
     </div>
