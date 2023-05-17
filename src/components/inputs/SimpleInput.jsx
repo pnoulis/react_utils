@@ -4,6 +4,7 @@ import { useFormContext } from "./useForm.jsx";
 
 function SimpleInput({
   className,
+  disabled,
   type,
   name,
   label,
@@ -15,20 +16,21 @@ function SimpleInput({
   const { fields, errors, submitting, setForm } = useFormContext();
 
   return (
-    <div className={className} {...props}>
+    <div className={className} error={errors[name]} {...props}>
       <input
         id={name}
         className="input"
         type={type || "text"}
         autoComplete="off"
         placeholder={placeholder || " "}
+        disabled={disabled}
         onChange={(e) => {
           if (!submitting) {
             setForm("setInput", name, e.target.value);
             onChange(e.target.value);
           }
         }}
-        value={fields[name]}
+        value={fields[name] || ""}
       />
     </div>
   );
