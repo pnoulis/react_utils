@@ -1,1 +1,1 @@
-export { default } from "./ScratchAlertDialog.jsx";
+export { default } from "./ScratchSelectOnlyCombobox.jsx";

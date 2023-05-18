@@ -17,9 +17,15 @@ import {
   useClick,
   autoUpdate,
 } from "@floating-ui/react";
-import { ComboboxCtx, useComboboxCtx } from "./Context.jsx";
+import {
+  ComboboxCtx,
+  useComboboxCtx
+} from "./Context.jsx";
 
-const Provider = ({ children, ...usrConf }) => {
+const Provider = ({
+  children,
+  ...usrConf
+}) => {
   const ctx = useCombobox(usrConf);
   return <ComboboxCtx.Provider value={ctx}>{children}</ComboboxCtx.Provider>;
 };
@@ -49,7 +55,10 @@ function useCombobox({
       flip(),
       shift(),
       size({
-        apply({ rects, elements }) {
+        apply({
+          rects,
+          elements
+        }) {
           elements.floating.style.width = `${rects.reference.width}px`;
         },
       }),
@@ -65,7 +74,9 @@ function useCombobox({
       loop: true,
     }),
     useDismiss(data.context),
-    useClick(data.context, { keyboardHandlers: true }),
+    useClick(data.context, {
+      keyboardHandlers: true
+    }),
     useTypeahead(data.context, {
       listRef: optionsRef,
       activeIndex,
@@ -106,14 +117,18 @@ function useCombobox({
   );
 }
 
-function Trigger({ placeholder, className, ...props }) {
+function Trigger({
+  placeholder,
+  className,
+  ...props
+}) {
   const ctx = useComboboxCtx();
   return (
     <input
       readOnly
       id={`${ctx.name}-trigger`}
       ref={ctx.refs.setReference}
-      className={`combobox trigger ${className}`}
+      className={`combobox trigger ${className || ""}`}
       role="combobox"
       aria-controls={`${ctx.name}-listbox`}
       aria-expanded={ctx.isOpen}
@@ -220,7 +235,15 @@ function Listbox({ renderOption, className, ...props }) {
 }
 
 const Option = React.forwardRef(
-  ({ active, selected, label, ctx, className, children, ...props }, ref) => {
+  ({
+    active,
+    selected,
+    label,
+    ctx,
+    className,
+    children,
+    ...props
+  }, ref) => {
     return (
       <li
         className={`combobox option ${className}`}
