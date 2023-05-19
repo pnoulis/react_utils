@@ -17,15 +17,9 @@ import {
   useClick,
   autoUpdate,
 } from "@floating-ui/react";
-import {
-  ComboboxCtx,
-  useComboboxCtx
-} from "./Context.jsx";
+import { ComboboxCtx, useComboboxCtx } from "./Context.jsx";
 
-const Provider = ({
-  children,
-  ...usrConf
-}) => {
+const Provider = ({ children, ...usrConf }) => {
   const ctx = useCombobox(usrConf);
   return <ComboboxCtx.Provider value={ctx}>{children}</ComboboxCtx.Provider>;
 };
@@ -34,14 +28,18 @@ function useCombobox({
   name,
   labelledBy = "",
   options: initialOptions,
+  value: initialValue = "",
   onSelect = () => {},
   initialOpen = false,
   open: controlledOpen,
   onOpenChange: setControlledOpen,
 } = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
-  const [activeIndex, setActiveIndex] = React.useState(null);
-  const [inputValue, setInputValue] = React.useState("");
+  const [activeIndex, setActiveIndex] = React.useState(() => {
+    const i = initialOptions.findIndex((opt) => opt === initialValue);
+    return i > -1 ? i : null;
+  });
+  const [inputValue, setInputValue] = React.useState(initialValue);
   const isOpen = controlledOpen ?? uncontrolledOpen;
   const setIsOpen = setControlledOpen ?? setUncontrolledOpen;
   const optionsRef = React.useRef(initialOptions || []);
@@ -55,10 +53,7 @@ function useCombobox({
       flip(),
       shift(),
       size({
-        apply({
-          rects,
-          elements
-        }) {
+        apply({ rects, elements }) {
           elements.floating.style.width = `${rects.reference.width}px`;
         },
       }),
@@ -75,7 +70,7 @@ function useCombobox({
     }),
     useDismiss(data.context),
     useClick(data.context, {
-      keyboardHandlers: true
+      keyboardHandlers: true,
     }),
     useTypeahead(data.context, {
       listRef: optionsRef,
@@ -117,11 +112,7 @@ function useCombobox({
   );
 }
 
-function Trigger({
-  placeholder,
-  className,
-  ...props
-}) {
+function Trigger({ placeholder, className, ...props }) {
   const ctx = useComboboxCtx();
   return (
     <input
@@ -235,15 +226,7 @@ function Listbox({ renderOption, className, ...props }) {
 }
 
 const Option = React.forwardRef(
-  ({
-    active,
-    selected,
-    label,
-    ctx,
-    className,
-    children,
-    ...props
-  }, ref) => {
+  ({ active, selected, label, ctx, className, children, ...props }, ref) => {
     return (
       <li
         className={`combobox option ${className}`}

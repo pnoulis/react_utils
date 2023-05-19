@@ -1,10 +1,32 @@
-import * as React from 'react';
-import styled, {
-  css
-} from 'styled-components';
-import {
-  SelectOnlyCombobox
-} from '/src/components/comboboxes/index.js';
+import * as React from "react";
+import styled, { css } from "styled-components";
+import { SelectOnlyCombobox } from "/src/components/comboboxes/index.js";
+
+const indicators = css`
+  ${({ selected, active }) => {
+    if (selected) {
+      return `
+background-color: pink;
+`;
+    } else if (active) {
+      return `
+background-color: green;
+`;
+    } else {
+      return `
+&: hover {
+  background-color: yellow;
+}
+&: focus {
+  background-color: red;
+}
+`;
+    }
+  }}
+  &:active {
+    background-color: blue;
+  }
+`;
 
 const Combobox = SelectOnlyCombobox.Provider;
 const StyleTrigger = styled(SelectOnlyCombobox.Trigger)`
@@ -28,8 +50,7 @@ const StyleTrigger = styled(SelectOnlyCombobox.Trigger)`
   &:hover {
     cursor: pointer;
   }
-background-color: ${(props) => 'red'}
-`
+`;
 const StyleListbox = styled(SelectOnlyCombobox.Listbox)`
   margin-top: 10px;
   width: 700px;
@@ -43,42 +64,17 @@ const StyleListbox = styled(SelectOnlyCombobox.Listbox)`
   display: flex;
   flex-flow: column nowrap;
   gap: 15px;
-`
+`;
 const StyleOption = styled(SelectOnlyCombobox.Option)`
   border: 4px solid transparent;
   padding: 10px 10px;
   border-radius: var(--br-md);
-  background-color: ${(props) => 'red'}
-`
 
-const indicators = css`
-  ${({ selected, active }) => {
-    if (selected) {
-      return `
-background - color: pink;
-`;
-    } else if (active) {
-      return `
-background - color: green;
-`;
-    } else {
-      return ` &
-: hover {
-  background - color: yellow;
-} &
-: focus {
-  background - color: red;
-}
-`;
-    }
-  }}
-
-  &:active {
-    background-color: blue;
-  }
+  ${indicators}
 `;
 
-const mockData = [{
+const mockData = [
+  {
     username: "yolo1",
   },
   {
@@ -111,11 +107,12 @@ export default function ScratchSelectOnlyCombobox() {
       <div>
         <Combobox
           name="test"
-          options={mockData.map(({username}) => username)}
+          options={mockData.map(({ username }) => username)}
+          value="yolo1"
           onSelect={(option) => alert(option)}
         >
-          <StyleTrigger yes="oteuhenouh" placeholder='select something'/>
-          <StyleListbox renderOption={(props) => (<StyleOption {...props}/>)}/>
+          <StyleTrigger yes="oteuhenouh" placeholder="select something" />
+          <StyleListbox renderOption={(props) => <StyleOption {...props} />} />
         </Combobox>
       </div>
     </div>
