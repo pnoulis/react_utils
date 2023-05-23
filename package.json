@@ -43,6 +43,9 @@
     },
     "./hooks": {
       "import": "./dist/hooks.js"
+    },
+    "./misc": {
+      "import": "./dist/misc.js"
     }
   },
   "type": "module",
