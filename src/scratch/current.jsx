@@ -1,1 +1,1 @@
-export { default } from "./ScratchSelectOnlyCombobox.jsx";
+export { default } from "./ScratchAncestorDimensions.jsx";
