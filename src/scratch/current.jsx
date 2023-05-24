@@ -1,1 +1,1 @@
-export { default } from "./ScratchAncestorDimensions.jsx";
+export { default } from "./ScratchSvgs";

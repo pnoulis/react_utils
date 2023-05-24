@@ -25,11 +25,7 @@ import * as React from "react";
   heightScroll -> HTMLElement.offsetHeight
  */
 
-function AncestorDimensions({
-  ancestor,
-  renderProps,
-  children
-}) {
+function AncestorDimensions({ ancestor, renderProps, children }) {
   const [dimensions, setDimensions] = React.useState(null);
   const ancestorRef = React.useRef(null);
 
@@ -40,18 +36,24 @@ function AncestorDimensions({
     const computedStyle = window.getComputedStyle(ancestorRef.current);
     const scrollWidth = ancestorRef.current.scrollWidth;
     const scrollHeight = ancestorRef.current.scrollHeight;
-    const paddingX = parseFloat(computedStyle.paddingLeft) + parseFloat(
-      computedStyle.paddingRight);
-    const paddingY = parseFloat(computedStyle.paddingTop) + parseFloat(
-      computedStyle.paddingBottom);
-    const borderX = parseFloat(computedStyle.borderLeft) + parseFloat(
-      computedStyle.borderRight);
-    const borderY = parseFloat(computedStyle.borderTop) + parseFloat(
-      computedStyle.borderBottom);
-    const marginX = parseFloat(computedStyle.marginLeft) + parseFloat(
-      computedStyle.marginRight);
-    const marginY = parseFloat(computedStyle.marginTop) + parseFloat(
-      computedStyle.marginRight);
+    const paddingX =
+      parseFloat(computedStyle.paddingLeft) +
+      parseFloat(computedStyle.paddingRight);
+    const paddingY =
+      parseFloat(computedStyle.paddingTop) +
+      parseFloat(computedStyle.paddingBottom);
+    const borderX =
+      parseFloat(computedStyle.borderLeft) +
+      parseFloat(computedStyle.borderRight);
+    const borderY =
+      parseFloat(computedStyle.borderTop) +
+      parseFloat(computedStyle.borderBottom);
+    const marginX =
+      parseFloat(computedStyle.marginLeft) +
+      parseFloat(computedStyle.marginRight);
+    const marginY =
+      parseFloat(computedStyle.marginTop) +
+      parseFloat(computedStyle.marginRight);
 
     setDimensions({
       width: `${scrollWidth - paddingX}px`,
@@ -65,17 +67,13 @@ function AncestorDimensions({
     });
   }, []);
 
-  console.log(dimensions);
-
-  return dimensions ?
-    children ?
-    React.cloneElement(children, {
-      ...dimensions
-    }) :
-    renderProps(dimensions) :
-    null;
+  return dimensions
+    ? children
+      ? React.cloneElement(children, {
+          ...dimensions,
+        })
+      : renderProps(dimensions)
+    : null;
 }
 
-export {
-  AncestorDimensions
-};
+export { AncestorDimensions };

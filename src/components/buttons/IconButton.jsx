@@ -20,8 +20,10 @@ const StyleIconButton = styled("button")`
   text-align: center;
   background-color: var(--primary-base);
   padding: 8px;
-  width: 60px;
-  height: 60px;
+  min-width: 60px;
+  min-height: 60px;
+  width: ${({ size }) => size || "60px"};
+  height: ${({ size }) => size || "60px"};
   border-radius: var(--br-md);
 
   // appearance

@@ -2,7 +2,11 @@ import * as React from "react";
 
 const Svg = React.forwardRef(
   ({ className, size = "100%", color = "black", children, ...props }, ref) => {
-    const { current: path } = React.useRef(children.type().props.children);
+    const { current: path } = React.useRef(
+      React.Children.count(children) >= 1 &&
+        children.type &&
+        children.type().props.children
+    );
     let myRef;
     const cbref = (element) => {
       ref && ref(element);
