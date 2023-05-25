@@ -13,8 +13,9 @@ import {
   useListNavigation,
   useDismiss,
   useInteractions,
-  useClick,
+  useTypeahead,
   useFocus,
+  useClick,
   autoUpdate,
 } from "@floating-ui/react";
 import { ComboboxCtx, useComboboxCtx } from "./Context.jsx";
@@ -97,6 +98,12 @@ function useCombobox({
     useDismiss(data.context),
     useFocus(data.context, { keyboardOnly: true }),
     useClick(data.context, { keyboardHandlers: false }),
+    useTypeahead(data.context, {
+      listRef: labelsRef,
+      activeIndex,
+      onMatch: setActiveIndex,
+      resetMs: 500,
+    }),
   ]);
 
   const onInputValueChange = (e) => {
@@ -104,7 +111,6 @@ function useCombobox({
     if (e.target) {
       value = e.target.value;
       setIsOpen(true);
-      setActiveIndex(null);
     } else {
       value = e;
     }
@@ -137,6 +143,7 @@ function Trigger({ placeholder, className, ...props }) {
   const ctx = useComboboxCtx();
   return (
     <input
+      readOnly
       id={`${ctx.name}-trigger`}
       ref={ctx.refs.setReference}
       className={`combobox trigger ${className || ""}`}
@@ -145,7 +152,6 @@ function Trigger({ placeholder, className, ...props }) {
       aria-expanded={ctx.isOpen}
       aria-haspopup="listbox"
       aria-labelledby={ctx.labelledBy}
-      aria-autocomplete="none"
       tabIndex={0}
       name={ctx.name}
       type="text"
@@ -165,12 +171,10 @@ function Trigger({ placeholder, className, ...props }) {
                 ctx.setActiveIndex(null);
                 ctx.setIsOpen(false);
                 ctx.onSelect(ctx.optionsRef.current.get(label));
-              } else {
-                ctx.setActiveIndex(null);
-                ctx.setIsOpen(false);
-                ctx.onSelect(ctx.inputValue);
               }
-
+              break;
+            case "Space":
+              ctx.setIsOpen(false);
               break;
             case "Escape":
               if (!ctx.isOpen) {
@@ -254,7 +258,7 @@ const Option = React.forwardRef(
   }
 );
 
-export const EditableCombobox = {
+export const SelectOnlyCombobox = {
   Provider,
   Trigger,
   Listbox,

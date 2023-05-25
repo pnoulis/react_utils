@@ -1,9 +1,12 @@
 /*
-  ------------------------------ Editable Combobox ------------------------------
+  ------------------ Bound Editable Combobox by List Autocomplete --------------
 
-  https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-autocomplete-none/
+  https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-autocomplete-list/
 
+  This Combobox is an extension to the editable combobox. It
+  allows the user to limit the list of options based on his input.
  */
+
 import * as React from "react";
 import {
   useFloating,
@@ -18,6 +21,7 @@ import {
   autoUpdate,
 } from "@floating-ui/react";
 import { ComboboxCtx, useComboboxCtx } from "./Context.jsx";
+import Fuse from "fuse.js";
 
 const Provider = ({ children, ...usrConf }) => {
   const ctx = useCombobox(usrConf);
@@ -27,9 +31,7 @@ const Provider = ({ children, ...usrConf }) => {
 function useCombobox({
   name,
   labelledBy = "",
-  options: initialOptions,
-  getLabels = () => {},
-  defaultLabel = "",
+  options: getOptions = () => {},
   onSelect = () => {},
   initialOpen = false,
   open: controlledOpen,
@@ -43,33 +45,19 @@ function useCombobox({
   const setIsOpen = asTable
     ? () => true
     : setControlledOpen ?? setUncontrolledOpen;
-  const optionsRef = React.useRef(null);
+  const [options, setOptions] = React.useState(() => new Map());
   const labelsRef = React.useRef(null);
   const listRef = React.useRef([]);
 
-  // Options and Labels initialization
-  if (optionsRef.current == null) {
-    labelsRef.current = getLabels(initialOptions) || [];
+  const fuse = React.useMemo(
+    () =>
+      new Fuse(Array.from(options.keys()), {
+        threshold: 0.1,
+      }),
+    [options]
+  );
 
-    if (labelsRef.current.length !== initialOptions.length) {
-      throw new Error("Error by getLabels()");
-    }
-
-    optionsRef.current = new Map();
-    labelsRef.current.forEach((label, i) =>
-      optionsRef.current.set(label, initialOptions[i])
-    );
-  }
-
-  React.useEffect(() => {
-    if (inputValue) return;
-    labelsRef.current.forEach((label, i) => {
-      if (label === defaultLabel) {
-        setActiveIndex(i);
-        setInputValue(label);
-      }
-    });
-  }, [isOpen, initialOptions, defaultLabel]);
+  const filter = (term) => fuse.search(term).map((match) => match.item);
 
   const data = useFloating({
     open: isOpen,
@@ -104,11 +92,32 @@ function useCombobox({
     if (e.target) {
       value = e.target.value;
       setIsOpen(true);
-      setActiveIndex(null);
     } else {
       value = e;
     }
+
     setInputValue(value);
+
+    getOptions(value)
+      .then((remoteOptions) => {
+        if (!isOpen) return;
+        labelsRef.current = Array.from(remoteOptions.keys());
+        setOptions(remoteOptions);
+        if (activeIndex == null && labelsRef.current.length >= 1) {
+          setActiveIndex(0);
+        }
+      })
+      .catch((err) => console.log(err));
+
+    if (!value) {
+      labelsRef.current = Array.from(options.keys());
+    } else {
+      labelsRef.current = filter(value);
+
+      if (labelsRef.current.length >= 1) {
+        setActiveIndex(0);
+      }
+    }
   };
 
   return React.useMemo(
@@ -123,13 +132,22 @@ function useCombobox({
       onInputValueChange,
       activeIndex,
       setActiveIndex,
-      optionsRef,
+      options,
       labelsRef,
       listRef,
       ...data,
       ...interactions,
     }),
-    [isOpen, setIsOpen, inputValue, setInputValue, interactions, data]
+    [
+      isOpen,
+      setIsOpen,
+      inputValue,
+      setInputValue,
+      interactions,
+      data,
+      options,
+      setOptions,
+    ]
   );
 }
 
@@ -164,7 +182,7 @@ function Trigger({ placeholder, className, ...props }) {
                 ctx.onInputValueChange(label);
                 ctx.setActiveIndex(null);
                 ctx.setIsOpen(false);
-                ctx.onSelect(ctx.optionsRef.current.get(label));
+                ctx.onSelect(ctx.options.get(label));
               } else {
                 ctx.setActiveIndex(null);
                 ctx.setIsOpen(false);
@@ -208,13 +226,13 @@ function Listbox({ renderOnEmpty, renderOption, className, ...props }) {
           }}
           {...ctx.getFloatingProps(props)}
         >
-          {ctx.optionsRef.current.size >= 1
+          {ctx.options.size >= 1
             ? ctx.labelsRef.current.map((label, i) =>
                 renderOption({
                   id: `${ctx.name}-opt-${i}`,
                   key: label,
                   label,
-                  option: ctx.optionsRef.current.get(label),
+                  option: ctx.options.get(label),
                   i,
                   ctx,
                   ref: (node) => (ctx.listRef.current[i] = node),
@@ -226,7 +244,7 @@ function Listbox({ renderOnEmpty, renderOption, className, ...props }) {
                     e.preventDefault();
                     ctx.onInputValueChange(label);
                     ctx.setIsOpen(false);
-                    ctx.onSelect(ctx.optionsRef.current.get(label));
+                    ctx.onSelect(ctx.options.get(label));
                   },
                 })
               )
@@ -254,7 +272,7 @@ const Option = React.forwardRef(
   }
 );
 
-export const EditableCombobox = {
+export const AsyncSearchableCombobox = {
   Provider,
   Trigger,
   Listbox,

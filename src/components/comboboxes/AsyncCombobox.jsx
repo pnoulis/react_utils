@@ -97,24 +97,22 @@ function useAsyncCombobox({
     setInputValue(value);
     setActiveIndex(0);
 
+    getOptions(value)
+      .then((res) => {
+        if (!isOpen) return;
+        const { labels, options } = parseOptions(res);
+        const data = new Map();
+        labels.forEach((l, i) => data.set(l, options[i]));
+        setOptions(data);
+        setActiveIndex(0);
+        labelsRef.current = Array.from(data.keys());
+      })
+      .catch((err) => console.log(err));
+
     if (!value) {
       labelsRef.current = Array.from(options.keys());
     } else {
       labelsRef.current = filter(value);
-
-      if (labelsRef.current.length < 1) {
-        getOptions(value)
-          .then((res) => {
-            if (!isOpen) return;
-            const { labels, options } = parseOptions(res);
-            const data = new Map();
-            labels.forEach((l, i) => data.set(l, options[i]));
-            setOptions(data);
-            setActiveIndex(0);
-            labelsRef.current = Array.from(data.keys());
-          })
-          .catch((err) => console.log(err));
-      }
     }
   };
 

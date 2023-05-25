@@ -5,3 +5,5 @@ export * from "./EditableCombobox.autoComplete.automaticSelection.jsx";
 export * from "./AsyncCombobox.jsx";
 export * from "./EditableCombobox.options.jsx";
 export * from "./TableCombobox.jsx";
+export * from "./SearchableCombobox.jsx";
+export * from "./AsyncSearchableCombobox.jsx";

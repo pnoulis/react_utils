@@ -1,9 +1,12 @@
 /*
-  ------------------------------ Editable Combobox ------------------------------
+  ------------------ Bound Editable Combobox by List Autocomplete --------------
 
-  https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-autocomplete-none/
+  https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-autocomplete-list/
 
+  This Combobox is an extension to the editable combobox. It
+  allows the user to limit the list of options based on his input.
  */
+
 import * as React from "react";
 import {
   useFloating,
@@ -18,6 +21,7 @@ import {
   autoUpdate,
 } from "@floating-ui/react";
 import { ComboboxCtx, useComboboxCtx } from "./Context.jsx";
+import Fuse from "fuse.js";
 
 const Provider = ({ children, ...usrConf }) => {
   const ctx = useCombobox(usrConf);
@@ -35,6 +39,7 @@ function useCombobox({
   open: controlledOpen,
   onOpenChange: setControlledOpen,
   asTable = false,
+  allowCustomValue = true,
 } = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
   const [activeIndex, setActiveIndex] = React.useState(null);
@@ -46,6 +51,7 @@ function useCombobox({
   const optionsRef = React.useRef(null);
   const labelsRef = React.useRef(null);
   const listRef = React.useRef([]);
+  const minCandidate = allowCustomValue ? 0 : 1;
 
   // Options and Labels initialization
   if (optionsRef.current == null) {
@@ -60,6 +66,15 @@ function useCombobox({
       optionsRef.current.set(label, initialOptions[i])
     );
   }
+
+  const fuse = React.useMemo(
+    () =>
+      new Fuse(Array.from(optionsRef.current.keys()), {
+        threshold: 0.1,
+      }),
+    [initialOptions]
+  );
+  const filter = (term) => fuse.search(term).map((match) => match.item);
 
   React.useEffect(() => {
     if (inputValue) return;
@@ -104,11 +119,25 @@ function useCombobox({
     if (e.target) {
       value = e.target.value;
       setIsOpen(true);
-      setActiveIndex(null);
     } else {
       value = e;
     }
-    setInputValue(value);
+
+    if (!value) {
+      setInputValue(value);
+      labelsRef.current = Array.from(optionsRef.current.keys());
+    } else {
+      const candidates = filter(value);
+
+      if (candidates.length >= 1) {
+        setActiveIndex(0);
+      }
+
+      if (candidates.length >= minCandidate) {
+        labelsRef.current = candidates;
+        setInputValue(value);
+      }
+    }
   };
 
   return React.useMemo(
@@ -254,7 +283,7 @@ const Option = React.forwardRef(
   }
 );
 
-export const EditableCombobox = {
+export const SearchableCombobox = {
   Provider,
   Trigger,
   Listbox,

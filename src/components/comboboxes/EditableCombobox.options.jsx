@@ -114,6 +114,7 @@ function useCombobox({
       labelsRef.current = Array.from(optionsRef.current.keys());
     } else {
       labelsRef.current = filter(value);
+      console.log(labelsRef);
     }
 
     if (labelsRef.current.length >= 1) {
@@ -189,24 +190,25 @@ function Trigger({ placeholder, className, ...props }) {
               }
               break;
             case "Tab":
-              if (!ctx.isOpen) {
-                return;
-              }
-              if (
-                ctx.activeIndex != null &&
-                ctx.labelsRef.current[ctx.activeIndex]
-              ) {
-                const label = ctx.labelsRef.current[ctx.activeIndex];
-                ctx.onInputValueChange(label);
-                ctx.setActiveIndex(null);
-                ctx.setIsOpen(false);
-                ctx.refs.domReference.current?.blur();
-                ctx.onSelect(ctx.optionsRef.current.get(label));
-              } else {
-                ctx.setActiveIndex(null);
-                ctx.setIsOpen(false);
-                ctx.refs.domReference.current?.blur();
-              }
+              /* if (!ctx.isOpen) { */
+              /*   return; */
+              /* } */
+              /* if ( */
+              /*   ctx.activeIndex != null && */
+              /*   ctx.labelsRef.current[ctx.activeIndex] */
+              /* ) { */
+              /*   const label = ctx.labelsRef.current[ctx.activeIndex]; */
+              /*   ctx.onInputValueChange(label); */
+              /*   ctx.setActiveIndex(null); */
+              /*   ctx.setIsOpen(false); */
+              /*   ctx.refs.domReference.current?.blur(); */
+              /*   ctx.onSelect(ctx.optionsRef.current.get(label)); */
+              /* } else { */
+              /*   ctx.setActiveIndex(null); */
+              /*   ctx.setIsOpen(false); */
+              /*   ctx.refs.domReference.current?.blur(); */
+              /* } */
+              break;
             default:
               break;
           }
@@ -252,7 +254,6 @@ function Listbox({ renderOption, className, ...props }) {
                 e.preventDefault();
                 ctx.onInputValueChange(label);
                 ctx.setIsOpen(false);
-                ctx.refs.domReference.current?.focus();
                 ctx.onSelect(ctx.optionsRef.current.get(label));
               },
             })

@@ -1,1 +1,1 @@
-export { default } from "./ScratchSvgs";
+export { default } from "./ScratchComboboxes.jsx";
