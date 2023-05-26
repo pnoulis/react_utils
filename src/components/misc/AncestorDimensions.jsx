@@ -56,14 +56,14 @@ function AncestorDimensions({ ancestor, renderProps, children }) {
       parseFloat(computedStyle.marginRight);
 
     setDimensions({
-      width: `${scrollWidth - paddingX}px`,
-      height: `${scrollHeight - paddingY}px`,
-      widthPadding: `${scrollWidth}px`,
-      heightPadding: `${scrollHeight}px`,
-      widthBorder: `${scrollWidth + borderX}px`,
-      heightBorder: `${scrollHeight + borderY}px`,
-      widthMargin: `${scrollWidth + borderX + marginX}px`,
-      heightMargin: `${scrollHeight + borderY + marginY}px`,
+      $width: scrollWidth - paddingX,
+      $height: scrollHeight - paddingY,
+      $widthPadding: scrollWidth,
+      $heightPadding: scrollHeight,
+      $widthBorder: scrollWidth + borderX,
+      $heightBorder: scrollHeight + borderY,
+      $widthMargin: scrollWidth + borderX + marginX,
+      $heightMargin: scrollHeight + borderY + marginY,
     });
   }, []);
 

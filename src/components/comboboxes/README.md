@@ -55,6 +55,17 @@ to select a value for the combobox from a collection of possible values.
 
 ## Variants
 
+### New NAMES
+ComboboxSelect
+ComboboxEdit
+ComoboboxFilter
+
+ComboboxSelectAsync
+ComboboxEditAsync
+ComboboxFilterAsync
+
+SearchboxAsync
+
 ### Select only Combobox
 
 ### Editable Combobox

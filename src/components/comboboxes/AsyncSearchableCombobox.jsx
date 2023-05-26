@@ -52,15 +52,15 @@ function useCombobox({
   const fuse = React.useMemo(
     () =>
       new Fuse(Array.from(options.keys()), {
-        threshold: 0.1,
+        threshold: 0,
       }),
     [options]
   );
-
   const filter = (term) => fuse.search(term).map((match) => match.item);
 
   const data = useFloating({
     open: isOpen,
+    placement: "bottom-start",
     onOpenChange: setIsOpen,
     whileElementsMounted: autoUpdate,
     middleware: [
@@ -68,7 +68,7 @@ function useCombobox({
       shift(),
       size({
         apply({ rects, elements }) {
-          elements.floating.style.width = `${rects.reference.width}px`;
+          elements.floating.style.minWidth = `${rects.reference.width}px`;
         },
       }),
     ],
@@ -97,24 +97,35 @@ function useCombobox({
     }
 
     setInputValue(value);
-
-    getOptions(value)
-      .then((remoteOptions) => {
-        if (!isOpen) return;
-        labelsRef.current = Array.from(remoteOptions.keys());
-        setOptions(remoteOptions);
-        if (activeIndex == null && labelsRef.current.length >= 1) {
-          setActiveIndex(0);
-        }
-      })
-      .catch((err) => console.log(err));
-
     if (!value) {
+      // list all options from the last fetch if any.
       labelsRef.current = Array.from(options.keys());
-    } else {
+    } else if (value.length < inputValue.length) {
+      // if the user is deleting text
       labelsRef.current = filter(value);
-
-      if (labelsRef.current.length >= 1) {
+      getOptions(value)
+        .then((remoteOptions) => {
+          labelsRef.current = Array.from(remoteOptions.keys());
+          if (labelsRef.current.length >= 1) {
+            setActiveIndex(0);
+          }
+          setOptions(remoteOptions);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      // if the user is appending text
+      labelsRef.current = filter(value);
+      if (labelsRef.current.length < 1) {
+        getOptions(value)
+          .then((remoteOptions) => {
+            labelsRef.current = Array.from(remoteOptions.keys());
+            if (labelsRef.current.length >= 1) {
+              setActiveIndex(0);
+            }
+            setOptions(remoteOptions);
+          })
+          .catch((err) => console.log(err));
+      } else {
         setActiveIndex(0);
       }
     }
@@ -248,7 +259,7 @@ function Listbox({ renderOnEmpty, renderOption, className, ...props }) {
                   },
                 })
               )
-            : renderOnEmpty}
+            : renderOnEmpty(ctx)}
         </ul>
       )}
     </>

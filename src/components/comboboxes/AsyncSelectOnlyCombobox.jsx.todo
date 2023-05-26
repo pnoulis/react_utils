@@ -1,10 +1,7 @@
 /*
-  ------------------ Bound Editable Combobox by List Autocomplete --------------
+  ------------------------------ Select Only Combobox ------------------------------
 
-  https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-autocomplete-list/
-
-  This Combobox is an extension to the combobox-autocomplete-list combobox. It restricts
-  the user from selecting a value that is not a member of the options.
+  https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/
 
  */
 import * as React from "react";
@@ -16,12 +13,12 @@ import {
   useListNavigation,
   useDismiss,
   useInteractions,
+  useTypeahead,
   useFocus,
   useClick,
   autoUpdate,
 } from "@floating-ui/react";
 import { ComboboxCtx, useComboboxCtx } from "./Context.jsx";
-import Fuse from "fuse.js";
 
 const Provider = ({ children, ...usrConf }) => {
   const ctx = useCombobox(usrConf);
@@ -33,16 +30,20 @@ function useCombobox({
   labelledBy = "",
   options: initialOptions,
   getLabels = () => {},
+  defaultLabel = "",
   onSelect = () => {},
   initialOpen = false,
   open: controlledOpen,
   onOpenChange: setControlledOpen,
+  asTable = false,
 } = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
   const [activeIndex, setActiveIndex] = React.useState(null);
   const [inputValue, setInputValue] = React.useState("");
   const isOpen = controlledOpen ?? uncontrolledOpen;
-  const setIsOpen = setControlledOpen ?? setUncontrolledOpen;
+  const setIsOpen = asTable
+    ? () => true
+    : setControlledOpen ?? setUncontrolledOpen;
   const optionsRef = React.useRef(null);
   const labelsRef = React.useRef(null);
   const listRef = React.useRef([]);
@@ -52,7 +53,7 @@ function useCombobox({
     labelsRef.current = getLabels(initialOptions) || [];
 
     if (labelsRef.current.length !== initialOptions.length) {
-      throw new Error("Label and Options array length mismatch");
+      throw new Error("Error by getLabels()");
     }
 
     optionsRef.current = new Map();
@@ -61,15 +62,15 @@ function useCombobox({
     );
   }
 
-  const fuse = React.useMemo(
-    () =>
-      new Fuse(Array.from(optionsRef.current.keys()), {
-        threshold: 0.1,
-      }),
-    [initialOptions]
-  );
-
-  const filter = (term) => fuse.search(term).map((match) => match.item);
+  React.useEffect(() => {
+    if (inputValue) return;
+    labelsRef.current.forEach((label, i) => {
+      if (label === defaultLabel) {
+        setActiveIndex(i);
+        setInputValue(label);
+      }
+    });
+  }, [isOpen, initialOptions, defaultLabel]);
 
   const data = useFloating({
     open: isOpen,
@@ -80,7 +81,7 @@ function useCombobox({
       shift(),
       size({
         apply({ rects, elements }) {
-          elements.floating.style.minWidth = `${rects.reference.width}px`;
+          elements.floating.style.width = `${rects.reference.width}px`;
         },
       }),
     ],
@@ -94,9 +95,17 @@ function useCombobox({
       virtual: true,
       loop: true,
     }),
+    useDismiss(data.context),
     useFocus(data.context, { keyboardOnly: true }),
-    setControlledOpen ?? useDismiss(data.context),
-    setControlledOpen ?? useClick(data.context, { keyboardHandlers: false }),
+    useClick(data.context, {
+      keyboardHandlers: false,
+    }),
+    useTypeahead(data.context, {
+      listRef: labelsRef,
+      activeIndex,
+      onMatch: setActiveIndex,
+      resetMs: 500,
+    }),
   ]);
 
   const onInputValueChange = (e) => {
@@ -107,18 +116,7 @@ function useCombobox({
     } else {
       value = e;
     }
-
     setInputValue(value);
-
-    if (!value) {
-      labelsRef.current = Array.from(optionsRef.current.keys());
-    } else {
-      labelsRef.current = filter(value);
-    }
-
-    if (labelsRef.current.length >= 1) {
-      setActiveIndex(0);
-    }
   };
 
   return React.useMemo(
@@ -147,15 +145,15 @@ function Trigger({ placeholder, className, ...props }) {
   const ctx = useComboboxCtx();
   return (
     <input
+      readOnly
       id={`${ctx.name}-trigger`}
       ref={ctx.refs.setReference}
-      className={`combobox trigger ${className}`}
+      className={`combobox trigger ${className || ""}`}
       role="combobox"
       aria-controls={`${ctx.name}-listbox`}
       aria-expanded={ctx.isOpen}
       aria-haspopup="listbox"
       aria-labelledby={ctx.labelledBy}
-      aria-autocomplete="list"
       tabIndex={0}
       name={ctx.name}
       type="text"
@@ -171,40 +169,25 @@ function Trigger({ placeholder, className, ...props }) {
                 ctx.labelsRef.current[ctx.activeIndex]
               ) {
                 const label = ctx.labelsRef.current[ctx.activeIndex];
+                ctx.onInputValueChange(label);
                 ctx.setActiveIndex(null);
                 ctx.setIsOpen(false);
                 ctx.onSelect(ctx.optionsRef.current.get(label));
-              } else {
-                ctx.setActiveIndex(null);
-                ctx.setIsOpen(false);
-                ctx.refs.domReference.current?.blur();
               }
+              break;
+            case "Space":
+              ctx.setIsOpen(false);
               break;
             case "Escape":
               if (!ctx.isOpen) {
                 ctx.onInputValueChange("");
                 ctx.setActiveIndex(null);
                 ctx.refs.domReference.current?.blur();
+                ctx.onSelect("");
               }
               break;
             case "Tab":
-              if (!ctx.isOpen) {
-                return;
-              }
-              if (
-                ctx.activeIndex != null &&
-                ctx.labelsRef.current[ctx.activeIndex]
-              ) {
-                const label = ctx.labelsRef.current[ctx.activeIndex];
-                ctx.setActiveIndex(null);
-                ctx.setIsOpen(false);
-                ctx.refs.domReference.current?.blur();
-                ctx.onSelect(ctx.optionsRef.current.get(label));
-              } else {
-                ctx.setActiveIndex(null);
-                ctx.setIsOpen(false);
-                ctx.refs.domReference.current?.blur();
-              }
+              break;
             default:
               break;
           }
@@ -215,7 +198,7 @@ function Trigger({ placeholder, className, ...props }) {
   );
 }
 
-function Listbox({ renderOption, className, ...props }) {
+function Listbox({ renderOnEmpty, renderOption, className, ...props }) {
   const ctx = useComboboxCtx();
   return (
     <>
@@ -233,27 +216,29 @@ function Listbox({ renderOption, className, ...props }) {
           }}
           {...ctx.getFloatingProps(props)}
         >
-          {ctx.labelsRef.current.map((label, i) =>
-            renderOption({
-              id: `${ctx.name}-opt-${i}`,
-              key: label,
-              label,
-              option: ctx.optionsRef.current.get(label),
-              i,
-              ctx,
-              ref: (node) => (ctx.listRef.current[i] = node),
-              selected: label === ctx.inputValue,
-              active: ctx.activeIndex === i,
-              role: "option",
-              tabIndex: -1,
-              onClick: (e) => {
-                e.preventDefault();
-                ctx.setIsOpen(false);
-                ctx.refs.domReference.current?.focus();
-                ctx.onSelect(ctx.optionsRef.current.get(label));
-              },
-            })
-          )}
+          {ctx.optionsRef.current.size >= 1
+            ? ctx.labelsRef.current.map((label, i) =>
+                renderOption({
+                  id: `${ctx.name}-opt-${i}`,
+                  key: label,
+                  label,
+                  option: ctx.optionsRef.current.get(label),
+                  i,
+                  ctx,
+                  ref: (node) => (ctx.listRef.current[i] = node),
+                  selected: label === ctx.inputValue,
+                  active: ctx.activeIndex === i,
+                  role: "option",
+                  tabIndex: -1,
+                  onClick: (e) => {
+                    e.preventDefault();
+                    ctx.onInputValueChange(label);
+                    ctx.setIsOpen(false);
+                    ctx.onSelect(ctx.optionsRef.current.get(label));
+                  },
+                })
+              )
+            : renderOnEmpty}
         </ul>
       )}
     </>
@@ -277,7 +262,7 @@ const Option = React.forwardRef(
   }
 );
 
-export const TableCombobox = {
+export const SelectOnlyCombobox = {
   Provider,
   Trigger,
   Listbox,
