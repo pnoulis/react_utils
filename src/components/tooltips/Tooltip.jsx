@@ -1,3 +1,4 @@
+import * as React from "react";
 import TooltipContext from "./TooltipContext";
 import useTooltip from "./useTooltip";
 
