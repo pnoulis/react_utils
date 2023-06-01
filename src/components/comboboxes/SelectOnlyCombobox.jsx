@@ -81,7 +81,7 @@ function useCombobox({
       shift(),
       size({
         apply({ rects, elements }) {
-          elements.floating.style.width = `${rects.reference.width}px`;
+          elements.floating.style.minWidth = `${rects.reference.width}px`;
         },
       }),
     ],

@@ -88,6 +88,7 @@ function useCombobox({
 
   const data = useFloating({
     open: isOpen,
+    placement: "bottom-start",
     onOpenChange: setIsOpen,
     whileElementsMounted: autoUpdate,
     middleware: [
@@ -95,7 +96,7 @@ function useCombobox({
       shift(),
       size({
         apply({ rects, elements }) {
-          elements.floating.style.width = `${rects.reference.width}px`;
+          elements.floating.style.minWidth = `${rects.reference.width}px`;
         },
       }),
     ],
@@ -259,7 +260,7 @@ function Listbox({ renderOnEmpty, renderOption, className, ...props }) {
                   },
                 })
               )
-            : renderOnEmpty}
+            : renderOnEmpty(ctx)}
         </ul>
       )}
     </>
