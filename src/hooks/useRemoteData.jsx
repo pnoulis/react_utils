@@ -18,8 +18,8 @@ const RemoteDataProvider = ({ value, children }) => {
 
 function useRemoteData({
   getRemoteData = () => {},
-  parseRes,
-  parseError,
+  parseRes = (res) => res,
+  parseError = (err) => console.log(err),
   fetchDelay = 1000,
   successDelay = 1500,
   errorDelay = 1500,
@@ -35,10 +35,6 @@ function useRemoteData({
   const fetchRef = React.useRef(null);
   const stateRef = React.useRef(null);
   stateRef.current = state;
-  parseRes ||= (res) => res;
-  parseError ||= (err) => {
-    throw err;
-  };
 
   const isFetchStale = (timeOfRequest) =>
     timeOfRequest !== fetchRef.current.timeOfRequest;
@@ -46,54 +42,106 @@ function useRemoteData({
   const shouldStartFetch = () =>
     Date.now() - fetchRef.current.timeOfRequest > fetchDelay;
 
-  const startFetching = (...args) => {
-    return new Promise((resolve, reject) => {
-      setState(statesRef.current.pending);
-      const timeOfRequest = Date.now();
-      fetchRef.current = {
-        fired: false,
-        timeOfRequest,
-        fetch: () =>
-          getRemoteData(...args)
-            .then(parseRes)
-            .then((res) => {
-              if (
-                !isFetchStale(timeOfRequest) &&
-                stateRef.current > statesRef.current.idle
-              ) {
-                setState(statesRef.current.success);
-                setTimeout(() => {
-                  if (
-                    !isFetchStale(timeOfRequest) &&
-                    stateRef.current > statesRef.current.idle
-                  ) {
-                    setState(statesRef.current.idle);
-                    resolve(res);
-                  }
-                }, successDelay);
-              }
-            })
-            .catch(parseError)
-            .catch((err) => {
-              if (
-                !isFetchStale(timeOfRequest) &&
-                stateRef.current > statesRef.current.idle
-              ) {
-                setState(statesRef.current.error);
-                setTimeout(() => {
-                  if (
-                    !isFetchStale(timeOfRequest) &&
-                    stateRef.current > statesRef.current.idle
-                  ) {
-                    setState(statesRef.current.idle);
-                    reject(err);
-                  }
-                }, errorDelay);
-              }
-            }),
-      };
-    });
-  };
+  const startFetching = React.useCallback(
+    (...args) => {
+      return new Promise((resolve, reject) => {
+        setState(statesRef.current.pending);
+        const timeOfRequest = Date.now();
+        fetchRef.current = {
+          fired: false,
+          timeOfRequest,
+          fetch: () =>
+            getRemoteData(...args)
+              .then(parseRes)
+              .then((res) => {
+                if (
+                  !isFetchStale(timeOfRequest) &&
+                  stateRef.current > statesRef.current.idle
+                ) {
+                  setState(statesRef.current.success);
+                  setTimeout(() => {
+                    if (
+                      !isFetchStale(timeOfRequest) &&
+                      stateRef.current > statesRef.current.idle
+                    ) {
+                      setState(statesRef.current.idle);
+                      resolve(res);
+                    }
+                  }, successDelay);
+                }
+              })
+              .catch(parseError)
+              .catch((err) => {
+                if (
+                  !isFetchStale(timeOfRequest) &&
+                  stateRef.current > statesRef.current.idle
+                ) {
+                  setState(statesRef.current.error);
+                  setTimeout(() => {
+                    if (
+                      !isFetchStale(timeOfRequest) &&
+                      stateRef.current > statesRef.current.idle
+                    ) {
+                      setState(statesRef.current.idle);
+                      reject(err);
+                    }
+                  }, errorDelay);
+                }
+              }),
+        };
+      });
+    },
+    [getRemoteData]
+  );
+
+  // const startFetching = (...args) => {
+  //   return new Promise((resolve, reject) => {
+  //     setState(statesRef.current.pending);
+  //     const timeOfRequest = Date.now();
+  //     fetchRef.current = {
+  //       fired: false,
+  //       timeOfRequest,
+  //       fetch: () =>
+  //         getRemoteData(...args)
+  //           .then(parseRes)
+  //           .then((res) => {
+  //             if (
+  //               !isFetchStale(timeOfRequest) &&
+  //               stateRef.current > statesRef.current.idle
+  //             ) {
+  //               setState(statesRef.current.success);
+  //               setTimeout(() => {
+  //                 if (
+  //                   !isFetchStale(timeOfRequest) &&
+  //                   stateRef.current > statesRef.current.idle
+  //                 ) {
+  //                   setState(statesRef.current.idle);
+  //                   resolve(res);
+  //                 }
+  //               }, successDelay);
+  //             }
+  //           })
+  //           .catch(parseError)
+  //           .catch((err) => {
+  //             if (
+  //               !isFetchStale(timeOfRequest) &&
+  //               stateRef.current > statesRef.current.idle
+  //             ) {
+  //               setState(statesRef.current.error);
+  //               setTimeout(() => {
+  //                 if (
+  //                   !isFetchStale(timeOfRequest) &&
+  //                   stateRef.current > statesRef.current.idle
+  //                 ) {
+  //                   setState(statesRef.current.idle);
+  //                   reject(err);
+  //                 }
+  //               }, errorDelay);
+  //             }
+  //           }),
+  //     };
+  //   });
+  // };
 
   React.useEffect(() => {
     if (state === statesRef.current.idle && intervalIdRef.current !== null) {

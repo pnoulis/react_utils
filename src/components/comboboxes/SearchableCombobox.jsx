@@ -52,39 +52,30 @@ function useCombobox({
   const labelsRef = React.useRef(null);
   const listRef = React.useRef([]);
   const minCandidate = allowCustomValue ? 0 : 1;
+  const fuseRef = React.useRef([]);
 
-  // Options and Labels initialization
-  if (optionsRef.current == null) {
+  // TODO labelsRef should utilize React.useState() instead of this.
+  const [forceRedraw, setForceRedraw] = React.useState();
+
+  const filter = (term) =>
+    fuseRef.current.search(term).map((match) => match.item);
+
+  React.useEffect(() => {
     labelsRef.current = getLabels(initialOptions) || [];
-
     if (labelsRef.current.length !== initialOptions.length) {
       throw new Error("Error by getLabels()");
     }
-
     optionsRef.current = new Map();
-    labelsRef.current.forEach((label, i) =>
-      optionsRef.current.set(label, initialOptions[i])
-    );
-  }
-
-  const fuse = React.useMemo(
-    () =>
-      new Fuse(Array.from(optionsRef.current.keys()), {
-        threshold: 0.1,
-      }),
-    [initialOptions]
-  );
-  const filter = (term) => fuse.search(term).map((match) => match.item);
-
-  React.useEffect(() => {
-    if (inputValue) return;
     labelsRef.current.forEach((label, i) => {
       if (label === defaultLabel) {
         setActiveIndex(i);
         setInputValue(label);
       }
+      optionsRef.current.set(label, initialOptions[i]);
     });
-  }, [isOpen, initialOptions, defaultLabel]);
+    fuseRef.current = new Fuse(labelsRef.current, { threshold: 0.1 });
+    setForceRedraw(Math.random().toString(32).substring(2, 8));
+  }, [initialOptions, defaultLabel]);
 
   const data = useFloating({
     open: isOpen,
@@ -151,6 +142,7 @@ function useCombobox({
       onSelect,
       setInputValue,
       onInputValueChange,
+      asTable,
       activeIndex,
       setActiveIndex,
       optionsRef,
@@ -159,7 +151,15 @@ function useCombobox({
       ...data,
       ...interactions,
     }),
-    [isOpen, setIsOpen, inputValue, setInputValue, interactions, data]
+    [
+      isOpen,
+      setIsOpen,
+      inputValue,
+      setInputValue,
+      interactions,
+      data,
+      initialOptions,
+    ]
   );
 }
 
@@ -191,8 +191,10 @@ function Trigger({ placeholder, className, ...props }) {
                 ctx.labelsRef.current[ctx.activeIndex]
               ) {
                 const label = ctx.labelsRef.current[ctx.activeIndex];
-                ctx.onInputValueChange(label);
-                ctx.setActiveIndex(null);
+                if (!ctx.asTable) {
+                  ctx.onInputValueChange(label);
+                  ctx.setActiveIndex(null);
+                }
                 ctx.setIsOpen(false);
                 ctx.onSelect(ctx.optionsRef.current.get(label));
               } else {
@@ -254,7 +256,7 @@ function Listbox({ renderOnEmpty, renderOption, className, ...props }) {
                   tabIndex: -1,
                   onClick: (e) => {
                     e.preventDefault();
-                    ctx.onInputValueChange(label);
+                    !ctx.asTable && ctx.onInputValueChange(label);
                     ctx.setIsOpen(false);
                     ctx.onSelect(ctx.optionsRef.current.get(label));
                   },

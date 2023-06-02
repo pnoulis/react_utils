@@ -48,15 +48,35 @@ function useCombobox({
   const [options, setOptions] = React.useState(() => new Map());
   const labelsRef = React.useRef(null);
   const listRef = React.useRef([]);
+  const fuseRef = React.useRef(null);
+  if (fuseRef.current == null) {
+    fuseRef.current = new Fuse([], { threshold: 0.1 });
+  }
 
-  const fuse = React.useMemo(
-    () =>
-      new Fuse(Array.from(options.keys()), {
-        threshold: 0,
-      }),
-    [options]
-  );
-  const filter = (term) => fuse.search(term).map((match) => match.item);
+  const filter = (term) =>
+    fuseRef.current.search(term).map((match) => match.item);
+
+  React.useEffect(() => {
+    if (!inputValue) {
+      return;
+    }
+    getOptions(inputValue || "")
+      .then((remoteOptions) => {
+        labelsRef.current = Array.from(remoteOptions.keys());
+        fuseRef.current = new Fuse(labelsRef.current, { threshold: 0.1 });
+        setOptions(remoteOptions);
+      })
+      .catch((err) => console.log(err));
+  }, [getOptions]);
+
+  // const fuse = React.useMemo(
+  //   () =>
+  //     new Fuse(Array.from(options.keys()), {
+  //       threshold: 0,
+  //     }),
+  //   [options]
+  // );
+  // const filter = (term) => fuse.search(term).map((match) => match.item);
 
   const data = useFloating({
     open: isOpen,
@@ -140,6 +160,7 @@ function useCombobox({
       inputValue,
       onSelect,
       setInputValue,
+      asTable,
       onInputValueChange,
       activeIndex,
       setActiveIndex,
@@ -190,8 +211,10 @@ function Trigger({ placeholder, className, ...props }) {
                 ctx.labelsRef.current[ctx.activeIndex]
               ) {
                 const label = ctx.labelsRef.current[ctx.activeIndex];
-                ctx.onInputValueChange(label);
-                ctx.setActiveIndex(null);
+                if (!ctx.asTable) {
+                  ctx.onInputValueChange(label);
+                  ctx.setActiveIndex(null);
+                }
                 ctx.setIsOpen(false);
                 ctx.onSelect(ctx.options.get(label));
               } else {
@@ -253,7 +276,7 @@ function Listbox({ renderOnEmpty, renderOption, className, ...props }) {
                   tabIndex: -1,
                   onClick: (e) => {
                     e.preventDefault();
-                    ctx.onInputValueChange(label);
+                    !ctx.asTable && ctx.onInputValueChange(label);
                     ctx.setIsOpen(false);
                     ctx.onSelect(ctx.options.get(label));
                   },
