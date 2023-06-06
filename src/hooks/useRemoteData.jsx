@@ -174,9 +174,15 @@ function useRemoteData({
   };
 }
 
-function RemoteDataStates({ RenderPending, RenderSuccess, RenderError }) {
-  const context = useRemoteDataContext();
-  switch (context.state) {
+function RemoteDataStates({
+  context,
+  RenderPending,
+  RenderSuccess,
+  RenderError,
+  children,
+}) {
+  const ctx = context || useRemoteDataContext();
+  switch (ctx.state) {
     case 1: // pending
       return <>{RenderPending || <div>pending</div>}</>;
     case 2: // success
@@ -184,7 +190,7 @@ function RemoteDataStates({ RenderPending, RenderSuccess, RenderError }) {
     case 3: // error
       return <>{RenderError || <div>error</div>}</>;
     default: // idle
-      return <></>;
+      return <>{children ? children : null}</>;
   }
 }
 
