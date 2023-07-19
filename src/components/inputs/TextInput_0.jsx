@@ -100,11 +100,12 @@ const StyledTextInput = styled.div`
     border: 2px solid var(--error-base);
   }
 
-  &.error .label {
+  &.error .label, &.error .optional {
     font-family: NoirPro-Regular;
     color: var(--error-base);
     top: calc(50% - 10px);
   }
+
 
   &.success .input {
     border: 2px solid var(--success-base);
