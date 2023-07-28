@@ -15,9 +15,10 @@ import {
 function useTooltip({
   initialOpen = false,
   placement = "top",
+  offset: customOffset = 5,
   open: controlledOpen,
   onOpenChange: setControlledOpen,
-}) {
+} = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
 
   const open = controlledOpen ?? uncontrolledOpen;
@@ -29,12 +30,12 @@ function useTooltip({
     onOpenChange: setOpen,
     whileElementsMounted: autoUpdate,
     middleware: [
-      offset(5),
+      offset(customOffset),
       flip({
         fallbackAxisSideDirection: "start",
         crossAxis: placement.includes("-"),
       }),
-      shift({ padding: 5 }),
+      shift({ padding: customOffset }),
     ],
   });
 
@@ -58,7 +59,7 @@ function useTooltip({
       ...interactions,
       ...data,
     }),
-    [open, setOpen, interactions, data]
+    [open, setOpen, interactions, data],
   );
 }
 
