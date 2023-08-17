@@ -5,27 +5,23 @@ const Svg = React.forwardRef(
     const { current: path } = React.useRef(
       React.Children.count(children) >= 1 &&
         children.type &&
-        children.type().props.children
+        children.type().props.children,
     );
     let myRef;
     const cbref = (element) => {
       ref && ref(element);
       myRef = element;
-    };
-
-    React.useEffect(() => {
-      if (!myRef) return;
-      const box = myRef.getBBox();
-      myRef.setAttribute(
+      const box = myRef?.getBBox();
+      myRef?.setAttribute(
         "viewBox",
         [
           Math.round(box.x),
           Math.round(box.y),
           Math.round(box.width),
           Math.round(box.height),
-        ].join(" ")
+        ].join(" "),
       );
-    }, [myRef]);
+    };
 
     return (
       <svg
@@ -39,7 +35,7 @@ const Svg = React.forwardRef(
         {path}
       </svg>
     );
-  }
+  },
 );
 
 export { Svg };
