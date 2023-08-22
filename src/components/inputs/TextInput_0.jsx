@@ -36,7 +36,6 @@ const StyledTextInput = styled.div`
   }
 
   .label {
-    font-family: NoirPro-Regular;
     padding: 0 5px;
     border-radius: var(--br-sm);
     letter-spacing: 1.5px;
@@ -53,9 +52,9 @@ const StyledTextInput = styled.div`
   }
 
   .optional {
-    font-family: NoirPro-Regular;
     position: absolute;
     font-size: var(--tx-md);
+    border-radius: var(--br-sm);
     pointer-events: none;
     letter-spacing: 1.5px;
     top: 50%;
@@ -80,7 +79,6 @@ const StyledTextInput = styled.div`
     transition-duration: 0.3s;
     font-size: 0.8em;
     background-color: white;
-    font-family: NoirPro-Light;
   }
 
   .input:focus ~ .optional,
@@ -101,7 +99,6 @@ const StyledTextInput = styled.div`
   }
 
   &.error .label, &.error .optional {
-    font-family: NoirPro-Regular;
     color: var(--error-base);
     top: calc(50% - 10px);
   }
@@ -121,7 +118,6 @@ const StyleError = styled.p`
   width: 100%;
   padding-top: 5px;
   padding-left: 5px;
-  font-family: NoirPro-Regular;
   font-size: var(--tx-nl);
   color: var(--error-base);
   text-transform: capitalize;
