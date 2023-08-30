@@ -69,7 +69,7 @@ const StyledTextInput = styled.div`
   }
 
   &:focus-within .input::placeholder {
-    opacity: 1;
+    opacity: 0.3;
   }
 
   .input:focus ~ label,
@@ -96,13 +96,13 @@ const StyledTextInput = styled.div`
 
   &.error .input {
     border: 2px solid var(--error-base);
+    text-transform: lowercase;
   }
 
-  &.error .label, &.error .optional {
+  &.error .label,
+  &.error .optional {
     color: var(--error-base);
-    top: calc(50% - 10px);
   }
-
 
   &.success .input {
     border: 2px solid var(--success-base);
@@ -114,6 +114,7 @@ const StyledTextInput = styled.div`
 `;
 
 const StyleError = styled.p`
+  position: absolute;
   display: block;
   width: 100%;
   padding-top: 5px;
