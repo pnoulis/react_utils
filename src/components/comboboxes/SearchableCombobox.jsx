@@ -240,7 +240,7 @@ function Listbox({ renderOnEmpty, renderOption, className, ...props }) {
           }}
           {...ctx.getFloatingProps(props)}
         >
-          {ctx.optionsRef.current.size >= 1
+          {ctx.optionsRef.current?.size >= 1
             ? ctx.labelsRef.current.map((label, i) =>
                 renderOption({
                   id: `${ctx.name}-opt-${i}`,
