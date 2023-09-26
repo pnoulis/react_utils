@@ -159,11 +159,11 @@ function useCombobox({
       interactions,
       data,
       initialOptions,
-    ]
+    ],
   );
 }
 
-function Trigger({ placeholder, className, ...props }) {
+function Trigger({ onInputValueChange, placeholder, className, ...props }) {
   const ctx = useComboboxCtx();
   return (
     <input
@@ -181,7 +181,10 @@ function Trigger({ placeholder, className, ...props }) {
       type="text"
       placeholder={placeholder}
       value={ctx.inputValue}
-      onChange={ctx.onInputValueChange}
+      onChange={(e) => {
+        ctx.onInputValueChange(e);
+        onInputValueChange?.(e);
+      }}
       {...ctx.getReferenceProps({
         onKeyDown: (e) => {
           switch (e.code) {
@@ -260,7 +263,7 @@ function Listbox({ renderOnEmpty, renderOption, className, ...props }) {
                     ctx.setIsOpen(false);
                     ctx.onSelect(ctx.optionsRef.current.get(label));
                   },
-                })
+                }),
               )
             : renderOnEmpty(ctx)}
         </ul>
@@ -283,7 +286,7 @@ const Option = React.forwardRef(
         {children || label}
       </li>
     );
-  }
+  },
 );
 
 export const SearchableCombobox = {
