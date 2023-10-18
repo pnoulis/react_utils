@@ -125,21 +125,17 @@ const StyleError = styled.p`
   letter-spacing: 1px;
 `;
 
-function TextInput_0({
-  className,
-  type,
-  name,
-  label,
-  optional,
-  placeholder,
-  ...props
-}) {
+const TextInput_0 = React.forwardRef(function TextInput_0(
+  { className, type, name, label, optional, placeholder, ...props } = {},
+  ref,
+) {
   const { fields, errors, submitting, setForm } = useFormContext();
   return (
     <StyledTextInput
       className={`${className || ""} ${errors[name] && "error"}`}
     >
       <input
+        ref={ref}
         className="input"
         type={type || "text"}
         id={name}
@@ -158,6 +154,6 @@ function TextInput_0({
       <StyleError>{errors[name]}</StyleError>
     </StyledTextInput>
   );
-}
+});
 
 export { TextInput_0 };

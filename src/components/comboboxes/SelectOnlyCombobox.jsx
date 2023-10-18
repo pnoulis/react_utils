@@ -58,7 +58,7 @@ function useCombobox({
 
     optionsRef.current = new Map();
     labelsRef.current.forEach((label, i) =>
-      optionsRef.current.set(label, initialOptions[i])
+      optionsRef.current.set(label, initialOptions[i]),
     );
   }
 
@@ -74,16 +74,21 @@ function useCombobox({
 
   const data = useFloating({
     open: isOpen,
+    initialPlacement: "top",
+    placement: "top",
     onOpenChange: setIsOpen,
     whileElementsMounted: autoUpdate,
     middleware: [
-      flip(),
-      shift(),
       size({
         apply({ rects, elements }) {
           elements.floating.style.minWidth = `${rects.reference.width}px`;
         },
       }),
+
+      flip({
+        fallbackStrategy: "initialPlacement",
+      }),
+      shift(),
     ],
   });
 
@@ -137,13 +142,65 @@ function useCombobox({
       ...data,
       ...interactions,
     }),
-    [isOpen, setIsOpen, inputValue, setInputValue, interactions, data]
+    [isOpen, setIsOpen, inputValue, setInputValue, interactions, data],
   );
 }
 
-function Trigger({ placeholder, className, ...props }) {
+function Trigger({ placeholder, className, children, ...props }) {
   const ctx = useComboboxCtx();
-  return (
+
+  return typeof children === "function" ? (
+    children({
+      readOnly: true,
+      id: `${ctx.name}-trigger`,
+      ref: ctx.refs.setReference,
+      role: "combobox",
+      ["aria-controls"]: `${ctx.name}-listbox`,
+      ["aria-expanded"]: ctx.isOpen,
+      ["aria-haspopup"]: "listbox",
+      ["aria-labelledby"]: ctx.labelledBy,
+      tabIndex: 0,
+      name: ctx.name,
+      type: "text",
+      placeholder: placeholder,
+      value: ctx.inputValue,
+      onChange: ctx.onInputValueChange,
+      ...ctx.getReferenceProps({
+        onKeyDown: (e) => {
+          switch (e.code) {
+            case "Enter":
+              if (
+                ctx.activeIndex != null &&
+                ctx.labelsRef.current[ctx.activeIndex]
+              ) {
+                const label = ctx.labelsRef.current[ctx.activeIndex];
+                ctx.onInputValueChange(label);
+                ctx.setActiveIndex(null);
+                ctx.setIsOpen(false);
+                ctx.onSelect(ctx.optionsRef.current.get(label));
+              }
+              break;
+            case "Space":
+              ctx.setIsOpen(false);
+              break;
+            case "Escape":
+              if (!ctx.isOpen) {
+                ctx.onInputValueChange("");
+                ctx.setActiveIndex(null);
+                ctx.refs.domReference.current?.blur();
+                ctx.onSelect("");
+              }
+              break;
+            case "Tab":
+              break;
+            default:
+              break;
+          }
+        },
+      }),
+      ...props,
+    })
+  ) : (
     <input
       readOnly
       id={`${ctx.name}-trigger`}
@@ -236,7 +293,7 @@ function Listbox({ renderOnEmpty, renderOption, className, ...props }) {
                     ctx.setIsOpen(false);
                     ctx.onSelect(ctx.optionsRef.current.get(label));
                   },
-                })
+                }),
               )
             : renderOnEmpty}
         </ul>
@@ -259,7 +316,7 @@ const Option = React.forwardRef(
         {children || label}
       </li>
     );
-  }
+  },
 );
 
 export const SelectOnlyCombobox = {
