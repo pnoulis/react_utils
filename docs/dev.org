@@ -1,5 +1,0 @@
-* locked dependencies
-** Floating ui
-locked version: 0.23.0
-** Fuse.js
-locked version: 6.6.2

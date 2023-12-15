@@ -12,7 +12,8 @@
   "scripts": {
     "dev": "make run",
     "build": "make build",
-    "test": "make test"
+    "test": "make test",
+    "prepare": "make build"
   },
   "files": ["dist"],
   "exports": {
@@ -58,32 +59,20 @@
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.4",
-    "eslint": "^8.49.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-import": "^2.28.1",
-    "eslint-plugin-jest": "^27.2.3",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^3.0.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
     "react-spinners": "^0.13.8",
-    "styled-components": "^6.0.7",
     "vite": "^4.4.9",
     "vite-plugin-svgr": "^3.2.0",
     "vitest": "^0.34.4"
   },
   "dependencies": {
     "@floating-ui/react": "0.23.0",
-    "fuse.js": "6.6.2",
-    "js_utils": "../../lib/js_utils"
+    "fuse.js": "6.6.2"
   },
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "styled-components": "^6.0.7"
+    "styled-components": "^6.1.1"
   }
 }

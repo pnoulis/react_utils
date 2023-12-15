@@ -3,25 +3,15 @@ import { defineConfig } from "vite";
 import { configDefaults } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
-import { getEnvar } from "js_utils";
-
-const conf = {};
-const HOST = getEnvar("HOST", true, "production");
-const MODE = getEnvar("MODE", true, "production");
-
-if (/dev/.test(HOST)) {
-  conf.plugins = [react(), svgr()];
-} else {
-  conf.plugins = [svgr()];
-}
 
 // https:vitejs.dev/config/
 export default defineConfig({
-  ...conf,
+  plugins: [svgr()],
   build: {
     outDir: "dist",
     target: "esnext",
-    sourcemap: true,
+    sourcemap: false,
+    minify: true,
     emptyOutDir: true,
     copyPublicDir: false,
     lib: {
@@ -49,7 +39,6 @@ export default defineConfig({
         },
       },
     },
-    ...conf.build,
   },
   test: {
     // ...
