@@ -4,21 +4,12 @@
   "description": "react_utils-summary",
   "homepage": "https://github.com/pnoulis/react_utils#readme",
   "bugs": "https://github.com/pnoulis/react_utils/issues",
-  "keywords": [
-    "react_utils-keywords"
-  ],
+  "keywords": ["react_utils-keywords"],
   "repository": {
     "type": "git",
     "url": "https://github.com/pnoulis/react_utils.git"
   },
-  "scripts": {
-    "dev": "make run",
-    "build": "make build",
-    "test": "make test"
-  },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "exports": {
     ".": {
       "import": "./dist/index.js"
