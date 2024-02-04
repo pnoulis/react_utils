@@ -12,8 +12,7 @@
   "scripts": {
     "dev": "make run",
     "build": "make build",
-    "test": "make test",
-    "prepare": "make build"
+    "test": "make test"
   },
   "files": ["dist"],
   "exports": {
