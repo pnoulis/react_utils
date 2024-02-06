@@ -40,6 +40,7 @@ function useCombobox({
   onOpenChange: setControlledOpen,
   asTable = false,
   allowCustomValue = true,
+  placement = "bottom-start",
 } = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
   const [activeIndex, setActiveIndex] = React.useState(null);
@@ -79,11 +80,13 @@ function useCombobox({
 
   const data = useFloating({
     open: isOpen,
-    placement: "bottom-start",
+    initialPlacement: placement,
     onOpenChange: setIsOpen,
     whileElementsMounted: autoUpdate,
     middleware: [
-      flip(),
+      flip({
+        fallbackStrategy: "initialPlacement",
+      }),
       shift(),
       size({
         apply({ rects, elements }) {
@@ -201,12 +204,12 @@ function Trigger({ onInputValueChange, placeholder, className, ...props }) {
                 ctx.setIsOpen(false);
                 ctx.onSelect(
                   ctx.optionsRef.current.get(label),
-                  ctx.setInputValue,
+                  ctx.onInputValueChange,
                 );
               } else {
                 ctx.setActiveIndex(null);
                 ctx.setIsOpen(false);
-                ctx.onSelect(ctx.inputValue, ctx.setInputValue);
+                ctx.onSelect(ctx.inputValue, ctx.onInputValueChange);
               }
 
               break;
@@ -215,7 +218,7 @@ function Trigger({ onInputValueChange, placeholder, className, ...props }) {
                 ctx.onInputValueChange("");
                 ctx.setActiveIndex(null);
                 ctx.refs.domReference.current?.blur();
-                ctx.onSelect("", ctx.setInputValue);
+                ctx.onSelect("", ctx.onInputValueChange);
               }
               break;
             default:
@@ -266,7 +269,7 @@ function Listbox({ renderOnEmpty, renderOption, className, ...props }) {
                     ctx.setIsOpen(false);
                     ctx.onSelect(
                       ctx.optionsRef.current.get(label),
-                      ctx.setInputValue,
+                      ctx.onInputValueChange,
                     );
                   },
                 }),

@@ -29,13 +29,14 @@ function useCombobox({
   name,
   labelledBy = "",
   options: initialOptions,
-  getLabels = () => {},
+  getLabels = (options) => options,
   defaultLabel = "",
   onSelect = () => {},
   initialOpen = false,
   open: controlledOpen,
   onOpenChange: setControlledOpen,
   asTable = false,
+  placement = "bottom-start",
 } = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
   const [activeIndex, setActiveIndex] = React.useState(null);
@@ -74,8 +75,7 @@ function useCombobox({
 
   const data = useFloating({
     open: isOpen,
-    initialPlacement: "top",
-    placement: "top",
+    initialPlacement: placement,
     onOpenChange: setIsOpen,
     whileElementsMounted: autoUpdate,
     middleware: [
@@ -177,7 +177,10 @@ function Trigger({ placeholder, className, children, ...props }) {
                 ctx.onInputValueChange(label);
                 ctx.setActiveIndex(null);
                 ctx.setIsOpen(false);
-                ctx.onSelect(ctx.optionsRef.current.get(label));
+                ctx.onSelect(
+                  ctx.optionsRef.current.get(label),
+                  ctx.onInputValueChange,
+                );
               }
               break;
             case "Space":
@@ -188,7 +191,7 @@ function Trigger({ placeholder, className, children, ...props }) {
                 ctx.onInputValueChange("");
                 ctx.setActiveIndex(null);
                 ctx.refs.domReference.current?.blur();
-                ctx.onSelect("");
+                ctx.onSelect("", ctx.onInputValueChange);
               }
               break;
             case "Tab":
@@ -229,7 +232,10 @@ function Trigger({ placeholder, className, children, ...props }) {
                 ctx.onInputValueChange(label);
                 ctx.setActiveIndex(null);
                 ctx.setIsOpen(false);
-                ctx.onSelect(ctx.optionsRef.current.get(label));
+                ctx.onSelect(
+                  ctx.optionsRef.current.get(label),
+                  ctx.onInputValueChange,
+                );
               }
               break;
             case "Space":
@@ -240,7 +246,7 @@ function Trigger({ placeholder, className, children, ...props }) {
                 ctx.onInputValueChange("");
                 ctx.setActiveIndex(null);
                 ctx.refs.domReference.current?.blur();
-                ctx.onSelect("");
+                ctx.onSelect("", ctx.onInputValueChange);
               }
               break;
             case "Tab":
@@ -291,7 +297,10 @@ function Listbox({ renderOnEmpty, renderOption, className, ...props }) {
                     e.preventDefault();
                     ctx.onInputValueChange(label);
                     ctx.setIsOpen(false);
-                    ctx.onSelect(ctx.optionsRef.current.get(label));
+                    ctx.onSelect(
+                      ctx.optionsRef.current.get(label),
+                      ctx.onInputValueChange,
+                    );
                   },
                 }),
               )

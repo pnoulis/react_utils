@@ -1,105 +1,104 @@
-import * as a from "react";
-import { u as K, a as W, b as z, c as H, d as U, e as Y, f as Ee, g as G, s as Q, h as X, i as J } from "./floating-ui.react.esm-730ae197.js";
+import * as i from "react";
+import { u as W, a as z, b as H, c as U, d as Y, e as G, f as Me, g as Q, s as X, h as J, i as Z } from "./floating-ui.react.esm-730ae197.js";
 import "react-dom";
-const j = a.createContext(null), L = () => {
-  const r = a.useContext(j);
+const j = i.createContext(null), P = () => {
+  const r = i.useContext(j);
   if (r == null)
     throw new Error("Component is not being provided the <Combobox/> context");
   return r;
-}, Me = ({ children: r, ...n }) => {
+}, Ce = ({ children: r, ...n }) => {
   const s = Se(n);
-  return /* @__PURE__ */ a.createElement(j.Provider, { value: s }, r);
+  return /* @__PURE__ */ i.createElement(j.Provider, { value: s }, r);
 };
 function Se({
   name: r,
   labelledBy: n = "",
   options: s,
-  getLabels: t = () => {
-  },
+  getLabels: t = (f) => f,
   defaultLabel: e = "",
   onSelect: o = () => {
   },
   initialOpen: c = !1,
-  open: i,
+  open: a,
   onOpenChange: l,
-  asTable: u = !1
+  asTable: u = !1,
+  placement: h = "bottom-start"
 } = {}) {
-  const [h, f] = a.useState(c), [d, x] = a.useState(null), [m, I] = a.useState(""), v = i ?? h, R = u ? () => !0 : l ?? f, b = a.useRef(null), E = a.useRef(null), w = a.useRef([]);
-  if (b.current == null) {
-    if (E.current = t(s) || [], E.current.length !== s.length)
+  const [f, d] = i.useState(c), [x, m] = i.useState(null), [y, E] = i.useState(""), v = a ?? f, I = u ? () => !0 : l ?? d, M = i.useRef(null), S = i.useRef(null), $ = i.useRef([]);
+  if (M.current == null) {
+    if (S.current = t(s) || [], S.current.length !== s.length)
       throw new Error("Error by getLabels()");
-    b.current = /* @__PURE__ */ new Map(), E.current.forEach(
-      (y, p) => b.current.set(y, s[p])
+    M.current = /* @__PURE__ */ new Map(), S.current.forEach(
+      (p, b) => M.current.set(p, s[b])
     );
   }
-  a.useEffect(() => {
-    m || E.current.forEach((y, p) => {
-      y === e && (x(p), I(y));
+  i.useEffect(() => {
+    y || S.current.forEach((p, b) => {
+      p === e && (m(b), E(p));
     });
   }, [v, s, e]);
-  const C = K({
+  const R = W({
     open: v,
-    initialPlacement: "top",
-    placement: "top",
-    onOpenChange: R,
-    whileElementsMounted: G,
+    initialPlacement: h,
+    onOpenChange: I,
+    whileElementsMounted: Q,
     middleware: [
-      Q({
-        apply({ rects: y, elements: p }) {
-          p.floating.style.minWidth = `${y.reference.width}px`;
+      X({
+        apply({ rects: p, elements: b }) {
+          b.floating.style.minWidth = `${p.reference.width}px`;
         }
       }),
-      X({
+      J({
         fallbackStrategy: "initialPlacement"
       }),
-      J()
+      Z()
     ]
-  }), $ = W([
-    z(C.context, {
-      listRef: w,
-      activeIndex: d,
-      onNavigate: x,
+  }), w = z([
+    H(R.context, {
+      listRef: $,
+      activeIndex: x,
+      onNavigate: m,
       virtual: !0,
       loop: !0
     }),
-    H(C.context),
-    U(C.context, { keyboardOnly: !0 }),
-    Y(C.context, {
+    U(R.context),
+    Y(R.context, { keyboardOnly: !0 }),
+    G(R.context, {
       keyboardHandlers: !1
     }),
-    Ee(C.context, {
-      listRef: E,
-      activeIndex: d,
-      onMatch: x,
+    Me(R.context, {
+      listRef: S,
+      activeIndex: x,
+      onMatch: m,
       resetMs: 500
     })
-  ]), O = (y) => {
-    let p;
-    y.target ? (p = y.target.value, R(!0)) : p = y, I(p);
+  ]), C = (p) => {
+    let b;
+    p.target ? (b = p.target.value, I(!0)) : b = p, E(b);
   };
-  return a.useMemo(
+  return i.useMemo(
     () => ({
       name: r,
       labelledBy: n,
       isOpen: v,
-      setIsOpen: R,
-      inputValue: m,
+      setIsOpen: I,
+      inputValue: y,
       onSelect: o,
-      setInputValue: I,
-      onInputValueChange: O,
-      activeIndex: d,
-      setActiveIndex: x,
-      optionsRef: b,
-      labelsRef: E,
-      listRef: w,
-      ...C,
-      ...$
+      setInputValue: E,
+      onInputValueChange: C,
+      activeIndex: x,
+      setActiveIndex: m,
+      optionsRef: M,
+      labelsRef: S,
+      listRef: $,
+      ...R,
+      ...w
     }),
-    [v, R, m, I, $, C]
+    [v, I, y, E, w, R]
   );
 }
 function we({ placeholder: r, className: n, children: s, ...t }) {
-  const e = L();
+  const e = P();
   return typeof s == "function" ? s({
     readOnly: !0,
     id: `${e.name}-trigger`,
@@ -121,20 +120,23 @@ function we({ placeholder: r, className: n, children: s, ...t }) {
           case "Enter":
             if (e.activeIndex != null && e.labelsRef.current[e.activeIndex]) {
               const c = e.labelsRef.current[e.activeIndex];
-              e.onInputValueChange(c), e.setActiveIndex(null), e.setIsOpen(!1), e.onSelect(e.optionsRef.current.get(c));
+              e.onInputValueChange(c), e.setActiveIndex(null), e.setIsOpen(!1), e.onSelect(
+                e.optionsRef.current.get(c),
+                e.onInputValueChange
+              );
             }
             break;
           case "Space":
             e.setIsOpen(!1);
             break;
           case "Escape":
-            e.isOpen || (e.onInputValueChange(""), e.setActiveIndex(null), e.refs.domReference.current?.blur(), e.onSelect(""));
+            e.isOpen || (e.onInputValueChange(""), e.setActiveIndex(null), e.refs.domReference.current?.blur(), e.onSelect("", e.onInputValueChange));
             break;
         }
       }
     }),
     ...t
-  }) : /* @__PURE__ */ a.createElement(
+  }) : /* @__PURE__ */ i.createElement(
     "input",
     {
       readOnly: !0,
@@ -158,14 +160,17 @@ function we({ placeholder: r, className: n, children: s, ...t }) {
             case "Enter":
               if (e.activeIndex != null && e.labelsRef.current[e.activeIndex]) {
                 const c = e.labelsRef.current[e.activeIndex];
-                e.onInputValueChange(c), e.setActiveIndex(null), e.setIsOpen(!1), e.onSelect(e.optionsRef.current.get(c));
+                e.onInputValueChange(c), e.setActiveIndex(null), e.setIsOpen(!1), e.onSelect(
+                  e.optionsRef.current.get(c),
+                  e.onInputValueChange
+                );
               }
               break;
             case "Space":
               e.setIsOpen(!1);
               break;
             case "Escape":
-              e.isOpen || (e.onInputValueChange(""), e.setActiveIndex(null), e.refs.domReference.current?.blur(), e.onSelect(""));
+              e.isOpen || (e.onInputValueChange(""), e.setActiveIndex(null), e.refs.domReference.current?.blur(), e.onSelect("", e.onInputValueChange));
               break;
           }
         },
@@ -175,8 +180,8 @@ function we({ placeholder: r, className: n, children: s, ...t }) {
   );
 }
 function $e({ renderOnEmpty: r, renderOption: n, className: s, ...t }) {
-  const e = L();
-  return /* @__PURE__ */ a.createElement(a.Fragment, null, e.isOpen && /* @__PURE__ */ a.createElement(
+  const e = P();
+  return /* @__PURE__ */ i.createElement(i.Fragment, null, e.isOpen && /* @__PURE__ */ i.createElement(
     "ul",
     {
       id: `${e.name}-listbox`,
@@ -199,41 +204,44 @@ function $e({ renderOnEmpty: r, renderOption: n, className: s, ...t }) {
         option: e.optionsRef.current.get(o),
         i: c,
         ctx: e,
-        ref: (i) => e.listRef.current[c] = i,
+        ref: (a) => e.listRef.current[c] = a,
         selected: o === e.inputValue,
         active: e.activeIndex === c,
         role: "option",
         tabIndex: -1,
-        onClick: (i) => {
-          i.preventDefault(), e.onInputValueChange(o), e.setIsOpen(!1), e.onSelect(e.optionsRef.current.get(o));
+        onClick: (a) => {
+          a.preventDefault(), e.onInputValueChange(o), e.setIsOpen(!1), e.onSelect(
+            e.optionsRef.current.get(o),
+            e.onInputValueChange
+          );
         }
       })
     ) : r
   ));
 }
-const Oe = a.forwardRef(
-  ({ active: r, selected: n, label: s, ctx: t, className: e, children: o, ...c }, i) => /* @__PURE__ */ a.createElement(
+const Oe = i.forwardRef(
+  ({ active: r, selected: n, label: s, ctx: t, className: e, children: o, ...c }, a) => /* @__PURE__ */ i.createElement(
     "li",
     {
       className: `combobox option ${e}`,
       "aria-selected": n,
       ...t.getItemProps({
-        ref: i,
+        ref: a,
         ...c
       })
     },
     o || s
   )
-), Ft = {
-  Provider: Me,
+), Tt = {
+  Provider: Ce,
   Trigger: we,
   Listbox: $e,
   Option: Oe
-}, Ce = ({ children: r, ...n }) => {
-  const s = Ae(n);
-  return /* @__PURE__ */ a.createElement(j.Provider, { value: s }, r);
+}, Ae = ({ children: r, ...n }) => {
+  const s = ke(n);
+  return /* @__PURE__ */ i.createElement(j.Provider, { value: s }, r);
 };
-function Ae({
+function ke({
   name: r,
   labelledBy: n = "",
   options: s,
@@ -243,75 +251,75 @@ function Ae({
   onSelect: o = () => {
   },
   initialOpen: c = !1,
-  open: i,
+  open: a,
   onOpenChange: l,
   asTable: u = !1
 } = {}) {
-  const [h, f] = a.useState(c), [d, x] = a.useState(null), [m, I] = a.useState(""), v = i ?? h, R = u ? () => !0 : l ?? f, b = a.useRef(null), E = a.useRef(null), w = a.useRef([]);
-  if (b.current == null) {
-    if (E.current = t(s) || [], E.current.length !== s.length)
+  const [h, f] = i.useState(c), [d, x] = i.useState(null), [m, y] = i.useState(""), E = a ?? h, v = u ? () => !0 : l ?? f, I = i.useRef(null), M = i.useRef(null), S = i.useRef([]);
+  if (I.current == null) {
+    if (M.current = t(s) || [], M.current.length !== s.length)
       throw new Error("Error by getLabels()");
-    b.current = /* @__PURE__ */ new Map(), E.current.forEach(
-      (y, p) => b.current.set(y, s[p])
+    I.current = /* @__PURE__ */ new Map(), M.current.forEach(
+      (C, p) => I.current.set(C, s[p])
     );
   }
-  a.useEffect(() => {
-    m || E.current.forEach((y, p) => {
-      y === e && (x(p), I(y));
+  i.useEffect(() => {
+    m || M.current.forEach((C, p) => {
+      C === e && (x(p), y(C));
     });
-  }, [v, s, e]);
-  const C = K({
-    open: v,
-    onOpenChange: R,
-    whileElementsMounted: G,
+  }, [E, s, e]);
+  const $ = W({
+    open: E,
+    onOpenChange: v,
+    whileElementsMounted: Q,
     middleware: [
-      X(),
       J(),
-      Q({
-        apply({ rects: y, elements: p }) {
-          p.floating.style.width = `${y.reference.width}px`;
+      Z(),
+      X({
+        apply({ rects: C, elements: p }) {
+          p.floating.style.width = `${C.reference.width}px`;
         }
       })
     ]
-  }), $ = W([
-    z(C.context, {
-      listRef: w,
+  }), R = z([
+    H($.context, {
+      listRef: S,
       activeIndex: d,
       onNavigate: x,
       virtual: !0,
       loop: !0
     }),
-    H(C.context),
-    U(C.context, { keyboardOnly: !0 }),
-    Y(C.context, { keyboardHandlers: !1 })
-  ]), O = (y) => {
+    U($.context),
+    Y($.context, { keyboardOnly: !0 }),
+    G($.context, { keyboardHandlers: !1 })
+  ]), w = (C) => {
     let p;
-    y.target ? (p = y.target.value, R(!0), x(null)) : p = y, I(p);
+    C.target ? (p = C.target.value, v(!0), x(null)) : p = C, y(p);
   };
-  return a.useMemo(
+  return i.useMemo(
     () => ({
       name: r,
       labelledBy: n,
-      isOpen: v,
-      setIsOpen: R,
+      isOpen: E,
+      setIsOpen: v,
       inputValue: m,
       onSelect: o,
-      setInputValue: I,
-      onInputValueChange: O,
+      setInputValue: y,
+      onInputValueChange: w,
       activeIndex: d,
       setActiveIndex: x,
-      optionsRef: b,
-      labelsRef: E,
-      listRef: w,
-      ...C,
-      ...$
+      optionsRef: I,
+      labelsRef: M,
+      listRef: S,
+      ...$,
+      ...R
     }),
-    [v, R, m, I, $, C]
+    [E, v, m, y, R, $]
   );
 }
-function ke({ placeholder: r, className: n, ...s }) {
-  const t = L();
-  return /* @__PURE__ */ a.createElement(
+function Ve({ placeholder: r, className: n, ...s }) {
+  const t = P();
+  return /* @__PURE__ */ i.createElement(
     "input",
     {
       id: `${t.name}-trigger`,
@@ -350,8 +358,8 @@ function ke({ placeholder: r, className: n, ...s }) {
   );
 }
 function _e({ renderOnEmpty: r, renderOption: n, className: s, ...t }) {
-  const e = L();
-  return /* @__PURE__ */ a.createElement(a.Fragment, null, e.isOpen && /* @__PURE__ */ a.createElement(
+  const e = P();
+  return /* @__PURE__ */ i.createElement(i.Fragment, null, e.isOpen && /* @__PURE__ */ i.createElement(
     "ul",
     {
       id: `${e.name}-listbox`,
@@ -374,81 +382,81 @@ function _e({ renderOnEmpty: r, renderOption: n, className: s, ...t }) {
         option: e.optionsRef.current.get(o),
         i: c,
         ctx: e,
-        ref: (i) => e.listRef.current[c] = i,
+        ref: (a) => e.listRef.current[c] = a,
         selected: o === e.inputValue,
         active: e.activeIndex === c,
         role: "option",
         tabIndex: -1,
-        onClick: (i) => {
-          i.preventDefault(), e.onInputValueChange(o), e.setIsOpen(!1), e.onSelect(e.optionsRef.current.get(o));
+        onClick: (a) => {
+          a.preventDefault(), e.onInputValueChange(o), e.setIsOpen(!1), e.onSelect(e.optionsRef.current.get(o));
         }
       })
     ) : r
   ));
 }
-const Ve = a.forwardRef(
-  ({ active: r, selected: n, label: s, ctx: t, className: e, children: o, ...c }, i) => /* @__PURE__ */ a.createElement(
+const Ne = i.forwardRef(
+  ({ active: r, selected: n, label: s, ctx: t, className: e, children: o, ...c }, a) => /* @__PURE__ */ i.createElement(
     "li",
     {
       className: `combobox option ${e}`,
       "aria-selected": n,
       ...t.getItemProps({
-        ref: i,
+        ref: a,
         ...c
       })
     },
     o || s
   )
-), Tt = {
-  Provider: Ce,
-  Trigger: ke,
+), Dt = {
+  Provider: Ae,
+  Trigger: Ve,
   Listbox: _e,
-  Option: Ve
+  Option: Ne
 };
-function P(r) {
-  return Array.isArray ? Array.isArray(r) : xe(r) === "[object Array]";
+function F(r) {
+  return Array.isArray ? Array.isArray(r) : me(r) === "[object Array]";
 }
-const Ne = 1 / 0;
-function Le(r) {
+const Le = 1 / 0;
+function Pe(r) {
   if (typeof r == "string")
     return r;
   let n = r + "";
-  return n == "0" && 1 / r == -Ne ? "-0" : n;
-}
-function Pe(r) {
-  return r == null ? "" : Le(r);
-}
-function N(r) {
-  return typeof r == "string";
-}
-function de(r) {
-  return typeof r == "number";
+  return n == "0" && 1 / r == -Le ? "-0" : n;
 }
 function Fe(r) {
-  return r === !0 || r === !1 || Te(r) && xe(r) == "[object Boolean]";
+  return r == null ? "" : Pe(r);
+}
+function L(r) {
+  return typeof r == "string";
 }
 function ge(r) {
-  return typeof r == "object";
+  return typeof r == "number";
 }
 function Te(r) {
-  return ge(r) && r !== null;
-}
-function _(r) {
-  return r != null;
-}
-function te(r) {
-  return !r.trim().length;
+  return r === !0 || r === !1 || De(r) && me(r) == "[object Boolean]";
 }
 function xe(r) {
+  return typeof r == "object";
+}
+function De(r) {
+  return xe(r) && r !== null;
+}
+function N(r) {
+  return r != null;
+}
+function ne(r) {
+  return !r.trim().length;
+}
+function me(r) {
   return r == null ? r === void 0 ? "[object Undefined]" : "[object Null]" : Object.prototype.toString.call(r);
 }
-const De = "Incorrect 'index' type", Be = (r) => `Invalid value for key ${r}`, je = (r) => `Pattern length exceeds max of ${r}.`, Ke = (r) => `Missing ${r} property in key`, We = (r) => `Property 'weight' in key '${r}' must be a positive integer`, le = Object.prototype.hasOwnProperty;
-class ze {
+const Be = "Incorrect 'index' type", je = (r) => `Invalid value for key ${r}`, Ke = (r) => `Pattern length exceeds max of ${r}.`, We = (r) => `Missing ${r} property in key`, ze = (r) => `Property 'weight' in key '${r}' must be a positive integer`, ue = Object.prototype.hasOwnProperty;
+class He {
   constructor(n) {
     this._keys = [], this._keyMap = {};
     let s = 0;
     n.forEach((t) => {
-      let e = me(t);
+      let e = be(t);
       s += e.weight, this._keys.push(e), this._keyMap[e.id] = e, s += e.weight;
     }), this._keys.forEach((t) => {
       t.weight /= s;
@@ -464,50 +472,50 @@ class ze {
     return JSON.stringify(this._keys);
   }
 }
-function me(r) {
+function be(r) {
   let n = null, s = null, t = null, e = 1, o = null;
-  if (N(r) || P(r))
-    t = r, n = ue(r), s = ne(r);
+  if (L(r) || F(r))
+    t = r, n = he(r), s = se(r);
   else {
-    if (!le.call(r, "name"))
-      throw new Error(Ke("name"));
+    if (!ue.call(r, "name"))
+      throw new Error(We("name"));
     const c = r.name;
-    if (t = c, le.call(r, "weight") && (e = r.weight, e <= 0))
-      throw new Error(We(c));
-    n = ue(c), s = ne(c), o = r.getFn;
+    if (t = c, ue.call(r, "weight") && (e = r.weight, e <= 0))
+      throw new Error(ze(c));
+    n = he(c), s = se(c), o = r.getFn;
   }
   return { path: n, id: s, weight: e, src: t, getFn: o };
 }
-function ue(r) {
-  return P(r) ? r : r.split(".");
+function he(r) {
+  return F(r) ? r : r.split(".");
 }
-function ne(r) {
-  return P(r) ? r.join(".") : r;
+function se(r) {
+  return F(r) ? r.join(".") : r;
 }
-function He(r, n) {
+function Ue(r, n) {
   let s = [], t = !1;
-  const e = (o, c, i) => {
-    if (_(o))
-      if (!c[i])
+  const e = (o, c, a) => {
+    if (N(o))
+      if (!c[a])
         s.push(o);
       else {
-        let l = c[i];
+        let l = c[a];
         const u = o[l];
-        if (!_(u))
+        if (!N(u))
           return;
-        if (i === c.length - 1 && (N(u) || de(u) || Fe(u)))
-          s.push(Pe(u));
-        else if (P(u)) {
+        if (a === c.length - 1 && (L(u) || ge(u) || Te(u)))
+          s.push(Fe(u));
+        else if (F(u)) {
           t = !0;
           for (let h = 0, f = u.length; h < f; h += 1)
-            e(u[h], c, i + 1);
+            e(u[h], c, a + 1);
         } else
-          c.length && e(u, c, i + 1);
+          c.length && e(u, c, a + 1);
       }
   };
-  return e(r, N(n) ? n.split(".") : n, 0), t ? s : s[0];
+  return e(r, L(n) ? n.split(".") : n, 0), t ? s : s[0];
 }
-const Ue = {
+const Ye = {
   // Whether the matches should be included in the result set. When `true`, each record in the result
   // set will include the indices of the matched characters.
   // These can consequently be used for highlighting purposes.
@@ -517,7 +525,7 @@ const Ue = {
   findAllMatches: !1,
   // Minimum number of characters that must be matched before a result is considered a match
   minMatchCharLength: 1
-}, Ye = {
+}, Ge = {
   // When `true`, the algorithm continues searching to the end of the input even if a perfect
   // match is found before the end of the same input.
   isCaseSensitive: !1,
@@ -529,7 +537,7 @@ const Ue = {
   shouldSort: !0,
   // Default sort function: sort by ascending score, ascending index
   sortFn: (r, n) => r.score === n.score ? r.idx < n.idx ? -1 : 1 : r.score < n.score ? -1 : 1
-}, Ge = {
+}, Qe = {
   // Approximately where in the text is the pattern expected to be found?
   location: 0,
   // At what point does the match algorithm give up. A threshold of '0.0' requires a perfect match
@@ -541,12 +549,12 @@ const Ue = {
   // the exact location specified, a threshold of '1000' would require a perfect match
   // to be within 800 characters of the fuzzy location to be found using a 0.8 threshold.
   distance: 100
-}, Qe = {
+}, Xe = {
   // When `true`, it enables the use of unix-like search commands
   useExtendedSearch: !1,
   // The get function to use when fetching an object's properties.
   // The default will search nested paths *ie foo.bar.baz*
-  getFn: He,
+  getFn: Ue,
   // When `true`, search will ignore `location` and `distance`, so it won't matter
   // where in the string the pattern appears.
   // More info: https://fusejs.io/concepts/scoring-theory.html#fuzziness-score
@@ -559,33 +567,33 @@ const Ue = {
   fieldNormWeight: 1
 };
 var g = {
-  ...Ye,
-  ...Ue,
   ...Ge,
-  ...Qe
+  ...Ye,
+  ...Qe,
+  ...Xe
 };
-const Xe = /[^ ]+/g;
-function Je(r = 1, n = 3) {
+const Je = /[^ ]+/g;
+function Ze(r = 1, n = 3) {
   const s = /* @__PURE__ */ new Map(), t = Math.pow(10, n);
   return {
     get(e) {
-      const o = e.match(Xe).length;
+      const o = e.match(Je).length;
       if (s.has(o))
         return s.get(o);
-      const c = 1 / Math.pow(o, 0.5 * r), i = parseFloat(Math.round(c * t) / t);
-      return s.set(o, i), i;
+      const c = 1 / Math.pow(o, 0.5 * r), a = parseFloat(Math.round(c * t) / t);
+      return s.set(o, a), a;
     },
     clear() {
       s.clear();
     }
   };
 }
-class ae {
+class le {
   constructor({
     getFn: n = g.getFn,
     fieldNormWeight: s = g.fieldNormWeight
   } = {}) {
-    this.norm = Je(s, 3), this.getFn = n, this.isCreated = !1, this.setIndexRecords();
+    this.norm = Ze(s, 3), this.getFn = n, this.isCreated = !1, this.setIndexRecords();
   }
   setSources(n = []) {
     this.docs = n;
@@ -599,7 +607,7 @@ class ae {
     });
   }
   create() {
-    this.isCreated || !this.docs.length || (this.isCreated = !0, N(this.docs[0]) ? this.docs.forEach((n, s) => {
+    this.isCreated || !this.docs.length || (this.isCreated = !0, L(this.docs[0]) ? this.docs.forEach((n, s) => {
       this._addString(n, s);
     }) : this.docs.forEach((n, s) => {
       this._addObject(n, s);
@@ -608,7 +616,7 @@ class ae {
   // Adds a doc to the end of the index
   add(n) {
     const s = this.size();
-    N(n) ? this._addString(n, s) : this._addObject(n, s);
+    L(n) ? this._addString(n, s) : this._addObject(n, s);
   }
   // Removes the doc at the specified index of the index
   removeAt(n) {
@@ -623,7 +631,7 @@ class ae {
     return this.records.length;
   }
   _addString(n, s) {
-    if (!_(n) || te(n))
+    if (!N(n) || ne(n))
       return;
     let t = {
       v: n,
@@ -636,35 +644,35 @@ class ae {
     let t = { i: s, $: {} };
     this.keys.forEach((e, o) => {
       let c = e.getFn ? e.getFn(n) : this.getFn(n, e.path);
-      if (_(c)) {
-        if (P(c)) {
-          let i = [];
+      if (N(c)) {
+        if (F(c)) {
+          let a = [];
           const l = [{ nestedArrIndex: -1, value: c }];
           for (; l.length; ) {
             const { nestedArrIndex: u, value: h } = l.pop();
-            if (_(h))
-              if (N(h) && !te(h)) {
+            if (N(h))
+              if (L(h) && !ne(h)) {
                 let f = {
                   v: h,
                   i: u,
                   n: this.norm.get(h)
                 };
-                i.push(f);
+                a.push(f);
               } else
-                P(h) && h.forEach((f, d) => {
+                F(h) && h.forEach((f, d) => {
                   l.push({
                     nestedArrIndex: d,
                     value: f
                   });
                 });
           }
-          t.$[o] = i;
-        } else if (N(c) && !te(c)) {
-          let i = {
+          t.$[o] = a;
+        } else if (L(c) && !ne(c)) {
+          let a = {
             v: c,
             n: this.norm.get(c)
           };
-          t.$[o] = i;
+          t.$[o] = a;
         }
       }
     }), this.records.push(t);
@@ -676,12 +684,12 @@ class ae {
     };
   }
 }
-function be(r, n, { getFn: s = g.getFn, fieldNormWeight: t = g.fieldNormWeight } = {}) {
-  const e = new ae({ getFn: s, fieldNormWeight: t });
-  return e.setKeys(r.map(me)), e.setSources(n), e.create(), e;
+function Ie(r, n, { getFn: s = g.getFn, fieldNormWeight: t = g.fieldNormWeight } = {}) {
+  const e = new le({ getFn: s, fieldNormWeight: t });
+  return e.setKeys(r.map(be)), e.setSources(n), e.create(), e;
 }
-function Ze(r, { getFn: n = g.getFn, fieldNormWeight: s = g.fieldNormWeight } = {}) {
-  const { keys: t, records: e } = r, o = new ae({ getFn: n, fieldNormWeight: s });
+function qe(r, { getFn: n = g.getFn, fieldNormWeight: s = g.fieldNormWeight } = {}) {
+  const { keys: t, records: e } = r, o = new le({ getFn: n, fieldNormWeight: s });
   return o.setKeys(t), o.setIndexRecords(e), o;
 }
 function q(r, {
@@ -694,98 +702,98 @@ function q(r, {
   const c = n / r.length;
   if (o)
     return c;
-  const i = Math.abs(t - s);
-  return e ? c + i / e : i ? 1 : c;
+  const a = Math.abs(t - s);
+  return e ? c + a / e : a ? 1 : c;
 }
-function qe(r = [], n = g.minMatchCharLength) {
+function et(r = [], n = g.minMatchCharLength) {
   let s = [], t = -1, e = -1, o = 0;
   for (let c = r.length; o < c; o += 1) {
-    let i = r[o];
-    i && t === -1 ? t = o : !i && t !== -1 && (e = o - 1, e - t + 1 >= n && s.push([t, e]), t = -1);
+    let a = r[o];
+    a && t === -1 ? t = o : !a && t !== -1 && (e = o - 1, e - t + 1 >= n && s.push([t, e]), t = -1);
   }
   return r[o - 1] && o - t >= n && s.push([t, o - 1]), s;
 }
 const B = 32;
-function et(r, n, s, {
+function tt(r, n, s, {
   location: t = g.location,
   distance: e = g.distance,
   threshold: o = g.threshold,
   findAllMatches: c = g.findAllMatches,
-  minMatchCharLength: i = g.minMatchCharLength,
+  minMatchCharLength: a = g.minMatchCharLength,
   includeMatches: l = g.includeMatches,
   ignoreLocation: u = g.ignoreLocation
 } = {}) {
   if (n.length > B)
-    throw new Error(je(B));
+    throw new Error(Ke(B));
   const h = n.length, f = r.length, d = Math.max(0, Math.min(t, f));
   let x = o, m = d;
-  const I = i > 1 || l, v = I ? Array(f) : [];
-  let R;
-  for (; (R = r.indexOf(n, m)) > -1; ) {
-    let O = q(n, {
-      currentLocation: R,
+  const y = a > 1 || l, E = y ? Array(f) : [];
+  let v;
+  for (; (v = r.indexOf(n, m)) > -1; ) {
+    let w = q(n, {
+      currentLocation: v,
       expectedLocation: d,
       distance: e,
       ignoreLocation: u
     });
-    if (x = Math.min(O, x), m = R + h, I) {
-      let y = 0;
-      for (; y < h; )
-        v[R + y] = 1, y += 1;
+    if (x = Math.min(w, x), m = v + h, y) {
+      let C = 0;
+      for (; C < h; )
+        E[v + C] = 1, C += 1;
     }
   }
   m = -1;
-  let b = [], E = 1, w = h + f;
-  const C = 1 << h - 1;
-  for (let O = 0; O < h; O += 1) {
-    let y = 0, p = w;
-    for (; y < p; )
+  let I = [], M = 1, S = h + f;
+  const $ = 1 << h - 1;
+  for (let w = 0; w < h; w += 1) {
+    let C = 0, p = S;
+    for (; C < p; )
       q(n, {
-        errors: O,
+        errors: w,
         currentLocation: d + p,
         expectedLocation: d,
         distance: e,
         ignoreLocation: u
-      }) <= x ? y = p : w = p, p = Math.floor((w - y) / 2 + y);
-    w = p;
-    let M = Math.max(1, d - p + 1), A = c ? f : Math.min(d + p, f) + h, V = Array(A + 2);
-    V[A + 1] = (1 << O) - 1;
-    for (let S = A; S >= M; S -= 1) {
-      let k = S - 1, T = s[r.charAt(k)];
-      if (I && (v[k] = +!!T), V[S] = (V[S + 1] << 1 | 1) & T, O && (V[S] |= (b[S + 1] | b[S]) << 1 | 1 | b[S + 1]), V[S] & C && (E = q(n, {
-        errors: O,
-        currentLocation: k,
+      }) <= x ? C = p : S = p, p = Math.floor((S - C) / 2 + C);
+    S = p;
+    let b = Math.max(1, d - p + 1), O = c ? f : Math.min(d + p, f) + h, _ = Array(O + 2);
+    _[O + 1] = (1 << w) - 1;
+    for (let V = O; V >= b; V -= 1) {
+      let A = V - 1, k = s[r.charAt(A)];
+      if (y && (E[A] = +!!k), _[V] = (_[V + 1] << 1 | 1) & k, w && (_[V] |= (I[V + 1] | I[V]) << 1 | 1 | I[V + 1]), _[V] & $ && (M = q(n, {
+        errors: w,
+        currentLocation: A,
         expectedLocation: d,
         distance: e,
         ignoreLocation: u
-      }), E <= x)) {
-        if (x = E, m = k, m <= d)
+      }), M <= x)) {
+        if (x = M, m = A, m <= d)
           break;
-        M = Math.max(1, 2 * d - m);
+        b = Math.max(1, 2 * d - m);
       }
     }
     if (q(n, {
-      errors: O + 1,
+      errors: w + 1,
       currentLocation: d,
       expectedLocation: d,
       distance: e,
       ignoreLocation: u
     }) > x)
       break;
-    b = V;
+    I = _;
   }
-  const $ = {
+  const R = {
     isMatch: m >= 0,
     // Count exact matches (those with a score of 0) to be "almost" exact
-    score: Math.max(1e-3, E)
+    score: Math.max(1e-3, M)
   };
-  if (I) {
-    const O = qe(v, i);
-    O.length ? l && ($.indices = O) : $.isMatch = !1;
+  if (y) {
+    const w = et(E, a);
+    w.length ? l && (R.indices = w) : R.isMatch = !1;
   }
-  return $;
+  return R;
 }
-function tt(r) {
+function nt(r) {
   let n = {};
   for (let s = 0, t = r.length; s < t; s += 1) {
     const e = r.charAt(s);
@@ -793,14 +801,14 @@ function tt(r) {
   }
   return n;
 }
-class Ie {
+class ye {
   constructor(n, {
     location: s = g.location,
     threshold: t = g.threshold,
     distance: e = g.distance,
     includeMatches: o = g.includeMatches,
     findAllMatches: c = g.findAllMatches,
-    minMatchCharLength: i = g.minMatchCharLength,
+    minMatchCharLength: a = g.minMatchCharLength,
     isCaseSensitive: l = g.isCaseSensitive,
     ignoreLocation: u = g.ignoreLocation
   } = {}) {
@@ -810,7 +818,7 @@ class Ie {
       distance: e,
       includeMatches: o,
       findAllMatches: c,
-      minMatchCharLength: i,
+      minMatchCharLength: a,
       isCaseSensitive: l,
       ignoreLocation: u
     }, this.pattern = l ? n : n.toLowerCase(), this.chunks = [], !this.pattern.length)
@@ -818,7 +826,7 @@ class Ie {
     const h = (d, x) => {
       this.chunks.push({
         pattern: d,
-        alphabet: tt(d),
+        alphabet: nt(d),
         startIndex: x
       });
     }, f = this.pattern.length;
@@ -828,8 +836,8 @@ class Ie {
       for (; d < m; )
         h(this.pattern.substr(d, B), d), d += B;
       if (x) {
-        const I = f - B;
-        h(this.pattern.substr(I), I);
+        const y = f - B;
+        h(this.pattern.substr(y), y);
       }
     } else
       h(this.pattern, 0);
@@ -847,22 +855,22 @@ class Ie {
       location: e,
       distance: o,
       threshold: c,
-      findAllMatches: i,
+      findAllMatches: a,
       minMatchCharLength: l,
       ignoreLocation: u
     } = this.options;
     let h = [], f = 0, d = !1;
-    this.chunks.forEach(({ pattern: m, alphabet: I, startIndex: v }) => {
-      const { isMatch: R, score: b, indices: E } = et(n, m, I, {
-        location: e + v,
+    this.chunks.forEach(({ pattern: m, alphabet: y, startIndex: E }) => {
+      const { isMatch: v, score: I, indices: M } = tt(n, m, y, {
+        location: e + E,
         distance: o,
         threshold: c,
-        findAllMatches: i,
+        findAllMatches: a,
         minMatchCharLength: l,
         includeMatches: t,
         ignoreLocation: u
       });
-      R && (d = !0), f += b, R && E && (h = [...h, ...E]);
+      v && (d = !0), f += I, v && M && (h = [...h, ...M]);
     });
     let x = {
       isMatch: d,
@@ -876,19 +884,19 @@ class D {
     this.pattern = n;
   }
   static isMultiMatch(n) {
-    return he(n, this.multiRegex);
+    return fe(n, this.multiRegex);
   }
   static isSingleMatch(n) {
-    return he(n, this.singleRegex);
+    return fe(n, this.singleRegex);
   }
   search() {
   }
 }
-function he(r, n) {
+function fe(r, n) {
   const s = r.match(n);
   return s ? s[1] : null;
 }
-class nt extends D {
+class st extends D {
   constructor(n) {
     super(n);
   }
@@ -910,7 +918,7 @@ class nt extends D {
     };
   }
 }
-class st extends D {
+class rt extends D {
   constructor(n) {
     super(n);
   }
@@ -932,7 +940,7 @@ class st extends D {
     };
   }
 }
-class rt extends D {
+class ot extends D {
   constructor(n) {
     super(n);
   }
@@ -954,7 +962,7 @@ class rt extends D {
     };
   }
 }
-class ot extends D {
+class ct extends D {
   constructor(n) {
     super(n);
   }
@@ -976,7 +984,7 @@ class ot extends D {
     };
   }
 }
-class ct extends D {
+class at extends D {
   constructor(n) {
     super(n);
   }
@@ -1020,24 +1028,24 @@ class it extends D {
     };
   }
 }
-class ye extends D {
+class ve extends D {
   constructor(n, {
     location: s = g.location,
     threshold: t = g.threshold,
     distance: e = g.distance,
     includeMatches: o = g.includeMatches,
     findAllMatches: c = g.findAllMatches,
-    minMatchCharLength: i = g.minMatchCharLength,
+    minMatchCharLength: a = g.minMatchCharLength,
     isCaseSensitive: l = g.isCaseSensitive,
     ignoreLocation: u = g.ignoreLocation
   } = {}) {
-    super(n), this._bitapSearch = new Ie(n, {
+    super(n), this._bitapSearch = new ye(n, {
       location: s,
       threshold: t,
       distance: e,
       includeMatches: o,
       findAllMatches: c,
-      minMatchCharLength: i,
+      minMatchCharLength: a,
       isCaseSensitive: l,
       ignoreLocation: u
     });
@@ -1055,7 +1063,7 @@ class ye extends D {
     return this._bitapSearch.searchIn(n);
   }
 }
-class ve extends D {
+class Re extends D {
   constructor(n) {
     super(n);
   }
@@ -1081,31 +1089,31 @@ class ve extends D {
     };
   }
 }
-const se = [
-  nt,
-  ve,
-  rt,
-  ot,
-  it,
-  ct,
+const re = [
   st,
-  ye
-], fe = se.length, at = / +(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)/, lt = "|";
-function ut(r, n = {}) {
-  return r.split(lt).map((s) => {
-    let t = s.trim().split(at).filter((o) => o && !!o.trim()), e = [];
+  Re,
+  ot,
+  ct,
+  it,
+  at,
+  rt,
+  ve
+], pe = re.length, lt = / +(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)/, ut = "|";
+function ht(r, n = {}) {
+  return r.split(ut).map((s) => {
+    let t = s.trim().split(lt).filter((o) => o && !!o.trim()), e = [];
     for (let o = 0, c = t.length; o < c; o += 1) {
-      const i = t[o];
+      const a = t[o];
       let l = !1, u = -1;
-      for (; !l && ++u < fe; ) {
-        const h = se[u];
-        let f = h.isMultiMatch(i);
+      for (; !l && ++u < pe; ) {
+        const h = re[u];
+        let f = h.isMultiMatch(a);
         f && (e.push(new h(f, n)), l = !0);
       }
       if (!l)
-        for (u = -1; ++u < fe; ) {
-          const h = se[u];
-          let f = h.isSingleMatch(i);
+        for (u = -1; ++u < pe; ) {
+          const h = re[u];
+          let f = h.isSingleMatch(a);
           if (f) {
             e.push(new h(f, n));
             break;
@@ -1115,15 +1123,15 @@ function ut(r, n = {}) {
     return e;
   });
 }
-const ht = /* @__PURE__ */ new Set([ye.type, ve.type]);
-class ft {
+const ft = /* @__PURE__ */ new Set([ve.type, Re.type]);
+class pt {
   constructor(n, {
     isCaseSensitive: s = g.isCaseSensitive,
     includeMatches: t = g.includeMatches,
     minMatchCharLength: e = g.minMatchCharLength,
     ignoreLocation: o = g.ignoreLocation,
     findAllMatches: c = g.findAllMatches,
-    location: i = g.location,
+    location: a = g.location,
     threshold: l = g.threshold,
     distance: u = g.distance
   } = {}) {
@@ -1133,10 +1141,10 @@ class ft {
       minMatchCharLength: e,
       findAllMatches: c,
       ignoreLocation: o,
-      location: i,
+      location: a,
       threshold: l,
       distance: u
-    }, this.pattern = s ? n : n.toLowerCase(), this.query = ut(this.pattern, this.options);
+    }, this.pattern = s ? n : n.toLowerCase(), this.query = ht(this.pattern, this.options);
   }
   static condition(n, s) {
     return s.useExtendedSearch;
@@ -1150,26 +1158,26 @@ class ft {
       };
     const { includeMatches: t, isCaseSensitive: e } = this.options;
     n = e ? n : n.toLowerCase();
-    let o = 0, c = [], i = 0;
+    let o = 0, c = [], a = 0;
     for (let l = 0, u = s.length; l < u; l += 1) {
       const h = s[l];
       c.length = 0, o = 0;
       for (let f = 0, d = h.length; f < d; f += 1) {
-        const x = h[f], { isMatch: m, indices: I, score: v } = x.search(n);
+        const x = h[f], { isMatch: m, indices: y, score: E } = x.search(n);
         if (m) {
-          if (o += 1, i += v, t) {
-            const R = x.constructor.type;
-            ht.has(R) ? c = [...c, ...I] : c.push(I);
+          if (o += 1, a += E, t) {
+            const v = x.constructor.type;
+            ft.has(v) ? c = [...c, ...y] : c.push(y);
           }
         } else {
-          i = 0, o = 0, c.length = 0;
+          a = 0, o = 0, c.length = 0;
           break;
         }
       }
       if (o) {
         let f = {
           isMatch: !0,
-          score: i / o
+          score: a / o
         };
         return t && (f.indices = c), f;
       }
@@ -1180,74 +1188,74 @@ class ft {
     };
   }
 }
-const re = [];
-function pt(...r) {
-  re.push(...r);
+const oe = [];
+function dt(...r) {
+  oe.push(...r);
 }
-function oe(r, n) {
-  for (let s = 0, t = re.length; s < t; s += 1) {
-    let e = re[s];
+function ce(r, n) {
+  for (let s = 0, t = oe.length; s < t; s += 1) {
+    let e = oe[s];
     if (e.condition(r, n))
       return new e(r, n);
   }
-  return new Ie(r, n);
+  return new ye(r, n);
 }
 const ee = {
   AND: "$and",
   OR: "$or"
-}, ce = {
+}, ae = {
   PATH: "$path",
   PATTERN: "$val"
-}, ie = (r) => !!(r[ee.AND] || r[ee.OR]), dt = (r) => !!r[ce.PATH], gt = (r) => !P(r) && ge(r) && !ie(r), pe = (r) => ({
+}, ie = (r) => !!(r[ee.AND] || r[ee.OR]), gt = (r) => !!r[ae.PATH], xt = (r) => !F(r) && xe(r) && !ie(r), de = (r) => ({
   [ee.AND]: Object.keys(r).map((n) => ({
     [n]: r[n]
   }))
 });
-function Re(r, n, { auto: s = !0 } = {}) {
+function Ee(r, n, { auto: s = !0 } = {}) {
   const t = (e) => {
     let o = Object.keys(e);
-    const c = dt(e);
+    const c = gt(e);
     if (!c && o.length > 1 && !ie(e))
-      return t(pe(e));
-    if (gt(e)) {
-      const l = c ? e[ce.PATH] : o[0], u = c ? e[ce.PATTERN] : e[l];
-      if (!N(u))
-        throw new Error(Be(l));
+      return t(de(e));
+    if (xt(e)) {
+      const l = c ? e[ae.PATH] : o[0], u = c ? e[ae.PATTERN] : e[l];
+      if (!L(u))
+        throw new Error(je(l));
       const h = {
-        keyId: ne(l),
+        keyId: se(l),
         pattern: u
       };
-      return s && (h.searcher = oe(u, n)), h;
+      return s && (h.searcher = ce(u, n)), h;
     }
-    let i = {
+    let a = {
       children: [],
       operator: o[0]
     };
     return o.forEach((l) => {
       const u = e[l];
-      P(u) && u.forEach((h) => {
-        i.children.push(t(h));
+      F(u) && u.forEach((h) => {
+        a.children.push(t(h));
       });
-    }), i;
+    }), a;
   };
-  return ie(r) || (r = pe(r)), t(r);
+  return ie(r) || (r = de(r)), t(r);
 }
-function xt(r, { ignoreFieldNorm: n = g.ignoreFieldNorm }) {
+function mt(r, { ignoreFieldNorm: n = g.ignoreFieldNorm }) {
   r.forEach((s) => {
     let t = 1;
     s.matches.forEach(({ key: e, norm: o, score: c }) => {
-      const i = e ? e.weight : null;
+      const a = e ? e.weight : null;
       t *= Math.pow(
-        c === 0 && i ? Number.EPSILON : c,
-        (i || 1) * (n ? 1 : o)
+        c === 0 && a ? Number.EPSILON : c,
+        (a || 1) * (n ? 1 : o)
       );
     }), s.score = t;
   });
 }
-function mt(r, n) {
+function bt(r, n) {
   const s = r.matches;
-  n.matches = [], _(s) && s.forEach((t) => {
-    if (!_(t.indices) || !t.indices.length)
+  n.matches = [], N(s) && s.forEach((t) => {
+    if (!N(t.indices) || !t.indices.length)
       return;
     const { indices: e, value: o } = t;
     let c = {
@@ -1257,38 +1265,38 @@ function mt(r, n) {
     t.key && (c.key = t.key.src), t.idx > -1 && (c.refIndex = t.idx), n.matches.push(c);
   });
 }
-function bt(r, n) {
+function It(r, n) {
   n.score = r.score;
 }
-function It(r, n, {
+function yt(r, n, {
   includeMatches: s = g.includeMatches,
   includeScore: t = g.includeScore
 } = {}) {
   const e = [];
-  return s && e.push(mt), t && e.push(bt), r.map((o) => {
-    const { idx: c } = o, i = {
+  return s && e.push(bt), t && e.push(It), r.map((o) => {
+    const { idx: c } = o, a = {
       item: n[c],
       refIndex: c
     };
     return e.length && e.forEach((l) => {
-      l(o, i);
-    }), i;
+      l(o, a);
+    }), a;
   });
 }
-class F {
+class T {
   constructor(n, s = {}, t) {
-    this.options = { ...g, ...s }, this.options.useExtendedSearch, this._keyStore = new ze(this.options.keys), this.setCollection(n, t);
+    this.options = { ...g, ...s }, this.options.useExtendedSearch, this._keyStore = new He(this.options.keys), this.setCollection(n, t);
   }
   setCollection(n, s) {
-    if (this._docs = n, s && !(s instanceof ae))
-      throw new Error(De);
-    this._myIndex = s || be(this.options.keys, this._docs, {
+    if (this._docs = n, s && !(s instanceof le))
+      throw new Error(Be);
+    this._myIndex = s || Ie(this.options.keys, this._docs, {
       getFn: this.options.getFn,
       fieldNormWeight: this.options.fieldNormWeight
     });
   }
   add(n) {
-    _(n) && (this._docs.push(n), this._myIndex.add(n));
+    N(n) && (this._docs.push(n), this._myIndex.add(n));
   }
   remove(n = () => !1) {
     const s = [];
@@ -1310,31 +1318,31 @@ class F {
       includeScore: e,
       shouldSort: o,
       sortFn: c,
-      ignoreFieldNorm: i
+      ignoreFieldNorm: a
     } = this.options;
-    let l = N(n) ? N(this._docs[0]) ? this._searchStringList(n) : this._searchObjectList(n) : this._searchLogical(n);
-    return xt(l, { ignoreFieldNorm: i }), o && l.sort(c), de(s) && s > -1 && (l = l.slice(0, s)), It(l, this._docs, {
+    let l = L(n) ? L(this._docs[0]) ? this._searchStringList(n) : this._searchObjectList(n) : this._searchLogical(n);
+    return mt(l, { ignoreFieldNorm: a }), o && l.sort(c), ge(s) && s > -1 && (l = l.slice(0, s)), yt(l, this._docs, {
       includeMatches: t,
       includeScore: e
     });
   }
   _searchStringList(n) {
-    const s = oe(n, this.options), { records: t } = this._myIndex, e = [];
-    return t.forEach(({ v: o, i: c, n: i }) => {
-      if (!_(o))
+    const s = ce(n, this.options), { records: t } = this._myIndex, e = [];
+    return t.forEach(({ v: o, i: c, n: a }) => {
+      if (!N(o))
         return;
       const { isMatch: l, score: u, indices: h } = s.searchIn(o);
       l && e.push({
         item: o,
         idx: c,
-        matches: [{ score: u, value: o, norm: i, indices: h }]
+        matches: [{ score: u, value: o, norm: a, indices: h }]
       });
     }), e;
   }
   _searchLogical(n) {
-    const s = Re(n, this.options), t = (i, l, u) => {
-      if (!i.children) {
-        const { keyId: f, searcher: d } = i, x = this._findMatches({
+    const s = Ee(n, this.options), t = (a, l, u) => {
+      if (!a.children) {
+        const { keyId: f, searcher: d } = a, x = this._findMatches({
           key: this._keyStore.get(f),
           value: this._myIndex.getValueForItemAtKeyId(l, f),
           searcher: d
@@ -1348,28 +1356,28 @@ class F {
         ] : [];
       }
       const h = [];
-      for (let f = 0, d = i.children.length; f < d; f += 1) {
-        const x = i.children[f], m = t(x, l, u);
+      for (let f = 0, d = a.children.length; f < d; f += 1) {
+        const x = a.children[f], m = t(x, l, u);
         if (m.length)
           h.push(...m);
-        else if (i.operator === ee.AND)
+        else if (a.operator === ee.AND)
           return [];
       }
       return h;
     }, e = this._myIndex.records, o = {}, c = [];
-    return e.forEach(({ $: i, i: l }) => {
-      if (_(i)) {
-        let u = t(s, i, l);
-        u.length && (o[l] || (o[l] = { idx: l, item: i, matches: [] }, c.push(o[l])), u.forEach(({ matches: h }) => {
+    return e.forEach(({ $: a, i: l }) => {
+      if (N(a)) {
+        let u = t(s, a, l);
+        u.length && (o[l] || (o[l] = { idx: l, item: a, matches: [] }, c.push(o[l])), u.forEach(({ matches: h }) => {
           o[l].matches.push(...h);
         }));
       }
     }), c;
   }
   _searchObjectList(n) {
-    const s = oe(n, this.options), { keys: t, records: e } = this._myIndex, o = [];
-    return e.forEach(({ $: c, i }) => {
-      if (!_(c))
+    const s = ce(n, this.options), { keys: t, records: e } = this._myIndex, o = [];
+    return e.forEach(({ $: c, i: a }) => {
+      if (!N(c))
         return;
       let l = [];
       t.forEach((u, h) => {
@@ -1381,19 +1389,19 @@ class F {
           })
         );
       }), l.length && o.push({
-        idx: i,
+        idx: a,
         item: c,
         matches: l
       });
     }), o;
   }
   _findMatches({ key: n, value: s, searcher: t }) {
-    if (!_(s))
+    if (!N(s))
       return [];
     let e = [];
-    if (P(s))
-      s.forEach(({ v: o, i: c, n: i }) => {
-        if (!_(o))
+    if (F(s))
+      s.forEach(({ v: o, i: c, n: a }) => {
+        if (!N(o))
           return;
         const { isMatch: l, score: u, indices: h } = t.searchIn(o);
         l && e.push({
@@ -1401,28 +1409,28 @@ class F {
           key: n,
           value: o,
           idx: c,
-          norm: i,
+          norm: a,
           indices: h
         });
       });
     else {
-      const { v: o, n: c } = s, { isMatch: i, score: l, indices: u } = t.searchIn(o);
-      i && e.push({ score: l, key: n, value: o, norm: c, indices: u });
+      const { v: o, n: c } = s, { isMatch: a, score: l, indices: u } = t.searchIn(o);
+      a && e.push({ score: l, key: n, value: o, norm: c, indices: u });
     }
     return e;
   }
 }
-F.version = "6.6.2";
-F.createIndex = be;
-F.parseIndex = Ze;
-F.config = g;
-F.parseQuery = Re;
-pt(ft);
-const yt = ({ children: r, ...n }) => {
-  const s = vt(n);
-  return /* @__PURE__ */ a.createElement(j.Provider, { value: s }, r);
+T.version = "6.6.2";
+T.createIndex = Ie;
+T.parseIndex = qe;
+T.config = g;
+T.parseQuery = Ee;
+dt(pt);
+const vt = ({ children: r, ...n }) => {
+  const s = Rt(n);
+  return /* @__PURE__ */ i.createElement(j.Provider, { value: s }, r);
 };
-function vt({
+function Rt({
   name: r,
   labelledBy: n = "",
   options: s,
@@ -1431,79 +1439,79 @@ function vt({
   },
   initialOpen: o = !1,
   open: c,
-  onOpenChange: i
+  onOpenChange: a
 } = {}) {
-  const [l, u] = a.useState(o), [h, f] = a.useState(null), [d, x] = a.useState(""), m = c ?? l, I = i ?? u, [v, R] = a.useState(() => /* @__PURE__ */ new Map()), b = a.useRef([]), E = a.useRef([]), w = a.useMemo(
-    () => new F(Array.from(v.keys()), {
+  const [l, u] = i.useState(o), [h, f] = i.useState(null), [d, x] = i.useState(""), m = c ?? l, y = a ?? u, [E, v] = i.useState(() => /* @__PURE__ */ new Map()), I = i.useRef([]), M = i.useRef([]), S = i.useMemo(
+    () => new T(Array.from(E.keys()), {
       thershold: 0.1
     }),
-    [v]
-  ), C = (p) => w.search(p).map((M) => M.item), $ = K({
+    [E]
+  ), $ = (p) => S.search(p).map((b) => b.item), R = W({
     open: m,
-    onOpenChange: I,
-    whileElementsMounted: G,
+    onOpenChange: y,
+    whileElementsMounted: Q,
     middleware: [
-      Q({
-        apply({ rects: p, elements: M }) {
-          M.floating.style.minWidth = `${p.reference.width}px`;
+      X({
+        apply({ rects: p, elements: b }) {
+          b.floating.style.minWidth = `${p.reference.width}px`;
         }
       }),
-      X(),
-      J()
+      J(),
+      Z()
     ]
-  }), O = W([
-    z($.context, {
-      listRef: E,
+  }), w = z([
+    H(R.context, {
+      listRef: M,
       activeIndex: h,
       onNavigate: f,
       virtual: !0,
       loop: !0
     }),
-    U($.context, { keyboardOnly: !0 }),
-    i ?? H($.context),
-    i ?? Y($.context, { keyboardHandlers: !1 })
-  ]), y = (p) => {
-    let M;
-    p.target ? (M = p.target.value, I(!0)) : M = p, x(M), f(0), s(M).then((A) => {
+    Y(R.context, { keyboardOnly: !0 }),
+    a ?? U(R.context),
+    a ?? G(R.context, { keyboardHandlers: !1 })
+  ]), C = (p) => {
+    let b;
+    p.target ? (b = p.target.value, y(!0)) : b = p, x(b), f(0), s(b).then((O) => {
       if (!m)
         return;
-      const { labels: V, options: Z } = t(A), S = /* @__PURE__ */ new Map();
-      V.forEach((k, T) => S.set(k, Z[T])), R(S), f(0), b.current = Array.from(S.keys());
-    }).catch((A) => console.log(A)), M ? b.current = C(M) : b.current = Array.from(v.keys());
+      const { labels: _, options: K } = t(O), V = /* @__PURE__ */ new Map();
+      _.forEach((A, k) => V.set(A, K[k])), v(V), f(0), I.current = Array.from(V.keys());
+    }).catch((O) => console.log(O)), b ? I.current = $(b) : I.current = Array.from(E.keys());
   };
-  return a.useMemo(
+  return i.useMemo(
     () => ({
       name: r,
       labelledBy: n,
       isOpen: m,
-      setIsOpen: I,
+      setIsOpen: y,
       inputValue: d,
       onSelect: e,
       setInputValue: x,
-      onInputValueChange: y,
+      onInputValueChange: C,
       activeIndex: h,
       setActiveIndex: f,
-      data: v,
-      options: b.current,
-      listRef: E,
-      ...$,
-      ...O
+      data: E,
+      options: I.current,
+      listRef: M,
+      ...R,
+      ...w
     }),
     [
       m,
-      I,
+      y,
       d,
       x,
-      O,
-      $,
-      v,
-      R
+      w,
+      R,
+      E,
+      v
     ]
   );
 }
-function Rt({ placeholder: r, className: n, ...s }) {
-  const t = L();
-  return /* @__PURE__ */ a.createElement(
+function Et({ placeholder: r, className: n, ...s }) {
+  const t = P();
+  return /* @__PURE__ */ i.createElement(
     "input",
     {
       id: `${t.name}-trigger`,
@@ -1541,9 +1549,9 @@ function Rt({ placeholder: r, className: n, ...s }) {
     }
   );
 }
-function Et({ renderOption: r, className: n, ...s }) {
-  const t = L();
-  return /* @__PURE__ */ a.createElement(a.Fragment, null, t.isOpen && t.options.length >= 1 && /* @__PURE__ */ a.createElement(
+function Mt({ renderOption: r, className: n, ...s }) {
+  const t = P();
+  return /* @__PURE__ */ i.createElement(i.Fragment, null, t.isOpen && t.options.length >= 1 && /* @__PURE__ */ i.createElement(
     "ul",
     {
       id: `${t.name}-listbox`,
@@ -1578,117 +1586,120 @@ function Et({ renderOption: r, className: n, ...s }) {
     )
   ));
 }
-const Mt = a.forwardRef(
-  ({ active: r, selected: n, label: s, ctx: t, className: e, children: o, ...c }, i) => /* @__PURE__ */ a.createElement(
+const Ct = i.forwardRef(
+  ({ active: r, selected: n, label: s, ctx: t, className: e, children: o, ...c }, a) => /* @__PURE__ */ i.createElement(
     "li",
     {
       className: `combobox option ${e}`,
       "aria-selected": n,
       ...t.getItemProps({
-        ref: i,
+        ref: a,
         ...c
       })
     },
     o || s
   )
-), Dt = {
-  Provider: yt,
-  Trigger: Rt,
-  Listbox: Et,
-  Option: Mt
+), Bt = {
+  Provider: vt,
+  Trigger: Et,
+  Listbox: Mt,
+  Option: Ct
 }, St = ({ children: r, ...n }) => {
   const s = wt(n);
-  return /* @__PURE__ */ a.createElement(j.Provider, { value: s }, r);
+  return /* @__PURE__ */ i.createElement(j.Provider, { value: s }, r);
 };
 function wt({
   name: r,
   labelledBy: n = "",
   options: s,
-  getLabels: t = (f) => f,
+  getLabels: t = (d) => d,
   defaultLabel: e = "",
   onSelect: o = () => {
   },
   initialOpen: c = !1,
-  open: i,
+  open: a,
   onOpenChange: l,
   asTable: u = !1,
-  allowCustomValue: h = !0
+  allowCustomValue: h = !0,
+  placement: f = "bottom-start"
 } = {}) {
-  const [f, d] = a.useState(c), [x, m] = a.useState(null), [I, v] = a.useState(""), R = i ?? f, b = u ? () => !0 : l ?? d, E = a.useRef(null), w = a.useRef(null), C = a.useRef([]), $ = h ? 0 : 1, O = a.useRef([]), [y, p] = a.useState(), M = (S) => O.current.search(S).map((k) => k.item);
-  a.useEffect(() => {
-    if (w.current = t(s) || [], w.current.length !== s.length)
+  const [d, x] = i.useState(c), [m, y] = i.useState(null), [E, v] = i.useState(""), I = a ?? d, M = u ? () => !0 : l ?? x, S = i.useRef(null), $ = i.useRef(null), R = i.useRef([]), w = h ? 0 : 1, C = i.useRef([]), [p, b] = i.useState(), O = (A) => C.current.search(A).map((k) => k.item);
+  i.useEffect(() => {
+    if ($.current = t(s) || [], $.current.length !== s.length)
       throw new Error("Error by getLabels()");
-    E.current = /* @__PURE__ */ new Map(), w.current.forEach((S, k) => {
-      S === e && (m(k), v(S)), E.current.set(S, s[k]);
-    }), O.current = new F(w.current, { threshold: 0.1 }), p(Math.random().toString(32).substring(2, 8));
+    S.current = /* @__PURE__ */ new Map(), $.current.forEach((A, k) => {
+      A === e && (y(k), v(A)), S.current.set(A, s[k]);
+    }), C.current = new T($.current, { threshold: 0.1 }), b(Math.random().toString(32).substring(2, 8));
   }, [s, e]);
-  const A = K({
-    open: R,
-    placement: "bottom-start",
-    onOpenChange: b,
-    whileElementsMounted: G,
+  const _ = W({
+    open: I,
+    initialPlacement: f,
+    onOpenChange: M,
+    whileElementsMounted: Q,
     middleware: [
-      X(),
-      J(),
-      Q({
-        apply({ rects: S, elements: k }) {
-          k.floating.style.minWidth = `${S.reference.width}px`;
+      J({
+        fallbackStrategy: "initialPlacement"
+      }),
+      Z(),
+      X({
+        apply({ rects: A, elements: k }) {
+          k.floating.style.minWidth = `${A.reference.width}px`;
         }
       })
     ]
-  }), V = W([
-    z(A.context, {
-      listRef: C,
-      activeIndex: x,
-      onNavigate: m,
+  }), K = z([
+    H(_.context, {
+      listRef: R,
+      activeIndex: m,
+      onNavigate: y,
       virtual: !0,
       loop: !0
     }),
-    H(A.context),
-    U(A.context, { keyboardOnly: !0 }),
-    Y(A.context, { keyboardHandlers: !1 })
-  ]), Z = (S) => {
+    U(_.context),
+    Y(_.context, { keyboardOnly: !0 }),
+    G(_.context, { keyboardHandlers: !1 })
+  ]), V = (A) => {
     let k;
-    if (S.target ? (k = S.target.value, b(!0)) : k = S, !k)
-      v(k), w.current = Array.from(E.current.keys());
+    if (A.target ? (k = A.target.value, M(!0)) : k = A, !k)
+      v(k), $.current = Array.from(S.current.keys());
     else {
-      const T = M(k);
-      T.length >= 1 && m(0), T.length >= $ && (w.current = T, v(k));
+      const te = O(k);
+      te.length >= 1 && y(0), te.length >= w && ($.current = te, v(k));
     }
   };
-  return a.useMemo(
+  return i.useMemo(
     () => ({
       name: r,
       labelledBy: n,
-      isOpen: R,
-      setIsOpen: b,
-      inputValue: I,
+      isOpen: I,
+      setIsOpen: M,
+      inputValue: E,
       onSelect: o,
       setInputValue: v,
-      onInputValueChange: Z,
+      onInputValueChange: V,
       asTable: u,
-      activeIndex: x,
-      setActiveIndex: m,
-      optionsRef: E,
-      labelsRef: w,
-      listRef: C,
-      ...A,
-      ...V
+      activeIndex: m,
+      setActiveIndex: y,
+      optionsRef: S,
+      labelsRef: $,
+      listRef: R,
+      ..._,
+      ...K
     }),
     [
-      R,
-      b,
       I,
+      M,
+      E,
       v,
-      V,
-      A,
+      K,
+      _,
       s
     ]
   );
 }
 function $t({ onInputValueChange: r, placeholder: n, className: s, ...t }) {
-  const e = L();
-  return /* @__PURE__ */ a.createElement(
+  const e = P();
+  return /* @__PURE__ */ i.createElement(
     "input",
     {
       id: `${e.name}-trigger`,
@@ -1716,13 +1727,13 @@ function $t({ onInputValueChange: r, placeholder: n, className: s, ...t }) {
                 const c = e.labelsRef.current[e.activeIndex];
                 e.asTable || (e.onInputValueChange(c), e.setActiveIndex(null)), e.setIsOpen(!1), e.onSelect(
                   e.optionsRef.current.get(c),
-                  e.setInputValue
+                  e.onInputValueChange
                 );
               } else
-                e.setActiveIndex(null), e.setIsOpen(!1), e.onSelect(e.inputValue, e.setInputValue);
+                e.setActiveIndex(null), e.setIsOpen(!1), e.onSelect(e.inputValue, e.onInputValueChange);
               break;
             case "Escape":
-              e.isOpen || (e.onInputValueChange(""), e.setActiveIndex(null), e.refs.domReference.current?.blur(), e.onSelect("", e.setInputValue));
+              e.isOpen || (e.onInputValueChange(""), e.setActiveIndex(null), e.refs.domReference.current?.blur(), e.onSelect("", e.onInputValueChange));
               break;
           }
         },
@@ -1732,8 +1743,8 @@ function $t({ onInputValueChange: r, placeholder: n, className: s, ...t }) {
   );
 }
 function Ot({ renderOnEmpty: r, renderOption: n, className: s, ...t }) {
-  const e = L();
-  return /* @__PURE__ */ a.createElement(a.Fragment, null, e.isOpen && /* @__PURE__ */ a.createElement(
+  const e = P();
+  return /* @__PURE__ */ i.createElement(i.Fragment, null, e.isOpen && /* @__PURE__ */ i.createElement(
     "ul",
     {
       id: `${e.name}-listbox`,
@@ -1756,44 +1767,44 @@ function Ot({ renderOnEmpty: r, renderOption: n, className: s, ...t }) {
         option: e.optionsRef.current.get(o),
         i: c,
         ctx: e,
-        ref: (i) => e.listRef.current[c] = i,
+        ref: (a) => e.listRef.current[c] = a,
         selected: o === e.inputValue,
         active: e.activeIndex === c,
         role: "option",
         tabIndex: -1,
-        onClick: (i) => {
-          i.preventDefault(), !e.asTable && e.onInputValueChange(o), e.setIsOpen(!1), e.onSelect(
+        onClick: (a) => {
+          a.preventDefault(), !e.asTable && e.onInputValueChange(o), e.setIsOpen(!1), e.onSelect(
             e.optionsRef.current.get(o),
-            e.setInputValue
+            e.onInputValueChange
           );
         }
       })
     ) : r(e)
   ));
 }
-const Ct = a.forwardRef(
-  ({ active: r, selected: n, label: s, ctx: t, className: e, children: o, ...c }, i) => /* @__PURE__ */ a.createElement(
+const At = i.forwardRef(
+  ({ active: r, selected: n, label: s, ctx: t, className: e, children: o, ...c }, a) => /* @__PURE__ */ i.createElement(
     "li",
     {
       className: `combobox option ${e}`,
       "aria-selected": n,
       ...t.getItemProps({
-        ref: i,
+        ref: a,
         ...c
       })
     },
     o || s
   )
-), Bt = {
+), jt = {
   Provider: St,
   Trigger: $t,
   Listbox: Ot,
-  Option: Ct
-}, At = ({ children: r, ...n }) => {
-  const s = kt(n);
-  return /* @__PURE__ */ a.createElement(j.Provider, { value: s }, r);
+  Option: At
+}, kt = ({ children: r, ...n }) => {
+  const s = Vt(n);
+  return /* @__PURE__ */ i.createElement(j.Provider, { value: s }, r);
 };
-function kt({
+function Vt({
   name: r,
   labelledBy: n = "",
   options: s = () => {
@@ -1803,83 +1814,83 @@ function kt({
   initialOpen: e = !1,
   open: o,
   onOpenChange: c,
-  asTable: i = !1
+  asTable: a = !1
 } = {}) {
-  const [l, u] = a.useState(e), [h, f] = a.useState(null), [d, x] = a.useState(""), m = o ?? l, I = i ? () => !0 : c ?? u, [v, R] = a.useState(() => /* @__PURE__ */ new Map()), b = a.useRef(null), E = a.useRef([]), w = a.useRef(null);
-  w.current == null && (w.current = new F([], { threshold: 0.1 }));
-  const C = (p) => w.current.search(p).map((M) => M.item);
-  a.useEffect(() => {
+  const [l, u] = i.useState(e), [h, f] = i.useState(null), [d, x] = i.useState(""), m = o ?? l, y = a ? () => !0 : c ?? u, [E, v] = i.useState(() => /* @__PURE__ */ new Map()), I = i.useRef(null), M = i.useRef([]), S = i.useRef(null);
+  S.current == null && (S.current = new T([], { threshold: 0.1 }));
+  const $ = (p) => S.current.search(p).map((b) => b.item);
+  i.useEffect(() => {
     d && s(d || "").then((p) => {
-      b.current = Array.from(p.keys()), w.current = new F(b.current, { threshold: 0.1 }), R(p);
+      I.current = Array.from(p.keys()), S.current = new T(I.current, { threshold: 0.1 }), v(p);
     }).catch((p) => console.log(p));
   }, [s]);
-  const $ = K({
+  const R = W({
     open: m,
     placement: "bottom-start",
-    onOpenChange: I,
-    whileElementsMounted: G,
+    onOpenChange: y,
+    whileElementsMounted: Q,
     middleware: [
-      X(),
       J(),
-      Q({
-        apply({ rects: p, elements: M }) {
-          M.floating.style.minWidth = `${p.reference.width}px`;
+      Z(),
+      X({
+        apply({ rects: p, elements: b }) {
+          b.floating.style.minWidth = `${p.reference.width}px`;
         }
       })
     ]
-  }), O = W([
-    z($.context, {
-      listRef: E,
+  }), w = z([
+    H(R.context, {
+      listRef: M,
       activeIndex: h,
       onNavigate: f,
       virtual: !0,
       loop: !0
     }),
-    H($.context),
-    U($.context, { keyboardOnly: !0 }),
-    Y($.context, { keyboardHandlers: !1 })
-  ]), y = (p) => {
-    let M;
-    p.target ? (M = p.target.value, I(!0)) : M = p, x(M), M ? M.length < d.length ? (b.current = C(M), s(M).then((A) => {
-      b.current = Array.from(A.keys()), b.current.length >= 1 && f(0), R(A);
-    }).catch((A) => console.log(A))) : (b.current = C(M), b.current.length < 1 ? s(M).then((A) => {
-      b.current = Array.from(A.keys()), b.current.length >= 1 && f(0), R(A);
-    }).catch((A) => console.log(A)) : f(0)) : b.current = Array.from(v.keys());
+    U(R.context),
+    Y(R.context, { keyboardOnly: !0 }),
+    G(R.context, { keyboardHandlers: !1 })
+  ]), C = (p) => {
+    let b;
+    p.target ? (b = p.target.value, y(!0)) : b = p, x(b), b ? b.length < d.length ? (I.current = $(b), s(b).then((O) => {
+      I.current = Array.from(O.keys()), I.current.length >= 1 && f(0), v(O);
+    }).catch((O) => console.log(O))) : (I.current = $(b), I.current.length < 1 ? s(b).then((O) => {
+      I.current = Array.from(O.keys()), I.current.length >= 1 && f(0), v(O);
+    }).catch((O) => console.log(O)) : f(0)) : I.current = Array.from(E.keys());
   };
-  return a.useMemo(
+  return i.useMemo(
     () => ({
       name: r,
       labelledBy: n,
       isOpen: m,
-      setIsOpen: I,
+      setIsOpen: y,
       inputValue: d,
       onSelect: t,
       setInputValue: x,
-      asTable: i,
-      onInputValueChange: y,
+      asTable: a,
+      onInputValueChange: C,
       activeIndex: h,
       setActiveIndex: f,
-      options: v,
-      labelsRef: b,
-      listRef: E,
-      ...$,
-      ...O
+      options: E,
+      labelsRef: I,
+      listRef: M,
+      ...R,
+      ...w
     }),
     [
       m,
-      I,
+      y,
       d,
       x,
-      O,
-      $,
-      v,
-      R
+      w,
+      R,
+      E,
+      v
     ]
   );
 }
 function _t({ placeholder: r, className: n, ...s }) {
-  const t = L();
-  return /* @__PURE__ */ a.createElement(
+  const t = P();
+  return /* @__PURE__ */ i.createElement(
     "input",
     {
       id: `${t.name}-trigger`,
@@ -1917,9 +1928,9 @@ function _t({ placeholder: r, className: n, ...s }) {
     }
   );
 }
-function Vt({ renderOnEmpty: r, renderOption: n, className: s, ...t }) {
-  const e = L();
-  return /* @__PURE__ */ a.createElement(a.Fragment, null, e.isOpen && /* @__PURE__ */ a.createElement(
+function Nt({ renderOnEmpty: r, renderOption: n, className: s, ...t }) {
+  const e = P();
+  return /* @__PURE__ */ i.createElement(i.Fragment, null, e.isOpen && /* @__PURE__ */ i.createElement(
     "ul",
     {
       id: `${e.name}-listbox`,
@@ -1942,41 +1953,41 @@ function Vt({ renderOnEmpty: r, renderOption: n, className: s, ...t }) {
         option: e.options.get(o),
         i: c,
         ctx: e,
-        ref: (i) => e.listRef.current[c] = i,
+        ref: (a) => e.listRef.current[c] = a,
         selected: o === e.inputValue,
         active: e.activeIndex === c,
         role: "option",
         tabIndex: -1,
-        onClick: (i) => {
-          i.preventDefault(), !e.asTable && e.onInputValueChange(o), e.setIsOpen(!1), e.onSelect(e.options.get(o));
+        onClick: (a) => {
+          a.preventDefault(), !e.asTable && e.onInputValueChange(o), e.setIsOpen(!1), e.onSelect(e.options.get(o));
         }
       })
     ) : r(e)
   ));
 }
-const Nt = a.forwardRef(
-  ({ active: r, selected: n, label: s, ctx: t, className: e, children: o, ...c }, i) => /* @__PURE__ */ a.createElement(
+const Lt = i.forwardRef(
+  ({ active: r, selected: n, label: s, ctx: t, className: e, children: o, ...c }, a) => /* @__PURE__ */ i.createElement(
     "li",
     {
       className: `combobox option ${e}`,
       "aria-selected": n,
       ...t.getItemProps({
-        ref: i,
+        ref: a,
         ...c
       })
     },
     o || s
   )
-), jt = {
-  Provider: At,
+), Kt = {
+  Provider: kt,
   Trigger: _t,
-  Listbox: Vt,
-  Option: Nt
+  Listbox: Nt,
+  Option: Lt
 };
 export {
-  Dt as AsyncCombobox,
-  jt as AsyncSearchableCombobox,
-  Tt as EditableCombobox,
-  Bt as SearchableCombobox,
-  Ft as SelectOnlyCombobox
+  Bt as AsyncCombobox,
+  Kt as AsyncSearchableCombobox,
+  Dt as EditableCombobox,
+  jt as SearchableCombobox,
+  Tt as SelectOnlyCombobox
 };
