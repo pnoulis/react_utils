@@ -32,7 +32,7 @@ function useCombobox({
   name,
   labelledBy = "",
   options: initialOptions,
-  getLabels = () => {},
+  getLabels = (options) => options,
   defaultLabel = "",
   onSelect = () => {},
   initialOpen = false,
@@ -199,11 +199,14 @@ function Trigger({ onInputValueChange, placeholder, className, ...props }) {
                   ctx.setActiveIndex(null);
                 }
                 ctx.setIsOpen(false);
-                ctx.onSelect(ctx.optionsRef.current.get(label));
+                ctx.onSelect(
+                  ctx.optionsRef.current.get(label),
+                  ctx.setInputValue,
+                );
               } else {
                 ctx.setActiveIndex(null);
                 ctx.setIsOpen(false);
-                ctx.onSelect(ctx.inputValue);
+                ctx.onSelect(ctx.inputValue, ctx.setInputValue);
               }
 
               break;
@@ -212,7 +215,7 @@ function Trigger({ onInputValueChange, placeholder, className, ...props }) {
                 ctx.onInputValueChange("");
                 ctx.setActiveIndex(null);
                 ctx.refs.domReference.current?.blur();
-                ctx.onSelect("");
+                ctx.onSelect("", ctx.setInputValue);
               }
               break;
             default:
@@ -261,7 +264,10 @@ function Listbox({ renderOnEmpty, renderOption, className, ...props }) {
                     e.preventDefault();
                     !ctx.asTable && ctx.onInputValueChange(label);
                     ctx.setIsOpen(false);
-                    ctx.onSelect(ctx.optionsRef.current.get(label));
+                    ctx.onSelect(
+                      ctx.optionsRef.current.get(label),
+                      ctx.setInputValue,
+                    );
                   },
                 }),
               )

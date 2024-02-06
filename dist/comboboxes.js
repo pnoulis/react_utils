@@ -1604,8 +1604,7 @@ function wt({
   name: r,
   labelledBy: n = "",
   options: s,
-  getLabels: t = () => {
-  },
+  getLabels: t = (f) => f,
   defaultLabel: e = "",
   onSelect: o = () => {
   },
@@ -1715,12 +1714,15 @@ function $t({ onInputValueChange: r, placeholder: n, className: s, ...t }) {
             case "Enter":
               if (e.activeIndex != null && e.labelsRef.current[e.activeIndex]) {
                 const c = e.labelsRef.current[e.activeIndex];
-                e.asTable || (e.onInputValueChange(c), e.setActiveIndex(null)), e.setIsOpen(!1), e.onSelect(e.optionsRef.current.get(c));
+                e.asTable || (e.onInputValueChange(c), e.setActiveIndex(null)), e.setIsOpen(!1), e.onSelect(
+                  e.optionsRef.current.get(c),
+                  e.setInputValue
+                );
               } else
-                e.setActiveIndex(null), e.setIsOpen(!1), e.onSelect(e.inputValue);
+                e.setActiveIndex(null), e.setIsOpen(!1), e.onSelect(e.inputValue, e.setInputValue);
               break;
             case "Escape":
-              e.isOpen || (e.onInputValueChange(""), e.setActiveIndex(null), e.refs.domReference.current?.blur(), e.onSelect(""));
+              e.isOpen || (e.onInputValueChange(""), e.setActiveIndex(null), e.refs.domReference.current?.blur(), e.onSelect("", e.setInputValue));
               break;
           }
         },
@@ -1760,7 +1762,10 @@ function Ot({ renderOnEmpty: r, renderOption: n, className: s, ...t }) {
         role: "option",
         tabIndex: -1,
         onClick: (i) => {
-          i.preventDefault(), !e.asTable && e.onInputValueChange(o), e.setIsOpen(!1), e.onSelect(e.optionsRef.current.get(o));
+          i.preventDefault(), !e.asTable && e.onInputValueChange(o), e.setIsOpen(!1), e.onSelect(
+            e.optionsRef.current.get(o),
+            e.setInputValue
+          );
         }
       })
     ) : r(e)
