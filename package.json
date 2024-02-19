@@ -4,12 +4,16 @@
   "description": "react_utils-summary",
   "homepage": "https://github.com/pnoulis/react_utils#readme",
   "bugs": "https://github.com/pnoulis/react_utils/issues",
-  "keywords": ["react_utils-keywords"],
+  "keywords": [
+    "react_utils-keywords"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/pnoulis/react_utils.git"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "import": "./dist/index.js"
@@ -53,7 +57,6 @@
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.4",
-    "react-router-dom": "^6.15.0",
     "react-spinners": "^0.13.8",
     "vite": "^4.4.9",
     "vite-plugin-svgr": "^3.2.0"

@@ -315,7 +315,8 @@ function j({ className: e, children: t, ...n }) {
       ref: r.dialogRef,
       className: `${e || ""} dialog`,
       role: "dialog",
-      "aria-modal": "true"
+      "aria-modal": "true",
+      ...n
     },
     t
   );
