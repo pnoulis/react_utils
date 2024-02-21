@@ -72,6 +72,7 @@ function Dialog({ className, children, ...props }) {
       className={`${className || ""} dialog`}
       role="dialog"
       aria-modal="true"
+      {...props}
     >
       {children}
     </dialog>
