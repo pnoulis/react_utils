@@ -24,28 +24,28 @@ function Se({
   asTable: u = !1,
   placement: h = "bottom-start"
 } = {}) {
-  const [f, d] = i.useState(c), [x, m] = i.useState(null), [y, E] = i.useState(""), v = a ?? f, I = u ? () => !0 : l ?? d, M = i.useRef(null), S = i.useRef(null), $ = i.useRef([]);
-  if (M.current == null) {
-    if (S.current = t(s) || [], S.current.length !== s.length)
+  const [f, p] = i.useState(c), [g, x] = i.useState(null), [y, R] = i.useState(""), v = a ?? f, E = u ? () => !0 : l ?? p, b = i.useRef(null), O = i.useRef(null), w = i.useRef([]);
+  if (b.current == null) {
+    if (O.current = t(s) || [], O.current.length !== s.length)
       throw new Error("Error by getLabels()");
-    M.current = /* @__PURE__ */ new Map(), S.current.forEach(
-      (p, b) => M.current.set(p, s[b])
+    b.current = /* @__PURE__ */ new Map(), O.current.forEach(
+      (m, I) => b.current.set(m, s[I])
     );
   }
   i.useEffect(() => {
-    y || S.current.forEach((p, b) => {
-      p === e && (m(b), E(p));
+    y || O.current.forEach((m, I) => {
+      m === e && (x(I), R(m));
     });
   }, [v, s, e]);
-  const R = W({
+  const S = W({
     open: v,
     initialPlacement: h,
-    onOpenChange: I,
+    onOpenChange: E,
     whileElementsMounted: Q,
     middleware: [
       X({
-        apply({ rects: p, elements: b }) {
-          b.floating.style.minWidth = `${p.reference.width}px`;
+        apply({ rects: m, elements: I }) {
+          I.floating.style.minWidth = `${m.reference.width}px`;
         }
       }),
       J({
@@ -53,48 +53,48 @@ function Se({
       }),
       Z()
     ]
-  }), w = z([
-    H(R.context, {
-      listRef: $,
-      activeIndex: x,
-      onNavigate: m,
+  }), M = z([
+    H(S.context, {
+      listRef: w,
+      activeIndex: g,
+      onNavigate: x,
       virtual: !0,
       loop: !0
     }),
-    U(R.context),
-    Y(R.context, { keyboardOnly: !0 }),
-    G(R.context, {
+    U(S.context),
+    Y(S.context, { keyboardOnly: !0 }),
+    G(S.context, {
       keyboardHandlers: !1
     }),
-    Me(R.context, {
-      listRef: S,
-      activeIndex: x,
-      onMatch: m,
+    Me(S.context, {
+      listRef: O,
+      activeIndex: g,
+      onMatch: x,
       resetMs: 500
     })
-  ]), C = (p) => {
-    let b;
-    p.target ? (b = p.target.value, I(!0)) : b = p, E(b);
+  ]), C = (m) => {
+    let I;
+    m.target ? (I = m.target.value, E(!0)) : I = m, R(I);
   };
   return i.useMemo(
     () => ({
       name: r,
       labelledBy: n,
       isOpen: v,
-      setIsOpen: I,
+      setIsOpen: E,
       inputValue: y,
       onSelect: o,
-      setInputValue: E,
+      setInputValue: R,
       onInputValueChange: C,
-      activeIndex: x,
-      setActiveIndex: m,
-      optionsRef: M,
-      labelsRef: S,
-      listRef: $,
-      ...R,
-      ...w
+      activeIndex: g,
+      setActiveIndex: x,
+      optionsRef: b,
+      labelsRef: O,
+      listRef: w,
+      ...S,
+      ...M
     }),
-    [v, I, y, E, w, R]
+    [v, E, y, R, M, S]
   );
 }
 function we({ placeholder: r, className: n, children: s, ...t }) {
@@ -255,66 +255,66 @@ function ke({
   onOpenChange: l,
   asTable: u = !1
 } = {}) {
-  const [h, f] = i.useState(c), [d, x] = i.useState(null), [m, y] = i.useState(""), E = a ?? h, v = u ? () => !0 : l ?? f, I = i.useRef(null), M = i.useRef(null), S = i.useRef([]);
-  if (I.current == null) {
-    if (M.current = t(s) || [], M.current.length !== s.length)
+  const [h, f] = i.useState(c), [p, g] = i.useState(null), [x, y] = i.useState(""), R = a ?? h, v = u ? () => !0 : l ?? f, E = i.useRef(null), b = i.useRef(null), O = i.useRef([]);
+  if (E.current == null) {
+    if (b.current = t(s) || [], b.current.length !== s.length)
       throw new Error("Error by getLabels()");
-    I.current = /* @__PURE__ */ new Map(), M.current.forEach(
-      (C, p) => I.current.set(C, s[p])
+    E.current = /* @__PURE__ */ new Map(), b.current.forEach(
+      (C, m) => E.current.set(C, s[m])
     );
   }
   i.useEffect(() => {
-    m || M.current.forEach((C, p) => {
-      C === e && (x(p), y(C));
+    x || b.current.forEach((C, m) => {
+      C === e && (g(m), y(C));
     });
-  }, [E, s, e]);
-  const $ = W({
-    open: E,
+  }, [R, s, e]);
+  const w = W({
+    open: R,
     onOpenChange: v,
     whileElementsMounted: Q,
     middleware: [
       J(),
       Z(),
       X({
-        apply({ rects: C, elements: p }) {
-          p.floating.style.width = `${C.reference.width}px`;
+        apply({ rects: C, elements: m }) {
+          m.floating.style.width = `${C.reference.width}px`;
         }
       })
     ]
-  }), R = z([
-    H($.context, {
-      listRef: S,
-      activeIndex: d,
-      onNavigate: x,
+  }), S = z([
+    H(w.context, {
+      listRef: O,
+      activeIndex: p,
+      onNavigate: g,
       virtual: !0,
       loop: !0
     }),
-    U($.context),
-    Y($.context, { keyboardOnly: !0 }),
-    G($.context, { keyboardHandlers: !1 })
-  ]), w = (C) => {
-    let p;
-    C.target ? (p = C.target.value, v(!0), x(null)) : p = C, y(p);
+    U(w.context),
+    Y(w.context, { keyboardOnly: !0 }),
+    G(w.context, { keyboardHandlers: !1 })
+  ]), M = (C) => {
+    let m;
+    C.target ? (m = C.target.value, v(!0), g(null)) : m = C, y(m);
   };
   return i.useMemo(
     () => ({
       name: r,
       labelledBy: n,
-      isOpen: E,
+      isOpen: R,
       setIsOpen: v,
-      inputValue: m,
+      inputValue: x,
       onSelect: o,
       setInputValue: y,
-      onInputValueChange: w,
-      activeIndex: d,
-      setActiveIndex: x,
-      optionsRef: I,
-      labelsRef: M,
-      listRef: S,
-      ...$,
-      ...R
+      onInputValueChange: M,
+      activeIndex: p,
+      setActiveIndex: g,
+      optionsRef: E,
+      labelsRef: b,
+      listRef: O,
+      ...w,
+      ...S
     }),
-    [E, v, m, y, R, $]
+    [R, v, x, y, S, w]
   );
 }
 function Ve({ placeholder: r, className: n, ...s }) {
@@ -566,7 +566,7 @@ const Ye = {
   // The weight to determine how much field length norm effects scoring.
   fieldNormWeight: 1
 };
-var g = {
+var d = {
   ...Ge,
   ...Ye,
   ...Qe,
@@ -590,8 +590,8 @@ function Ze(r = 1, n = 3) {
 }
 class le {
   constructor({
-    getFn: n = g.getFn,
-    fieldNormWeight: s = g.fieldNormWeight
+    getFn: n = d.getFn,
+    fieldNormWeight: s = d.fieldNormWeight
   } = {}) {
     this.norm = Ze(s, 3), this.getFn = n, this.isCreated = !1, this.setIndexRecords();
   }
@@ -659,9 +659,9 @@ class le {
                 };
                 a.push(f);
               } else
-                F(h) && h.forEach((f, d) => {
+                F(h) && h.forEach((f, p) => {
                   l.push({
-                    nestedArrIndex: d,
+                    nestedArrIndex: p,
                     value: f
                   });
                 });
@@ -684,11 +684,11 @@ class le {
     };
   }
 }
-function Ie(r, n, { getFn: s = g.getFn, fieldNormWeight: t = g.fieldNormWeight } = {}) {
+function Ie(r, n, { getFn: s = d.getFn, fieldNormWeight: t = d.fieldNormWeight } = {}) {
   const e = new le({ getFn: s, fieldNormWeight: t });
   return e.setKeys(r.map(be)), e.setSources(n), e.create(), e;
 }
-function qe(r, { getFn: n = g.getFn, fieldNormWeight: s = g.fieldNormWeight } = {}) {
+function qe(r, { getFn: n = d.getFn, fieldNormWeight: s = d.fieldNormWeight } = {}) {
   const { keys: t, records: e } = r, o = new le({ getFn: n, fieldNormWeight: s });
   return o.setKeys(t), o.setIndexRecords(e), o;
 }
@@ -696,8 +696,8 @@ function q(r, {
   errors: n = 0,
   currentLocation: s = 0,
   expectedLocation: t = 0,
-  distance: e = g.distance,
-  ignoreLocation: o = g.ignoreLocation
+  distance: e = d.distance,
+  ignoreLocation: o = d.ignoreLocation
 } = {}) {
   const c = n / r.length;
   if (o)
@@ -705,7 +705,7 @@ function q(r, {
   const a = Math.abs(t - s);
   return e ? c + a / e : a ? 1 : c;
 }
-function et(r = [], n = g.minMatchCharLength) {
+function et(r = [], n = d.minMatchCharLength) {
   let s = [], t = -1, e = -1, o = 0;
   for (let c = r.length; o < c; o += 1) {
     let a = r[o];
@@ -715,83 +715,83 @@ function et(r = [], n = g.minMatchCharLength) {
 }
 const B = 32;
 function tt(r, n, s, {
-  location: t = g.location,
-  distance: e = g.distance,
-  threshold: o = g.threshold,
-  findAllMatches: c = g.findAllMatches,
-  minMatchCharLength: a = g.minMatchCharLength,
-  includeMatches: l = g.includeMatches,
-  ignoreLocation: u = g.ignoreLocation
+  location: t = d.location,
+  distance: e = d.distance,
+  threshold: o = d.threshold,
+  findAllMatches: c = d.findAllMatches,
+  minMatchCharLength: a = d.minMatchCharLength,
+  includeMatches: l = d.includeMatches,
+  ignoreLocation: u = d.ignoreLocation
 } = {}) {
   if (n.length > B)
     throw new Error(Ke(B));
-  const h = n.length, f = r.length, d = Math.max(0, Math.min(t, f));
-  let x = o, m = d;
-  const y = a > 1 || l, E = y ? Array(f) : [];
+  const h = n.length, f = r.length, p = Math.max(0, Math.min(t, f));
+  let g = o, x = p;
+  const y = a > 1 || l, R = y ? Array(f) : [];
   let v;
-  for (; (v = r.indexOf(n, m)) > -1; ) {
-    let w = q(n, {
+  for (; (v = r.indexOf(n, x)) > -1; ) {
+    let M = q(n, {
       currentLocation: v,
-      expectedLocation: d,
+      expectedLocation: p,
       distance: e,
       ignoreLocation: u
     });
-    if (x = Math.min(w, x), m = v + h, y) {
+    if (g = Math.min(M, g), x = v + h, y) {
       let C = 0;
       for (; C < h; )
-        E[v + C] = 1, C += 1;
+        R[v + C] = 1, C += 1;
     }
   }
-  m = -1;
-  let I = [], M = 1, S = h + f;
-  const $ = 1 << h - 1;
-  for (let w = 0; w < h; w += 1) {
-    let C = 0, p = S;
-    for (; C < p; )
+  x = -1;
+  let E = [], b = 1, O = h + f;
+  const w = 1 << h - 1;
+  for (let M = 0; M < h; M += 1) {
+    let C = 0, m = O;
+    for (; C < m; )
       q(n, {
-        errors: w,
-        currentLocation: d + p,
-        expectedLocation: d,
+        errors: M,
+        currentLocation: p + m,
+        expectedLocation: p,
         distance: e,
         ignoreLocation: u
-      }) <= x ? C = p : S = p, p = Math.floor((S - C) / 2 + C);
-    S = p;
-    let b = Math.max(1, d - p + 1), O = c ? f : Math.min(d + p, f) + h, _ = Array(O + 2);
-    _[O + 1] = (1 << w) - 1;
-    for (let V = O; V >= b; V -= 1) {
-      let A = V - 1, k = s[r.charAt(A)];
-      if (y && (E[A] = +!!k), _[V] = (_[V + 1] << 1 | 1) & k, w && (_[V] |= (I[V + 1] | I[V]) << 1 | 1 | I[V + 1]), _[V] & $ && (M = q(n, {
-        errors: w,
-        currentLocation: A,
-        expectedLocation: d,
+      }) <= g ? C = m : O = m, m = Math.floor((O - C) / 2 + C);
+    O = m;
+    let I = Math.max(1, p - m + 1), A = c ? f : Math.min(p + m, f) + h, $ = Array(A + 2);
+    $[A + 1] = (1 << M) - 1;
+    for (let _ = A; _ >= I; _ -= 1) {
+      let k = _ - 1, V = s[r.charAt(k)];
+      if (y && (R[k] = +!!V), $[_] = ($[_ + 1] << 1 | 1) & V, M && ($[_] |= (E[_ + 1] | E[_]) << 1 | 1 | E[_ + 1]), $[_] & w && (b = q(n, {
+        errors: M,
+        currentLocation: k,
+        expectedLocation: p,
         distance: e,
         ignoreLocation: u
-      }), M <= x)) {
-        if (x = M, m = A, m <= d)
+      }), b <= g)) {
+        if (g = b, x = k, x <= p)
           break;
-        b = Math.max(1, 2 * d - m);
+        I = Math.max(1, 2 * p - x);
       }
     }
     if (q(n, {
-      errors: w + 1,
-      currentLocation: d,
-      expectedLocation: d,
+      errors: M + 1,
+      currentLocation: p,
+      expectedLocation: p,
       distance: e,
       ignoreLocation: u
-    }) > x)
+    }) > g)
       break;
-    I = _;
+    E = $;
   }
-  const R = {
-    isMatch: m >= 0,
+  const S = {
+    isMatch: x >= 0,
     // Count exact matches (those with a score of 0) to be "almost" exact
-    score: Math.max(1e-3, M)
+    score: Math.max(1e-3, b)
   };
   if (y) {
-    const w = et(E, a);
-    w.length ? l && (R.indices = w) : R.isMatch = !1;
+    const M = et(R, a);
+    M.length ? l && (S.indices = M) : S.isMatch = !1;
   }
-  return R;
+  return S;
 }
 function nt(r) {
   let n = {};
@@ -803,14 +803,14 @@ function nt(r) {
 }
 class ye {
   constructor(n, {
-    location: s = g.location,
-    threshold: t = g.threshold,
-    distance: e = g.distance,
-    includeMatches: o = g.includeMatches,
-    findAllMatches: c = g.findAllMatches,
-    minMatchCharLength: a = g.minMatchCharLength,
-    isCaseSensitive: l = g.isCaseSensitive,
-    ignoreLocation: u = g.ignoreLocation
+    location: s = d.location,
+    threshold: t = d.threshold,
+    distance: e = d.distance,
+    includeMatches: o = d.includeMatches,
+    findAllMatches: c = d.findAllMatches,
+    minMatchCharLength: a = d.minMatchCharLength,
+    isCaseSensitive: l = d.isCaseSensitive,
+    ignoreLocation: u = d.ignoreLocation
   } = {}) {
     if (this.options = {
       location: s,
@@ -823,19 +823,19 @@ class ye {
       ignoreLocation: u
     }, this.pattern = l ? n : n.toLowerCase(), this.chunks = [], !this.pattern.length)
       return;
-    const h = (d, x) => {
+    const h = (p, g) => {
       this.chunks.push({
-        pattern: d,
-        alphabet: nt(d),
-        startIndex: x
+        pattern: p,
+        alphabet: nt(p),
+        startIndex: g
       });
     }, f = this.pattern.length;
     if (f > B) {
-      let d = 0;
-      const x = f % B, m = f - x;
-      for (; d < m; )
-        h(this.pattern.substr(d, B), d), d += B;
-      if (x) {
+      let p = 0;
+      const g = f % B, x = f - g;
+      for (; p < x; )
+        h(this.pattern.substr(p, B), p), p += B;
+      if (g) {
         const y = f - B;
         h(this.pattern.substr(y), y);
       }
@@ -845,11 +845,11 @@ class ye {
   searchIn(n) {
     const { isCaseSensitive: s, includeMatches: t } = this.options;
     if (s || (n = n.toLowerCase()), this.pattern === n) {
-      let m = {
+      let x = {
         isMatch: !0,
         score: 0
       };
-      return t && (m.indices = [[0, n.length - 1]]), m;
+      return t && (x.indices = [[0, n.length - 1]]), x;
     }
     const {
       location: e,
@@ -859,10 +859,10 @@ class ye {
       minMatchCharLength: l,
       ignoreLocation: u
     } = this.options;
-    let h = [], f = 0, d = !1;
-    this.chunks.forEach(({ pattern: m, alphabet: y, startIndex: E }) => {
-      const { isMatch: v, score: I, indices: M } = tt(n, m, y, {
-        location: e + E,
+    let h = [], f = 0, p = !1;
+    this.chunks.forEach(({ pattern: x, alphabet: y, startIndex: R }) => {
+      const { isMatch: v, score: E, indices: b } = tt(n, x, y, {
+        location: e + R,
         distance: o,
         threshold: c,
         findAllMatches: a,
@@ -870,13 +870,13 @@ class ye {
         includeMatches: t,
         ignoreLocation: u
       });
-      v && (d = !0), f += I, v && M && (h = [...h, ...M]);
+      v && (p = !0), f += E, v && b && (h = [...h, ...b]);
     });
-    let x = {
-      isMatch: d,
-      score: d ? f / this.chunks.length : 1
+    let g = {
+      isMatch: p,
+      score: p ? f / this.chunks.length : 1
     };
-    return d && t && (x.indices = h), x;
+    return p && t && (g.indices = h), g;
   }
 }
 class D {
@@ -1030,14 +1030,14 @@ class it extends D {
 }
 class ve extends D {
   constructor(n, {
-    location: s = g.location,
-    threshold: t = g.threshold,
-    distance: e = g.distance,
-    includeMatches: o = g.includeMatches,
-    findAllMatches: c = g.findAllMatches,
-    minMatchCharLength: a = g.minMatchCharLength,
-    isCaseSensitive: l = g.isCaseSensitive,
-    ignoreLocation: u = g.ignoreLocation
+    location: s = d.location,
+    threshold: t = d.threshold,
+    distance: e = d.distance,
+    includeMatches: o = d.includeMatches,
+    findAllMatches: c = d.findAllMatches,
+    minMatchCharLength: a = d.minMatchCharLength,
+    isCaseSensitive: l = d.isCaseSensitive,
+    ignoreLocation: u = d.ignoreLocation
   } = {}) {
     super(n), this._bitapSearch = new ye(n, {
       location: s,
@@ -1126,14 +1126,14 @@ function ht(r, n = {}) {
 const ft = /* @__PURE__ */ new Set([ve.type, Re.type]);
 class pt {
   constructor(n, {
-    isCaseSensitive: s = g.isCaseSensitive,
-    includeMatches: t = g.includeMatches,
-    minMatchCharLength: e = g.minMatchCharLength,
-    ignoreLocation: o = g.ignoreLocation,
-    findAllMatches: c = g.findAllMatches,
-    location: a = g.location,
-    threshold: l = g.threshold,
-    distance: u = g.distance
+    isCaseSensitive: s = d.isCaseSensitive,
+    includeMatches: t = d.includeMatches,
+    minMatchCharLength: e = d.minMatchCharLength,
+    ignoreLocation: o = d.ignoreLocation,
+    findAllMatches: c = d.findAllMatches,
+    location: a = d.location,
+    threshold: l = d.threshold,
+    distance: u = d.distance
   } = {}) {
     this.query = null, this.options = {
       isCaseSensitive: s,
@@ -1162,11 +1162,11 @@ class pt {
     for (let l = 0, u = s.length; l < u; l += 1) {
       const h = s[l];
       c.length = 0, o = 0;
-      for (let f = 0, d = h.length; f < d; f += 1) {
-        const x = h[f], { isMatch: m, indices: y, score: E } = x.search(n);
-        if (m) {
-          if (o += 1, a += E, t) {
-            const v = x.constructor.type;
+      for (let f = 0, p = h.length; f < p; f += 1) {
+        const g = h[f], { isMatch: x, indices: y, score: R } = g.search(n);
+        if (x) {
+          if (o += 1, a += R, t) {
+            const v = g.constructor.type;
             ft.has(v) ? c = [...c, ...y] : c.push(y);
           }
         } else {
@@ -1240,7 +1240,7 @@ function Ee(r, n, { auto: s = !0 } = {}) {
   };
   return ie(r) || (r = de(r)), t(r);
 }
-function mt(r, { ignoreFieldNorm: n = g.ignoreFieldNorm }) {
+function mt(r, { ignoreFieldNorm: n = d.ignoreFieldNorm }) {
   r.forEach((s) => {
     let t = 1;
     s.matches.forEach(({ key: e, norm: o, score: c }) => {
@@ -1269,8 +1269,8 @@ function It(r, n) {
   n.score = r.score;
 }
 function yt(r, n, {
-  includeMatches: s = g.includeMatches,
-  includeScore: t = g.includeScore
+  includeMatches: s = d.includeMatches,
+  includeScore: t = d.includeScore
 } = {}) {
   const e = [];
   return s && e.push(bt), t && e.push(It), r.map((o) => {
@@ -1285,7 +1285,7 @@ function yt(r, n, {
 }
 class T {
   constructor(n, s = {}, t) {
-    this.options = { ...g, ...s }, this.options.useExtendedSearch, this._keyStore = new He(this.options.keys), this.setCollection(n, t);
+    this.options = { ...d, ...s }, this.options.useExtendedSearch, this._keyStore = new He(this.options.keys), this.setCollection(n, t);
   }
   setCollection(n, s) {
     if (this._docs = n, s && !(s instanceof le))
@@ -1342,24 +1342,24 @@ class T {
   _searchLogical(n) {
     const s = Ee(n, this.options), t = (a, l, u) => {
       if (!a.children) {
-        const { keyId: f, searcher: d } = a, x = this._findMatches({
+        const { keyId: f, searcher: p } = a, g = this._findMatches({
           key: this._keyStore.get(f),
           value: this._myIndex.getValueForItemAtKeyId(l, f),
-          searcher: d
+          searcher: p
         });
-        return x && x.length ? [
+        return g && g.length ? [
           {
             idx: u,
             item: l,
-            matches: x
+            matches: g
           }
         ] : [];
       }
       const h = [];
-      for (let f = 0, d = a.children.length; f < d; f += 1) {
-        const x = a.children[f], m = t(x, l, u);
-        if (m.length)
-          h.push(...m);
+      for (let f = 0, p = a.children.length; f < p; f += 1) {
+        const g = a.children[f], x = t(g, l, u);
+        if (x.length)
+          h.push(...x);
         else if (a.operator === ee.AND)
           return [];
       }
@@ -1423,7 +1423,7 @@ class T {
 T.version = "6.6.2";
 T.createIndex = Ie;
 T.parseIndex = qe;
-T.config = g;
+T.config = d;
 T.parseQuery = Ee;
 dt(pt);
 const vt = ({ children: r, ...n }) => {
@@ -1441,70 +1441,70 @@ function Rt({
   open: c,
   onOpenChange: a
 } = {}) {
-  const [l, u] = i.useState(o), [h, f] = i.useState(null), [d, x] = i.useState(""), m = c ?? l, y = a ?? u, [E, v] = i.useState(() => /* @__PURE__ */ new Map()), I = i.useRef([]), M = i.useRef([]), S = i.useMemo(
-    () => new T(Array.from(E.keys()), {
+  const [l, u] = i.useState(o), [h, f] = i.useState(null), [p, g] = i.useState(""), x = c ?? l, y = a ?? u, [R, v] = i.useState(() => /* @__PURE__ */ new Map()), E = i.useRef([]), b = i.useRef([]), O = i.useMemo(
+    () => new T(Array.from(R.keys()), {
       thershold: 0.1
     }),
-    [E]
-  ), $ = (p) => S.search(p).map((b) => b.item), R = W({
-    open: m,
+    [R]
+  ), w = (m) => O.search(m).map((I) => I.item), S = W({
+    open: x,
     onOpenChange: y,
     whileElementsMounted: Q,
     middleware: [
       X({
-        apply({ rects: p, elements: b }) {
-          b.floating.style.minWidth = `${p.reference.width}px`;
+        apply({ rects: m, elements: I }) {
+          I.floating.style.minWidth = `${m.reference.width}px`;
         }
       }),
       J(),
       Z()
     ]
-  }), w = z([
-    H(R.context, {
-      listRef: M,
+  }), M = z([
+    H(S.context, {
+      listRef: b,
       activeIndex: h,
       onNavigate: f,
       virtual: !0,
       loop: !0
     }),
-    Y(R.context, { keyboardOnly: !0 }),
-    a ?? U(R.context),
-    a ?? G(R.context, { keyboardHandlers: !1 })
-  ]), C = (p) => {
-    let b;
-    p.target ? (b = p.target.value, y(!0)) : b = p, x(b), f(0), s(b).then((O) => {
-      if (!m)
+    Y(S.context, { keyboardOnly: !0 }),
+    a ?? U(S.context),
+    a ?? G(S.context, { keyboardHandlers: !1 })
+  ]), C = (m) => {
+    let I;
+    m.target ? (I = m.target.value, y(!0)) : I = m, g(I), f(0), s(I).then((A) => {
+      if (!x)
         return;
-      const { labels: _, options: K } = t(O), V = /* @__PURE__ */ new Map();
-      _.forEach((A, k) => V.set(A, K[k])), v(V), f(0), I.current = Array.from(V.keys());
-    }).catch((O) => console.log(O)), b ? I.current = $(b) : I.current = Array.from(E.keys());
+      const { labels: $, options: K } = t(A), _ = /* @__PURE__ */ new Map();
+      $.forEach((k, V) => _.set(k, K[V])), v(_), f(0), E.current = Array.from(_.keys());
+    }).catch((A) => console.log(A)), I ? E.current = w(I) : E.current = Array.from(R.keys());
   };
   return i.useMemo(
     () => ({
       name: r,
       labelledBy: n,
-      isOpen: m,
+      isOpen: x,
       setIsOpen: y,
-      inputValue: d,
+      inputValue: p,
       onSelect: e,
-      setInputValue: x,
+      setInputValue: g,
       onInputValueChange: C,
       activeIndex: h,
       setActiveIndex: f,
-      data: E,
-      options: I.current,
-      listRef: M,
-      ...R,
-      ...w
+      data: R,
+      options: E.current,
+      listRef: b,
+      ...S,
+      ...M
     }),
     [
-      m,
-      y,
-      d,
       x,
-      w,
+      y,
+      p,
+      g,
+      M,
+      S,
       R,
-      E,
       v
     ]
   );
@@ -1612,7 +1612,7 @@ function wt({
   name: r,
   labelledBy: n = "",
   options: s,
-  getLabels: t = (d) => d,
+  getLabels: t = (p) => p,
   defaultLabel: e = "",
   onSelect: o = () => {
   },
@@ -1623,18 +1623,18 @@ function wt({
   allowCustomValue: h = !0,
   placement: f = "bottom-start"
 } = {}) {
-  const [d, x] = i.useState(c), [m, y] = i.useState(null), [E, v] = i.useState(""), I = a ?? d, M = u ? () => !0 : l ?? x, S = i.useRef(null), $ = i.useRef(null), R = i.useRef([]), w = h ? 0 : 1, C = i.useRef([]), [p, b] = i.useState(), O = (A) => C.current.search(A).map((k) => k.item);
+  const [p, g] = i.useState(c), [x, y] = i.useState(null), [R, v] = i.useState(""), E = a ?? p, b = u ? () => !0 : l ?? g, O = i.useRef(null), w = i.useRef(null), S = i.useRef([]), M = h ? 0 : 1, C = i.useRef([]), [m, I] = i.useState(), A = (k) => C.current.search(k).map((V) => V.item);
   i.useEffect(() => {
-    if ($.current = t(s) || [], $.current.length !== s.length)
+    if (w.current = t(s) || [], w.current.length !== s.length)
       throw new Error("Error by getLabels()");
-    S.current = /* @__PURE__ */ new Map(), $.current.forEach((A, k) => {
-      A === e && (y(k), v(A)), S.current.set(A, s[k]);
-    }), C.current = new T($.current, { threshold: 0.1 }), b(Math.random().toString(32).substring(2, 8));
+    O.current = /* @__PURE__ */ new Map(), w.current.forEach((k, V) => {
+      k === e && (y(V), v(k)), O.current.set(k, s[V]);
+    }), C.current = new T(w.current, { threshold: 0.1 }), I(Math.random().toString(32).substring(2, 8));
   }, [s, e]);
-  const _ = W({
-    open: I,
+  const $ = W({
+    open: E,
     initialPlacement: f,
-    onOpenChange: M,
+    onOpenChange: b,
     whileElementsMounted: Q,
     middleware: [
       J({
@@ -1642,57 +1642,57 @@ function wt({
       }),
       Z(),
       X({
-        apply({ rects: A, elements: k }) {
-          k.floating.style.minWidth = `${A.reference.width}px`;
+        apply({ rects: k, elements: V }) {
+          V.floating.style.minWidth = `${k.reference.width}px`;
         }
       })
     ]
   }), K = z([
-    H(_.context, {
-      listRef: R,
-      activeIndex: m,
+    H($.context, {
+      listRef: S,
+      activeIndex: x,
       onNavigate: y,
       virtual: !0,
       loop: !0
     }),
-    U(_.context),
-    Y(_.context, { keyboardOnly: !0 }),
-    G(_.context, { keyboardHandlers: !1 })
-  ]), V = (A) => {
-    let k;
-    if (A.target ? (k = A.target.value, M(!0)) : k = A, !k)
-      v(k), $.current = Array.from(S.current.keys());
+    U($.context),
+    Y($.context, { keyboardOnly: !0 }),
+    G($.context, { keyboardHandlers: !1 })
+  ]), _ = (k) => {
+    let V;
+    if (k.target ? (V = k.target.value, b(!0)) : V = k, !V)
+      v(V), w.current = Array.from(O.current.keys());
     else {
-      const te = O(k);
-      te.length >= 1 && y(0), te.length >= w && ($.current = te, v(k));
+      const te = A(V);
+      te.length >= 1 && y(0), te.length >= M && (w.current = te, v(V));
     }
   };
   return i.useMemo(
     () => ({
       name: r,
       labelledBy: n,
-      isOpen: I,
-      setIsOpen: M,
-      inputValue: E,
+      isOpen: E,
+      setIsOpen: b,
+      inputValue: R,
       onSelect: o,
       setInputValue: v,
-      onInputValueChange: V,
+      onInputValueChange: _,
       asTable: u,
-      activeIndex: m,
+      activeIndex: x,
       setActiveIndex: y,
-      optionsRef: S,
-      labelsRef: $,
-      listRef: R,
-      ..._,
+      optionsRef: O,
+      labelsRef: w,
+      listRef: S,
+      ...$,
       ...K
     }),
     [
-      I,
-      M,
       E,
+      b,
+      R,
       v,
       K,
-      _,
+      $,
       s
     ]
   );
@@ -1812,79 +1812,80 @@ function Vt({
   onSelect: t = () => {
   },
   initialOpen: e = !1,
-  open: o,
-  onOpenChange: c,
-  asTable: a = !1
+  value: o,
+  open: c,
+  onOpenChange: a,
+  asTable: l = !1
 } = {}) {
-  const [l, u] = i.useState(e), [h, f] = i.useState(null), [d, x] = i.useState(""), m = o ?? l, y = a ? () => !0 : c ?? u, [E, v] = i.useState(() => /* @__PURE__ */ new Map()), I = i.useRef(null), M = i.useRef([]), S = i.useRef(null);
-  S.current == null && (S.current = new T([], { threshold: 0.1 }));
-  const $ = (p) => S.current.search(p).map((b) => b.item);
+  const [u, h] = i.useState(e), [f, p] = i.useState(null), [g, x] = i.useState(o), y = c ?? u, R = l ? () => !0 : a ?? h, [v, E] = i.useState(() => /* @__PURE__ */ new Map()), b = i.useRef(null), O = i.useRef([]), w = i.useRef(null);
+  w.current == null && (w.current = new T([], { threshold: 0.1 }));
+  const S = (I) => w.current.search(I).map((A) => A.item);
   i.useEffect(() => {
-    d && s(d || "").then((p) => {
-      I.current = Array.from(p.keys()), S.current = new T(I.current, { threshold: 0.1 }), v(p);
-    }).catch((p) => console.log(p));
+    g && s(g || "").then((I) => {
+      b.current = Array.from(I.keys()), w.current = new T(b.current, { threshold: 0.1 }), E(I);
+    }).catch((I) => console.log(I));
   }, [s]);
-  const R = W({
-    open: m,
+  const M = W({
+    open: y,
     placement: "bottom-start",
-    onOpenChange: y,
+    onOpenChange: R,
     whileElementsMounted: Q,
     middleware: [
       J(),
       Z(),
       X({
-        apply({ rects: p, elements: b }) {
-          b.floating.style.minWidth = `${p.reference.width}px`;
+        apply({ rects: I, elements: A }) {
+          A.floating.style.minWidth = `${I.reference.width}px`;
         }
       })
     ]
-  }), w = z([
-    H(R.context, {
-      listRef: M,
-      activeIndex: h,
-      onNavigate: f,
+  }), C = z([
+    H(M.context, {
+      listRef: O,
+      activeIndex: f,
+      onNavigate: p,
       virtual: !0,
       loop: !0
     }),
-    U(R.context),
-    Y(R.context, { keyboardOnly: !0 }),
-    G(R.context, { keyboardHandlers: !1 })
-  ]), C = (p) => {
-    let b;
-    p.target ? (b = p.target.value, y(!0)) : b = p, x(b), b ? b.length < d.length ? (I.current = $(b), s(b).then((O) => {
-      I.current = Array.from(O.keys()), I.current.length >= 1 && f(0), v(O);
-    }).catch((O) => console.log(O))) : (I.current = $(b), I.current.length < 1 ? s(b).then((O) => {
-      I.current = Array.from(O.keys()), I.current.length >= 1 && f(0), v(O);
-    }).catch((O) => console.log(O)) : f(0)) : I.current = Array.from(E.keys());
+    U(M.context),
+    Y(M.context, { keyboardOnly: !0 }),
+    G(M.context, { keyboardHandlers: !1 })
+  ]), m = (I) => {
+    let A;
+    I.target ? (A = I.target.value, R(!0)) : A = I, x(A), A ? A.length < g.length ? (b.current = S(A), s(A).then(($) => {
+      b.current = Array.from($.keys()), b.current.length >= 1 && p(0), E($);
+    }).catch(($) => console.log($))) : (b.current = S(A), b.current.length < 1 ? s(A).then(($) => {
+      b.current = Array.from($.keys()), b.current.length >= 1 && p(0), E($);
+    }).catch(($) => console.log($)) : p(0)) : b.current = Array.from(v.keys());
   };
   return i.useMemo(
     () => ({
       name: r,
       labelledBy: n,
-      isOpen: m,
-      setIsOpen: y,
-      inputValue: d,
+      isOpen: y,
+      setIsOpen: R,
+      inputValue: g,
       onSelect: t,
       setInputValue: x,
-      asTable: a,
-      onInputValueChange: C,
-      activeIndex: h,
-      setActiveIndex: f,
-      options: E,
-      labelsRef: I,
-      listRef: M,
-      ...R,
-      ...w
+      asTable: l,
+      onInputValueChange: m,
+      activeIndex: f,
+      setActiveIndex: p,
+      options: v,
+      labelsRef: b,
+      listRef: O,
+      ...M,
+      ...C
     }),
     [
-      m,
       y,
-      d,
-      x,
-      w,
       R,
-      E,
-      v
+      g,
+      x,
+      C,
+      M,
+      v,
+      E
     ]
   );
 }

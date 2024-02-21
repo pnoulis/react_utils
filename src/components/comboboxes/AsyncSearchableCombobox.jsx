@@ -34,13 +34,14 @@ function useCombobox({
   options: getOptions = () => {},
   onSelect = () => {},
   initialOpen = false,
+  value: initialValue,
   open: controlledOpen,
   onOpenChange: setControlledOpen,
   asTable = false,
 } = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
   const [activeIndex, setActiveIndex] = React.useState(null);
-  const [inputValue, setInputValue] = React.useState("");
+  const [inputValue, setInputValue] = React.useState(initialValue);
   const isOpen = controlledOpen ?? uncontrolledOpen;
   const setIsOpen = asTable
     ? () => true
@@ -179,7 +180,7 @@ function useCombobox({
       data,
       options,
       setOptions,
-    ]
+    ],
   );
 }
 
@@ -280,7 +281,7 @@ function Listbox({ renderOnEmpty, renderOption, className, ...props }) {
                     ctx.setIsOpen(false);
                     ctx.onSelect(ctx.options.get(label));
                   },
-                })
+                }),
               )
             : renderOnEmpty(ctx)}
         </ul>
@@ -303,7 +304,7 @@ const Option = React.forwardRef(
         {children || label}
       </li>
     );
-  }
+  },
 );
 
 export const AsyncSearchableCombobox = {
