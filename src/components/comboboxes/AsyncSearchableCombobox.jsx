@@ -34,7 +34,6 @@ function useCombobox({
   options: getOptions = () => {},
   onSelect = () => {},
   initialOpen = false,
-  value: initialValue,
   open: controlledOpen,
   onOpenChange: setControlledOpen,
   asTable = false,
@@ -151,10 +150,6 @@ function useCombobox({
       }
     }
   };
-
-  React.useEffect(() => {
-    onInputValueChange({ target: { value: initialValue } });
-  }, [initialValue]);
 
   return React.useMemo(
     () => ({
