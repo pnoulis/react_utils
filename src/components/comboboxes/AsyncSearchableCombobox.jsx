@@ -41,7 +41,7 @@ function useCombobox({
 } = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
   const [activeIndex, setActiveIndex] = React.useState(null);
-  const [inputValue, setInputValue] = React.useState(initialValue);
+  const [inputValue, setInputValue] = React.useState("");
   const isOpen = controlledOpen ?? uncontrolledOpen;
   const setIsOpen = asTable
     ? () => true
@@ -151,6 +151,10 @@ function useCombobox({
       }
     }
   };
+
+  React.useEffect(() => {
+    onInputValueChange({ target: { value: initialValue } });
+  }, [initialValue]);
 
   return React.useMemo(
     () => ({

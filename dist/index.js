@@ -8,7 +8,7 @@ import { Tooltip as _, TooltipContent as j, TooltipTrigger as k } from "./toolti
 import { RemoteDataProvider as w, RemoteDataStates as z, useRemoteData as G, useRemoteDataContext as H } from "./hooks.js";
 import { AncestorDimensions as K, AsyncStates as L } from "./misc.js";
 import "react";
-import "./floating-ui.react.esm-84c9a4b8.js";
+import "./floating-ui.react.esm-730ae197.js";
 import "react-dom";
 import "styled-components";
 export {
