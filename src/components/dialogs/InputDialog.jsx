@@ -136,10 +136,11 @@ function Description({ className, children, ...props }) {
   );
 }
 
-function Close({ className, children, ...props }) {
+const Close = React.forwardRef(({ className, children, ...props }, ref) => {
   const ctx = useDialogCtx();
   return (
     <button
+      ref={ref}
       className={`${className || ""} close`}
       type="button"
       {...ctx.getCloseProps(props)}
@@ -147,21 +148,24 @@ function Close({ className, children, ...props }) {
       {children}
     </button>
   );
-}
+});
 
-function Confirm({ form, className, children, ...props }) {
-  const ctx = useDialogCtx();
-  return (
-    <button
-      form={form}
-      className={`${className || ""} confirm`}
-      type="submit"
-      {...ctx.getConfirmProps(props)}
-    >
-      {children}
-    </button>
-  );
-}
+const Confirm = React.forwardRef(
+  ({ form, className, children, ...props }, ref) => {
+    const ctx = useDialogCtx();
+    return (
+      <button
+        ref={ref}
+        form={form}
+        className={`${className || ""} confirm`}
+        type="submit"
+        {...ctx.getConfirmProps(props)}
+      >
+        {children}
+      </button>
+    );
+  },
+);
 
 export const InputDialog = {
   Provider,

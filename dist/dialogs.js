@@ -10,19 +10,19 @@ const C = o.createContext(null), i = () => {
 };
 function D({
   id: e = Math.random().toString(36).substring(2, 10),
-  onClose: t = (g) => {
+  onClose: t = (d) => {
   },
   initialOpen: n = !1,
   open: r,
-  onOpenChange: d
+  onOpenChange: u
 }) {
-  const [g, f] = o.useState(n), l = r ?? g, a = d ?? f, s = o.createRef(null), $ = `${e}-label`, m = `${e}-description`;
+  const [d, f] = o.useState(n), a = r ?? d, l = u ?? f, s = o.createRef(null), $ = `${e}-label`, m = `${e}-description`;
   function p(c) {
     return {
       ...c,
       id: `${e}-trigger`,
-      onClick(u) {
-        u.preventDefault(), a(!0);
+      onClick(g) {
+        g.preventDefault(), l(!0);
       }
     };
   }
@@ -30,8 +30,8 @@ function D({
     return {
       ...c,
       id: `${e}-close`,
-      onClick(u) {
-        u.preventDefault(), a(!1), t(!1);
+      onClick(g) {
+        g.preventDefault(), l(!1), t(!1);
       }
     };
   }
@@ -39,8 +39,8 @@ function D({
     return {
       ...c,
       id: `${e}-confirm`,
-      onClick(u) {
-        u.preventDefault(), a(!1), t(!0);
+      onClick(g) {
+        g.preventDefault(), l(!1), t(!0);
       }
     };
   }
@@ -52,11 +52,11 @@ function D({
     };
   }
   function E(c) {
-    c.stopPropagation(), c.key === "Escape" && (a(!1), t(!1));
+    c.stopPropagation(), c.key === "Escape" && (l(!1), t(!1));
   }
   return o.useEffect(() => {
-    l && s.current.open == !1 ? (s.current.showModal(), window.addEventListener("keydown", E)) : !l && s.current.open == !0 && (s.current.close(), window.removeEventListener("keydown", E));
-  }, [l, a]), {
+    a && s.current.open == !1 ? (s.current.showModal(), window.addEventListener("keydown", E)) : !a && s.current.open == !0 && (s.current.close(), window.removeEventListener("keydown", E));
+  }, [a, l]), {
     getTriggerProps: p,
     getDialogProps: y,
     getCloseProps: b,
@@ -76,7 +76,7 @@ function x({ className: e, children: t, ...n }) {
     t
   );
 }
-function h({ className: e, children: t, ...n }) {
+function w({ className: e, children: t, ...n }) {
   const r = i();
   return /* @__PURE__ */ o.createElement(
     "dialog",
@@ -91,7 +91,7 @@ function h({ className: e, children: t, ...n }) {
     t
   );
 }
-function w({ className: e, children: t, ...n }) {
+function h({ className: e, children: t, ...n }) {
   const r = i();
   return /* @__PURE__ */ o.createElement("h2", { id: r.labelledBy, className: `${e || ""} heading`, ...n }, t);
 }
@@ -133,31 +133,31 @@ function k({ className: e, children: t, ...n }) {
 }
 const F = {
   Provider: P,
-  Content: h,
+  Content: w,
   Trigger: x,
-  Heading: w,
+  Heading: h,
   Description: N,
   Close: O,
   Confirm: k
 }, B = ({ children: e, ...t }) => {
-  const n = T(t);
+  const n = R(t);
   return /* @__PURE__ */ o.createElement(C.Provider, { value: n }, e);
 };
-function T({
+function R({
   id: e = Math.random().toString(36).substring(2, 10),
-  onClose: t = (g) => {
+  onClose: t = (d) => {
   },
   initialOpen: n = !1,
   open: r,
-  onOpenChange: d
+  onOpenChange: u
 }) {
-  const [g, f] = o.useState(n), l = r ?? g, a = d ?? f, s = o.createRef(null), $ = `${e}-label`, m = `${e}-description`;
+  const [d, f] = o.useState(n), a = r ?? d, l = u ?? f, s = o.createRef(null), $ = `${e}-label`, m = `${e}-description`;
   function p(c) {
     return {
       ...c,
       id: `${e}-trigger`,
-      onClick(u) {
-        u.preventDefault(), a(!0);
+      onClick(g) {
+        g.preventDefault(), l(!0);
       }
     };
   }
@@ -165,8 +165,8 @@ function T({
     return {
       ...c,
       id: `${e}-close`,
-      onClick(u) {
-        u.preventDefault(), a(!1), t(!1);
+      onClick(g) {
+        g.preventDefault(), l(!1), t(!1);
       }
     };
   }
@@ -184,11 +184,11 @@ function T({
     };
   }
   function E(c) {
-    c.stopPropagation(), c.key === "Escape" && (a(!1), t(!1));
+    c.stopPropagation(), c.key === "Escape" && (l(!1), t(!1));
   }
   return o.useEffect(() => {
-    l && s.current.open == !1 ? (s.current.showModal(), window.addEventListener("keydown", E)) : !l && s.current.open == !0 && (s.current.close(), window.removeEventListener("keydown", E));
-  }, [l, a]), {
+    a && s.current.open == !1 ? (s.current.showModal(), window.addEventListener("keydown", E)) : !a && s.current.open == !0 && (s.current.close(), window.removeEventListener("keydown", E));
+  }, [a, l]), {
     getTriggerProps: p,
     getDialogProps: y,
     getCloseProps: b,
@@ -197,7 +197,7 @@ function T({
     describedBy: m
   };
 }
-function R({ className: e, children: t, ...n }) {
+function T({ className: e, children: t, ...n }) {
   const r = i();
   return /* @__PURE__ */ o.createElement(
     "button",
@@ -239,35 +239,37 @@ function M({ className: e, children: t, ...n }) {
     t
   );
 }
-function S({ className: e, children: t, ...n }) {
-  const r = i();
+const S = o.forwardRef(({ className: e, children: t, ...n }, r) => {
+  const u = i();
   return /* @__PURE__ */ o.createElement(
     "button",
     {
+      ref: r,
       className: `${e || ""} close`,
       type: "button",
-      ...r.getCloseProps(n)
+      ...u.getCloseProps(n)
     },
     t
   );
-}
-function I({ form: e, className: t, children: n, ...r }) {
-  const d = i();
-  return /* @__PURE__ */ o.createElement(
-    "button",
-    {
-      form: e,
-      className: `${t || ""} confirm`,
-      type: "submit",
-      ...d.getConfirmProps(r)
-    },
-    n
-  );
-}
-const G = {
+}), I = o.forwardRef(
+  ({ form: e, className: t, children: n, ...r }, u) => {
+    const d = i();
+    return /* @__PURE__ */ o.createElement(
+      "button",
+      {
+        ref: u,
+        form: e,
+        className: `${t || ""} confirm`,
+        type: "submit",
+        ...d.getConfirmProps(r)
+      },
+      n
+    );
+  }
+), G = {
   Provider: B,
   Content: L,
-  Trigger: R,
+  Trigger: T,
   Heading: H,
   Description: M,
   Close: S,
@@ -283,24 +285,24 @@ function K({
   onClose: r = () => {
   }
 }) {
-  const [d, g] = o.useState(e), f = t ?? d, l = n ?? g, a = o.useRef(null), s = o.useRef(null);
+  const [u, d] = o.useState(e), f = t ?? u, a = n ?? d, l = o.useRef(null), s = o.useRef(null);
   function $(p) {
     return {
       ...p,
       onClick(b) {
-        b.preventDefault(), l(!0);
+        b.preventDefault(), a(!0);
       }
     };
   }
   function m(p) {
-    s.current.contains(p.target) && l(!1);
+    s.current.contains(p.target) && a(!1);
   }
-  return o.useEffect(() => (f ? (s.current.removeAttribute("open"), s.current.showModal()) : (s.current.close(), r()), document.addEventListener("mousedown", m), () => document.removeEventListener("mousedown", m)), [f, l]), {
+  return o.useEffect(() => (f ? (s.current.removeAttribute("open"), s.current.showModal()) : (s.current.close(), r()), document.addEventListener("mousedown", m), () => document.removeEventListener("mousedown", m)), [f, a]), {
     open: f,
-    setOpen: l,
+    setOpen: a,
     getTriggerProps: $,
     dialogRef: s,
-    triggerRef: a
+    triggerRef: l
   };
 }
 function A({ className: e, children: t, ...n }) {
