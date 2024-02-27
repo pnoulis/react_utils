@@ -1,11 +1,11 @@
 import * as o from "react";
-import m from "styled-components";
+import f from "styled-components";
 function S(e = {}) {
   const [t, n] = o.useReducer(y, {
     ...h,
     ...e
   });
-  return [t, (s, ...a) => {
+  return [t, (s, ...l) => {
     if (s === "reset")
       n({
         type: "RESET",
@@ -15,7 +15,7 @@ function S(e = {}) {
         }
       });
     else if (Object.hasOwn(g, s))
-      n(g[s](...a));
+      n(g[s](...l));
     else
       throw new Error(`Undefined action:${s} in formReducer`);
   }];
@@ -51,7 +51,7 @@ const g = {
   setErrors: (e) => ({ type: "ERRORS", errors: e }),
   setInput: (e, t) => ({ type: "INPUT", name: e, value: t }),
   setSubmit: (e) => ({ type: "SUBMIT", submitting: e })
-}, v = o.createContext({}), f = () => {
+}, v = o.createContext({}), m = () => {
   const e = o.useContext(v);
   if (e == null)
     throw new Error("<FormProvider/> missing");
@@ -60,7 +60,7 @@ const g = {
   fields: {},
   errors: {},
   submitting: !1
-}, w = m.div`
+}, w = f.div`
   // defaults
   all: unset;
   display: block;
@@ -169,7 +169,7 @@ const g = {
   &.success .label {
     color: var(--success-strong);
   }
-`, E = m.p`
+`, E = f.p`
   position: absolute;
   display: block;
   width: 100%;
@@ -179,12 +179,12 @@ const g = {
   color: var(--error-base);
   text-transform: capitalize;
   letter-spacing: 1px;
-`, z = o.forwardRef(function({ className: t, type: n, name: r, label: s, optional: a, placeholder: l, ...u } = {}, c) {
-  const { fields: d, errors: p, submitting: b, setForm: x } = f();
+`, z = o.forwardRef(function({ className: t, type: n, name: r, label: s, optional: l, placeholder: p, ...u } = {}, c) {
+  const { fields: d, errors: i, submitting: b, setForm: x } = m();
   return /* @__PURE__ */ o.createElement(
     w,
     {
-      className: `${t || ""} ${p[r] && "error"}`
+      className: `${t || ""} ${i[r] && "error"}`
     },
     /* @__PURE__ */ o.createElement(
       "input",
@@ -194,15 +194,15 @@ const g = {
         type: n || "text",
         id: r,
         autoComplete: "off",
-        placeholder: l || " ",
-        onChange: (i) => !b && x("setInput", r, i.target.value),
+        placeholder: p || " ",
+        onChange: (a) => !b && x("setInput", r, a.target.value),
         value: d[r],
         ...u
       }
     ),
     /* @__PURE__ */ o.createElement("label", { className: "label", htmlFor: r }, s || r),
-    /* @__PURE__ */ o.createElement("span", { className: "optional" }, a && "optional"),
-    /* @__PURE__ */ o.createElement(E, null, p[r])
+    i[r] ? null : /* @__PURE__ */ o.createElement("span", { className: "optional" }, l && "optional"),
+    /* @__PURE__ */ o.createElement(E, null, i[r])
   );
 });
 function I({
@@ -211,30 +211,30 @@ function I({
   type: n,
   name: r,
   label: s,
-  optional: a,
-  placeholder: l,
+  optional: l,
+  placeholder: p,
   onChange: u = () => {
   },
   ...c
 }) {
-  const { fields: d, errors: p, submitting: b, setForm: x } = f();
-  return /* @__PURE__ */ o.createElement("div", { className: e, error: p[r], ...c }, /* @__PURE__ */ o.createElement(
+  const { fields: d, errors: i, submitting: b, setForm: x } = m();
+  return /* @__PURE__ */ o.createElement("div", { className: e, error: i[r], ...c }, /* @__PURE__ */ o.createElement(
     "input",
     {
       id: r,
       className: "input",
       type: n || "text",
       autoComplete: "off",
-      placeholder: l || " ",
+      placeholder: p || " ",
       disabled: t,
-      onChange: (i) => {
-        b || (x("setInput", r, i.target.value), u(i.target.value));
+      onChange: (a) => {
+        b || (x("setInput", r, a.target.value), u(a.target.value));
       },
       value: d[r] || ""
     }
   ));
 }
-const F = m(I)`
+const F = f(I)`
   all: unset;
   display: block;
   box-sizing: border-box;
@@ -265,11 +265,11 @@ function C({
   name: n,
   placeholder: r,
   rows: s,
-  cols: a,
-  onChange: l,
+  cols: l,
+  onChange: p,
   ...u
 }) {
-  const { fields: c, errors: d, submitting: p, setForm: b, formId: x } = f();
+  const { fields: c, errors: d, submitting: i, setForm: b, formId: x } = m();
   return /* @__PURE__ */ o.createElement(
     "textarea",
     {
@@ -279,13 +279,13 @@ function C({
       className: e || "",
       autoComplete: "off",
       rows: s ?? 5,
-      cols: a ?? 5,
+      cols: l ?? 5,
       autoFocus: !0,
       placeholder: r || " ",
       value: c[n] || "",
       disabled: t,
-      onChange: (i) => {
-        p || (b("setInput", n, i.target.value), l && l(i.target.value));
+      onChange: (a) => {
+        i || (b("setInput", n, a.target.value), p && p(a.target.value));
       },
       ...u
     }
@@ -298,5 +298,5 @@ export {
   C as TextArea,
   z as TextInput_0,
   S as useForm,
-  f as useFormContext
+  m as useFormContext
 };

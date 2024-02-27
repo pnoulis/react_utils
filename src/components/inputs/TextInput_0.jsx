@@ -150,7 +150,9 @@ const TextInput_0 = React.forwardRef(function TextInput_0(
       <label className="label" htmlFor={name}>
         {label || name}
       </label>
-      <span className="optional">{optional && "optional"}</span>
+      {errors[name] ? null : (
+        <span className="optional">{optional && "optional"}</span>
+      )}
       <StyleError>{errors[name]}</StyleError>
     </StyledTextInput>
   );
